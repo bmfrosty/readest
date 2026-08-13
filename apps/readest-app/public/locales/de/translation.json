@@ -2101,5 +2101,13 @@
   "Auto-download from “{{name}}”?": "Automatisch von „{{name}}“ herunterladen?",
   "Stop auto-downloading from “{{name}}”?": "Automatischen Download von „{{name}}“ beenden?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest lädt bei jeder Synchronisierung der App automatisch jede neue Veröffentlichung aus diesem Katalog herunter. Dabei können sehr viele Bücher heruntergeladen werden.",
-  "New publications from this catalog will no longer be downloaded automatically.": "Neue Veröffentlichungen aus diesem Katalog werden nicht mehr automatisch heruntergeladen."
+  "New publications from this catalog will no longer be downloaded automatically.": "Neue Veröffentlichungen aus diesem Katalog werden nicht mehr automatisch heruntergeladen.",
+  "Global defaults — applies to all books": "Globale Standardwerte — gilt für alle Bücher",
+  "This book: {{title}} — overrides only": "Dieses Buch: {{title}} — nur Abweichungen",
+  "Settings Scope": "Einstellungsbereich",
+  "All Books": "Alle Bücher",
+  "This Book": "Dieses Buch",
+  "This book has its own value — reset it to your global setting": "Dieses Buch hat einen eigenen Wert — auf deine globale Einstellung zurücksetzen",
+  "This book only": "Nur dieses Buch",
+  "Whole app": "Ganze App"
 }

@@ -18,6 +18,7 @@ import { useKeyDownActions } from '@/hooks/useKeyDownActions';
 import { TRANSLATED_LANGS, TRANSLATOR_LANGS } from '@/services/constants';
 import { ConvertChineseVariant } from '@/types/book';
 import { SettingsPanelPanelProp } from './SettingsDialog';
+import { useScopeTags } from './ScopeTag';
 import { getDirFromLanguage } from '@/utils/rtl';
 import { isCJKEnv } from '@/utils/misc';
 import {
@@ -33,6 +34,7 @@ import { PiTranslate } from 'react-icons/pi';
 
 const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
+  const scopeTag = useScopeTags();
   const { token } = useAuth();
   const { envConfig } = useEnv();
   const { settings, applyUILanguage, activeSettingsItemId, setActiveSettingsItemId } =
@@ -345,7 +347,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
 
       <BoxedList title={_('Translation')} data-setting-id='settings.language.translationEnabled'>
         <SettingsSwitchRow
-          label={_('Enable Translation')}
+          label={scopeTag.alwaysBook(_('Enable Translation'))}
           description={
             bookKey && !translationAvailable ? _('Not available for this book.') : undefined
           }

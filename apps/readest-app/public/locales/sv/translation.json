@@ -2101,5 +2101,13 @@
   "Auto-download from “{{name}}”?": "Hämta automatiskt från ”{{name}}”?",
   "Stop auto-downloading from “{{name}}”?": "Sluta hämta automatiskt från ”{{name}}”?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest hämtar automatiskt varje ny publikation från den här katalogen när appen synkroniserar. Det kan innebära att väldigt många böcker hämtas.",
-  "New publications from this catalog will no longer be downloaded automatically.": "Nya publikationer från den här katalogen hämtas inte längre automatiskt."
+  "New publications from this catalog will no longer be downloaded automatically.": "Nya publikationer från den här katalogen hämtas inte längre automatiskt.",
+  "Global defaults — applies to all books": "Globala standardvärden — gäller alla böcker",
+  "This book: {{title}} — overrides only": "Den här boken: {{title}} — endast avvikelser",
+  "Settings Scope": "Inställningarnas omfattning",
+  "All Books": "Alla böcker",
+  "This Book": "Den här boken",
+  "This book has its own value — reset it to your global setting": "Den här boken har ett eget värde — återställ till din globala inställning",
+  "This book only": "Endast den här boken",
+  "Whole app": "Hela appen"
 }

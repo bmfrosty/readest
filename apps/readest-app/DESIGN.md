@@ -419,6 +419,81 @@ subtitle, and the badge + toggle + edit/delete buttons stack as suffixes.
 These names come from libadwaita and apply 1:1 to Readest's lists. Use the names in code
 comments and PR descriptions.
 
+#### Settings scope: state it, then mark the exceptions
+
+A reader settings panel writes one of two stores — the global defaults, or the open book's
+overrides — and which one is a mode, not a control. A mode the user can't see is a mode
+they'll set by accident, so the settings dialog states it in two places:
+
+- **The scope, always on screen.** `<SettingsScopeBanner>` sits in the dialog header (not
+  the scrolling body) and names the active scope in words: "Global defaults — applies to
+  all books" or "This book: _Title_ — overrides only". The scope switch lives in the banner
+  itself, so reading the state and changing it are the same gesture.
+- **The exceptions, on the rows.** Any row whose value differs from the global default
+  carries `<OverrideBadge>` — a dot plus a reset-to-global button, inline in the row label
+  via `useScopedLabel`.
+
+Three rules keep this honest:
+
+- **Badge in both scopes.** `isOverridden` is deliberately NOT gated on `isGlobal`. The
+  scope flag governs only where *this dialog* writes; the View menu and Book menu write
+  per-book unconditionally (15 keys pass `skipGlobal`). So a book can hold its own value
+  while the banner reads "Global", and that is precisely the state that misleads readers —
+  a value looks like a default and is not. Gating the badge on book scope would hide it.
+- **Compare the way the store does.** `isOverridden` calls `isSameViewSettingValue`, the
+  same value-compare `serializeConfig` uses to decide what to persist. A row is badged
+  exactly when the key really is stored on the book.
+- **Compare against the resolved global, never the factory default.** The target is
+  `settings.globalViewSettings[key]` — whatever the reader has actually set globally. Those
+  two diverge the moment anything is changed globally, and only the resolved value is what
+  the book would inherit. Note the dialog holds two different resets: the overflow menu's
+  **Reset Settings** restores *factory* defaults, while the badge's ↺ restores the reader's
+  *global* value. Word them so they cannot be confused.
+- **Only badge settings the panel can write globally.** `isGlobal` itself, and settings the
+  panel saves with `skipGlobal` (`writingMode`, `referencePageCount`), are per-book by
+  design; badging them would mark a row that can never be anything else.
+
+One asymmetry to know about. Reset runs through the panel's own state setter, so it obeys
+the active scope like any other write. In book scope it clears this book's value alone. In
+global scope `saveViewSettings` fans out to every open book, so resetting one row also
+normalises that key across a split view. That is the app's existing global-write semantics,
+not a special case for the badge — but do not word the tooltip as though it touched one book
+only.
+
+#### Tag the rows the banner does not govern
+
+A banner makes a blanket claim over a whole panel, so any row that disobeys it turns the
+indicator into a lie — worse than the silence it replaced. Inside the settings dialog three
+kinds of row exist:
+
+| Kind | Write path                                  | Obeys the banner? | Marking                   |
+| ---- | ------------------------------------------- | ----------------- | ------------------------- |
+| A    | `saveViewSettings`, scope decides            | Yes               | none — silence means true |
+| B    | `saveViewSettings` with `skipGlobal`         | No, always book   | `scopedLabel.alwaysBook`  |
+| C    | `saveSysSettings`, `bookKey` never read      | No, always app    | `scopedLabel.appWide`     |
+
+The dangerous case is C under a "This book" banner: the reader is told the change is
+confined to one book and it is not. Tag B and C; leave A silent, so silence carries meaning.
+
+Put the tag at the call site, beside the write it describes, not in a central list — scope
+is a property of the call site, so a central list would drift from it. Nothing in the type
+system can enforce this, so `settingsScopeExceptions.test.ts` is the tripwire: it enumerates
+every `skipGlobal` and `saveSysSettings` write under `components/settings/` and fails when a
+new one appears, forcing a deliberate choice about its row. Exemptions are recorded there
+with their reason — a modal that only *lives* in the folder, a tab with no banner, or a
+control that already shows its own scope switch.
+
+**Subscribe to primitives, never to `viewSettings`.** `applyViewSettings` mutates the
+settings object in place and hands the same reference back to `setViewSettings`, which
+rebuilds only the wrapper. The object keeps its identity for the life of the view, so a
+selector or dependency array on `viewSettings` never fires. `SettingsScopeProvider` reads
+the store without a selector for this reason. Any test for a live indicator must mutate in
+place and replace only the wrapper, or it will pass against code that is dead in the app.
+
+Keep this separate from `overrideFont` / `overrideColor` / `overrideLayout`. Those decide
+whether the reader's styling wins over the book's own — a different question from which
+store the setting lands in, and the UI must not blur the two.
+
 #### Spacing
 
 - Row vertical padding: `py-2` (8px) for compact lists, `py-3` (12px) for breathing room.

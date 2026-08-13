@@ -2045,5 +2045,13 @@
   "Auto-download from “{{name}}”?": "ดาวน์โหลดอัตโนมัติจาก “{{name}}” หรือไม่?",
   "Stop auto-downloading from “{{name}}”?": "หยุดดาวน์โหลดอัตโนมัติจาก “{{name}}” หรือไม่?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest จะดาวน์โหลดสิ่งพิมพ์ใหม่ทุกรายการจากแคตตาล็อกนี้โดยอัตโนมัติเมื่อแอปซิงค์ ซึ่งอาจดาวน์โหลดหนังสือจำนวนมาก",
-  "New publications from this catalog will no longer be downloaded automatically.": "สิ่งพิมพ์ใหม่จากแคตตาล็อกนี้จะไม่ถูกดาวน์โหลดโดยอัตโนมัติอีกต่อไป"
+  "New publications from this catalog will no longer be downloaded automatically.": "สิ่งพิมพ์ใหม่จากแคตตาล็อกนี้จะไม่ถูกดาวน์โหลดโดยอัตโนมัติอีกต่อไป",
+  "Global defaults — applies to all books": "ค่าเริ่มต้นทั่วไป — ใช้กับหนังสือทั้งหมด",
+  "This book: {{title}} — overrides only": "หนังสือเล่มนี้: {{title}} — เฉพาะค่าที่กำหนดเอง",
+  "Settings Scope": "ขอบเขตการตั้งค่า",
+  "All Books": "หนังสือทั้งหมด",
+  "This Book": "หนังสือเล่มนี้",
+  "This book has its own value — reset it to your global setting": "หนังสือเล่มนี้มีค่าของตัวเอง — รีเซ็ตเป็นการตั้งค่าทั่วไปของคุณ",
+  "This book only": "เฉพาะหนังสือเล่มนี้",
+  "Whole app": "ทั้งแอป"
 }

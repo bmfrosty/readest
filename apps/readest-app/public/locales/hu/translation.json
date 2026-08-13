@@ -2101,5 +2101,13 @@
   "Auto-download from “{{name}}”?": "Automatikus letöltés innen: „{{name}}”?",
   "Stop auto-downloading from “{{name}}”?": "Leállítja az automatikus letöltést innen: „{{name}}”?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "A Readest az alkalmazás minden szinkronizálásakor automatikusan letölti a katalógus összes új kiadványát. Ez nagyon sok könyv letöltését jelentheti.",
-  "New publications from this catalog will no longer be downloaded automatically.": "A katalógus új kiadványai a továbbiakban nem töltődnek le automatikusan."
+  "New publications from this catalog will no longer be downloaded automatically.": "A katalógus új kiadványai a továbbiakban nem töltődnek le automatikusan.",
+  "Global defaults — applies to all books": "Globális alapértelmezések — minden könyvre érvényes",
+  "This book: {{title}} — overrides only": "Ez a könyv: {{title}} — csak felülírások",
+  "Settings Scope": "Beállítások hatóköre",
+  "All Books": "Minden könyv",
+  "This Book": "Ez a könyv",
+  "This book has its own value — reset it to your global setting": "Ennek a könyvnek saját értéke van — visszaállítás a globális beállításodra",
+  "This book only": "Csak ez a könyv",
+  "Whole app": "Az egész alkalmazás"
 }

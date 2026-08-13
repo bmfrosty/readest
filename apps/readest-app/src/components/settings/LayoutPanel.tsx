@@ -18,6 +18,8 @@ import { saveViewSettings } from '@/helpers/settings';
 import { getBookDirFromWritingMode, getBookLangCode } from '@/utils/book';
 import { MIGHT_BE_RTL_LANGS } from '@/services/constants';
 import { SettingsPanelPanelProp } from './SettingsDialog';
+import { useScopedLabel } from './SettingsScopeContext';
+import { useScopeTags } from './ScopeTag';
 import {
   BoxedList,
   SettingLabel,
@@ -30,12 +32,14 @@ import { Toggle } from '../primitives/toggle';
 
 const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
+  const scopeTag = useScopeTags();
   const { envConfig, appService } = useEnv();
   const { settings } = useSettingsStore();
   const { getView, getViewSettings, getGridInsets } = useReaderStore();
   const { setViewSettings, recreateViewer } = useReaderStore();
   const { getBookData } = useBookDataStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const scopedLabel = useScopedLabel();
 
   const view = getView(bookKey);
   const bookData = getBookData(bookKey);
@@ -455,7 +459,9 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
         data-setting-id='settings.layout.overrideBookLayout'
         className='flex items-center justify-between px-4'
       >
-        <SettingLabel>{_('Override Book Layout')}</SettingLabel>
+        <SettingLabel>
+          {scopedLabel(_('Override Book Layout'), 'overrideLayout', setOverrideLayout)}
+        </SettingLabel>
         <Toggle checked={overrideLayout} onChange={() => setOverrideLayout(!overrideLayout)} />
       </div>
       {mightBeRTLBook && (
@@ -463,7 +469,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           data-setting-id='settings.layout.writingMode'
           className='flex items-center justify-between px-4'
         >
-          <SettingLabel>{_('Writing Mode')}</SettingLabel>
+          <SettingLabel>{scopeTag.alwaysBook(_('Writing Mode'))}</SettingLabel>
           <div className='flex gap-4'>
             <button
               title={_('Default')}
@@ -503,11 +509,11 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
       {viewSettings.vertical && (
         <BoxedList title={_('Border Frame')} data-setting-id='settings.layout.borderFrame'>
           <SettingsSwitchRow
-            label={_('Double Border')}
+            label={scopedLabel(_('Double Border'), 'doubleBorder', setDoubleBorder)}
             checked={doubleBorder}
             onChange={() => setDoubleBorder(!doubleBorder)}
           />
-          <SettingsRow label={_('Border Color')}>
+          <SettingsRow label={scopedLabel(_('Border Color'), 'borderColor', setBorderColor)}>
             <div className='flex gap-4'>
               <button
                 className={`btn btn-circle btn-sm bg-red-300 hover:bg-red-500 ${borderColor === 'red' ? 'btn-active !bg-red-500' : ''}`}
@@ -524,13 +530,13 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
 
       <BoxedList title={_('Paragraph')}>
         <SettingsSwitchRow
-          label={_('Use Book Layout')}
+          label={scopedLabel(_('Use Book Layout'), 'useBookLayout', setUseBookLayout)}
           checked={useBookLayout}
           onChange={() => setUseBookLayout(!useBookLayout)}
           data-setting-id='settings.layout.useBookLayout'
         />
         <NumberInput
-          label={_('Paragraph Margin')}
+          label={scopedLabel(_('Paragraph Margin'), 'paragraphMargin', setParagraphMargin)}
           value={paragraphMargin}
           onChange={setParagraphMargin}
           disabled={useBookLayout}
@@ -540,7 +546,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           data-setting-id='settings.layout.paragraphMargin'
         />
         <NumberInput
-          label={_('Line Spacing')}
+          label={scopedLabel(_('Line Spacing'), 'lineHeight', setLineHeight)}
           value={lineHeight}
           onChange={setLineHeight}
           disabled={useBookLayout}
@@ -551,7 +557,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
         />
         {langCode !== 'zh' && (
           <NumberInput
-            label={_('Word Spacing')}
+            label={scopedLabel(_('Word Spacing'), 'wordSpacing', setWordSpacing)}
             value={wordSpacing}
             onChange={setWordSpacing}
             disabled={useBookLayout}
@@ -562,7 +568,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           />
         )}
         <NumberInput
-          label={_('Letter Spacing')}
+          label={scopedLabel(_('Letter Spacing'), 'letterSpacing', setLetterSpacing)}
           value={letterSpacing}
           onChange={setLetterSpacing}
           disabled={useBookLayout}
@@ -572,7 +578,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           data-setting-id='settings.layout.letterSpacing'
         />
         <NumberInput
-          label={_('Text Indent')}
+          label={scopedLabel(_('Text Indent'), 'textIndent', setTextIndent)}
           value={textIndent}
           onChange={setTextIndent}
           disabled={useBookLayout}
@@ -582,14 +588,14 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           data-setting-id='settings.layout.paragraphIndent'
         />
         <SettingsSwitchRow
-          label={_('Full Justification')}
+          label={scopedLabel(_('Full Justification'), 'fullJustification', setFullJustification)}
           checked={fullJustification}
           disabled={useBookLayout}
           onChange={() => setFullJustification(!fullJustification)}
           data-setting-id='settings.layout.fullJustification'
         />
         <SettingsSwitchRow
-          label={_('Hyphenation')}
+          label={scopedLabel(_('Hyphenation'), 'hyphenation', setHyphenation)}
           checked={hyphenation}
           disabled={useBookLayout}
           onChange={() => setHyphenation(!hyphenation)}
@@ -599,7 +605,14 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
 
       <BoxedList title={_('Page')} data-setting-id='settings.layout.pageMargins'>
         <NumberInput
-          label={_('Top Margin (px)')}
+          label={
+            // Header on/off (and vertical writing) swaps which of the two
+            // stored margins this row edits, so the badge has to follow the
+            // same branch or it would report the hidden one.
+            showHeader && !isVertical
+              ? scopedLabel(_('Top Margin (px)'), 'marginTopPx', setMarginTopPx)
+              : scopedLabel(_('Top Margin (px)'), 'compactMarginTopPx', setCompactMarginTopPx)
+          }
           value={showHeader && !isVertical ? marginTopPx : compactMarginTopPx}
           onChange={showHeader && !isVertical ? setMarginTopPx : setCompactMarginTopPx}
           min={
@@ -611,7 +624,15 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           step={4}
         />
         <NumberInput
-          label={_('Bottom Margin (px)')}
+          label={
+            showFooter && !isVertical
+              ? scopedLabel(_('Bottom Margin (px)'), 'marginBottomPx', setMarginBottomPx)
+              : scopedLabel(
+                  _('Bottom Margin (px)'),
+                  'compactMarginBottomPx',
+                  setCompactMarginBottomPx,
+                )
+          }
           value={showFooter && !isVertical ? marginBottomPx : compactMarginBottomPx}
           onChange={showFooter && !isVertical ? setMarginBottomPx : setCompactMarginBottomPx}
           min={
@@ -623,7 +644,11 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           step={4}
         />
         <NumberInput
-          label={_('Left Margin (px)')}
+          label={
+            showFooter && isVertical
+              ? scopedLabel(_('Left Margin (px)'), 'marginLeftPx', setMarginLeftPx)
+              : scopedLabel(_('Left Margin (px)'), 'compactMarginLeftPx', setCompactMarginLeftPx)
+          }
           value={showFooter && isVertical ? marginLeftPx : compactMarginLeftPx}
           onChange={showFooter && isVertical ? setMarginLeftPx : setCompactMarginLeftPx}
           min={0}
@@ -631,7 +656,11 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           step={4}
         />
         <NumberInput
-          label={_('Right Margin (px)')}
+          label={
+            showHeader && isVertical
+              ? scopedLabel(_('Right Margin (px)'), 'marginRightPx', setMarginRightPx)
+              : scopedLabel(_('Right Margin (px)'), 'compactMarginRightPx', setCompactMarginRightPx)
+          }
           value={showHeader && isVertical ? marginRightPx : compactMarginRightPx}
           onChange={showHeader && isVertical ? setMarginRightPx : setCompactMarginRightPx}
           min={0}
@@ -639,7 +668,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           step={4}
         />
         <NumberInput
-          label={_('Additional Margin (%)')}
+          label={scopedLabel(_('Additional Margin (%)'), 'gapPercent', setGapPercent)}
           value={gapPercent}
           onChange={setGapPercent}
           min={0}
@@ -647,7 +676,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           data-setting-id='settings.layout.pageGap'
         />
         <NumberInput
-          label={_('Maximum Number of Columns')}
+          label={scopedLabel(_('Maximum Number of Columns'), 'maxColumnCount', setMaxColumnCount)}
           value={maxColumnCount}
           onChange={setMaxColumnCount}
           min={1}
@@ -655,7 +684,11 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           data-setting-id='settings.layout.maxColumnCount'
         />
         <NumberInput
-          label={viewSettings.vertical ? _('Maximum Column Height') : _('Maximum Column Width')}
+          label={scopedLabel(
+            viewSettings.vertical ? _('Maximum Column Height') : _('Maximum Column Width'),
+            'maxInlineSize',
+            setMaxInlineSize,
+          )}
           value={maxInlineSize}
           onChange={setMaxInlineSize}
           disabled={false}
@@ -665,7 +698,11 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           data-setting-id='settings.layout.maxInlineSize'
         />
         <NumberInput
-          label={viewSettings.vertical ? _('Maximum Column Width') : _('Maximum Column Height')}
+          label={scopedLabel(
+            viewSettings.vertical ? _('Maximum Column Width') : _('Maximum Column Height'),
+            'maxBlockSize',
+            setMaxBlockSize,
+          )}
           value={maxBlockSize}
           onChange={setMaxBlockSize}
           disabled={false}
@@ -678,18 +715,18 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
 
       <BoxedList title={_('Header & Footer')} data-setting-id='settings.layout.showHeader'>
         <SettingsSwitchRow
-          label={_('Show Header')}
+          label={scopedLabel(_('Show Header'), 'showHeader', setShowHeader)}
           checked={showHeader}
           onChange={() => setShowHeader(!showHeader)}
         />
         <SettingsSwitchRow
-          label={_('Show Footer')}
+          label={scopedLabel(_('Show Footer'), 'showFooter', setShowFooter)}
           checked={showFooter}
           onChange={() => setShowFooter(!showFooter)}
           data-setting-id='settings.layout.showFooter'
         />
         <SettingsSwitchRow
-          label={_('Remaining Time')}
+          label={scopedLabel(_('Remaining Time'), 'showRemainingTime', setShowRemainingTime)}
           checked={showRemainingTime}
           disabled={!showFooter}
           onChange={() => {
@@ -702,7 +739,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           }}
         />
         <SettingsSwitchRow
-          label={_('Remaining Pages')}
+          label={scopedLabel(_('Remaining Pages'), 'showRemainingPages', setShowRemainingPages)}
           checked={showRemainingPages}
           disabled={!showFooter}
           onChange={() => {
@@ -715,13 +752,13 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           }}
         />
         <SettingsSwitchRow
-          label={_('Reading Progress')}
+          label={scopedLabel(_('Reading Progress'), 'showProgressInfo', setShowProgressInfo)}
           checked={showProgressInfo}
           disabled={!showFooter}
           onChange={() => setShowProgressInfo(!showProgressInfo)}
         />
         <SettingsRow
-          label={_('Reading Progress Style')}
+          label={scopedLabel(_('Reading Progress Style'), 'progressStyle', setProgressStyle)}
           data-setting-id='settings.layout.progressDisplay'
         >
           <SettingsSelect
@@ -738,7 +775,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
         </SettingsRow>
         {progressStyle === 'reference' && !bookData?.bookDoc?.pageList?.length && (
           <NumberInput
-            label={_('Reference Page Count')}
+            label={scopeTag.alwaysBook(_('Reference Page Count'))}
             value={referencePageCount}
             onChange={setReferencePageCount}
             disabled={!showProgressInfo}
@@ -748,34 +785,42 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
           />
         )}
         <SettingsSwitchRow
-          label={_('Progress Bar')}
+          label={scopedLabel(_('Progress Bar'), 'showStickyProgressBar', setShowStickyProgressBar)}
           checked={showStickyProgressBar}
           disabled={!showFooter}
           onChange={() => setShowStickyProgressBar(!showStickyProgressBar)}
           data-setting-id='settings.layout.showStickyProgressBar'
         />
         <SettingsSwitchRow
-          label={_('Current Time')}
+          label={scopedLabel(_('Current Time'), 'showCurrentTime', setShowCurrentTime)}
           checked={showCurrentTime}
           disabled={!showFooter}
           onChange={() => setShowCurrentTime(!showCurrentTime)}
         />
         {showCurrentTime && (
           <SettingsSwitchRow
-            label={_('Use 24 Hour Clock')}
+            label={scopedLabel(_('Use 24 Hour Clock'), 'use24HourClock', setUse24HourClock)}
             checked={use24HourClock}
             disabled={!showFooter}
             onChange={() => setUse24HourClock(!use24HourClock)}
           />
         )}
         <SettingsSwitchRow
-          label={_('Battery Status')}
+          label={scopedLabel(
+            _('Battery Status'),
+            'showCurrentBatteryStatus',
+            setShowCurrentBatteryStatus,
+          )}
           checked={showCurrentBatteryStatus}
           disabled={!showFooter}
           onChange={() => setShowCurrentBatteryStatus(!showCurrentBatteryStatus)}
         />
         <SettingsSwitchRow
-          label={_('Battery Percentage')}
+          label={scopedLabel(
+            _('Battery Percentage'),
+            'showBatteryPercentage',
+            setShowBatteryPercentage,
+          )}
           checked={showBatteryPercentage}
           disabled={!showFooter || !showCurrentBatteryStatus}
           onChange={() => setShowBatteryPercentage(!showBatteryPercentage)}
@@ -784,7 +829,9 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
 
       {appService?.hasOrientationLock && (
         <BoxedList title={_('Screen')}>
-          <SettingsRow label={_('Orientation')}>
+          <SettingsRow
+            label={scopedLabel(_('Orientation'), 'screenOrientation', setScreenOrientation)}
+          >
             <div className='flex gap-4'>
               <div className='lg:tooltip lg:tooltip-bottom' data-tip={_('Auto')}>
                 <button

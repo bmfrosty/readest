@@ -2101,5 +2101,13 @@
   "Auto-download from “{{name}}”?": "“{{name}}” kaynağından otomatik indirilsin mi?",
   "Stop auto-downloading from “{{name}}”?": "“{{name}}” kaynağından otomatik indirme durdurulsun mu?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest, uygulama eşitlendiğinde bu katalogdaki her yeni yayını otomatik olarak indirir. Bu, çok sayıda kitabın indirilmesine yol açabilir.",
-  "New publications from this catalog will no longer be downloaded automatically.": "Bu katalogdaki yeni yayınlar artık otomatik olarak indirilmeyecek."
+  "New publications from this catalog will no longer be downloaded automatically.": "Bu katalogdaki yeni yayınlar artık otomatik olarak indirilmeyecek.",
+  "Global defaults — applies to all books": "Genel varsayılanlar — tüm kitaplara uygulanır",
+  "This book: {{title}} — overrides only": "Bu kitap: {{title}} — yalnızca geçersiz kılmalar",
+  "Settings Scope": "Ayar Kapsamı",
+  "All Books": "Tüm Kitaplar",
+  "This Book": "Bu Kitap",
+  "This book has its own value — reset it to your global setting": "Bu kitabın kendi değeri var — genel ayarınıza sıfırlayın",
+  "This book only": "Yalnızca bu kitap",
+  "Whole app": "Tüm uygulama"
 }

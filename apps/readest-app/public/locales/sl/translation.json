@@ -2213,5 +2213,13 @@
   "Auto-download from “{{name}}”?": "Samodejno prenašanje iz »{{name}}«?",
   "Stop auto-downloading from “{{name}}”?": "Ustavim samodejno prenašanje iz »{{name}}«?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest bo ob vsaki sinhronizaciji aplikacije samodejno prenesel vsako novo vsebino iz tega kataloga. Prenese se lahko veliko število knjig.",
-  "New publications from this catalog will no longer be downloaded automatically.": "Nove vsebine iz tega kataloga ne bodo več samodejno prenesene."
+  "New publications from this catalog will no longer be downloaded automatically.": "Nove vsebine iz tega kataloga ne bodo več samodejno prenesene.",
+  "Global defaults — applies to all books": "Globalne privzete vrednosti — veljajo za vse knjige",
+  "This book: {{title}} — overrides only": "Ta knjiga: {{title}} — samo preglasitve",
+  "Settings Scope": "Obseg nastavitev",
+  "All Books": "Vse knjige",
+  "This Book": "Ta knjiga",
+  "This book has its own value — reset it to your global setting": "Ta knjiga ima svojo vrednost — ponastavi na tvojo globalno nastavitev",
+  "This book only": "Samo ta knjiga",
+  "Whole app": "Celotna aplikacija"
 }

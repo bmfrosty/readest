@@ -2213,5 +2213,13 @@
   "Auto-download from “{{name}}”?": "Автоматично завантажувати з «{{name}}»?",
   "Stop auto-downloading from “{{name}}”?": "Припинити автоматичне завантаження з «{{name}}»?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest автоматично завантажуватиме кожну нову публікацію з цього каталогу під час синхронізації застосунку. Це може завантажити велику кількість книг.",
-  "New publications from this catalog will no longer be downloaded automatically.": "Нові публікації з цього каталогу більше не завантажуватимуться автоматично."
+  "New publications from this catalog will no longer be downloaded automatically.": "Нові публікації з цього каталогу більше не завантажуватимуться автоматично.",
+  "Global defaults — applies to all books": "Ґлобальні значення за замовчуванням — застосовуються до всіх книг",
+  "This book: {{title}} — overrides only": "Ця книга: {{title}} — лише перевизначення",
+  "Settings Scope": "Область налаштувань",
+  "All Books": "Усі книги",
+  "This Book": "Ця книга",
+  "This book has its own value — reset it to your global setting": "Ця книга має власне значення — скинути до вашого ґлобального налаштування",
+  "This book only": "Лише ця книга",
+  "Whole app": "Увесь застосунок"
 }

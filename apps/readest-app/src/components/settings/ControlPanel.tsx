@@ -11,6 +11,7 @@ import { getMaxInlineSize } from '@/utils/config';
 import { saveSysSettings, saveViewSettings } from '@/helpers/settings';
 import { PageTurnStyle } from '@/types/book';
 import { SettingsPanelPanelProp } from './SettingsDialog';
+import { useScopeTags } from './ScopeTag';
 import { annotationToolQuickActions } from '@/app/reader/components/annotator/AnnotationTools';
 import { applyPageTurnAttributes } from '@/app/reader/hooks/useCapturedTurn';
 import { isTauriAppPlatform } from '@/services/environment';
@@ -30,6 +31,7 @@ import { optInTelemetry, optOutTelemetry } from '@/utils/telemetry';
 
 const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
+  const scopeTag = useScopeTags();
   const { envConfig, appService } = useEnv();
   const { getView, getViews, getViewSettings, recreateViewer } = useReaderStore();
   const { getBookData } = useBookDataStore();
@@ -503,14 +505,14 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
         )}
         {appService?.isMobileApp && (
           <SettingsSwitchRow
-            label={_('System Screen Brightness')}
+            label={scopeTag.appWide(_('System Screen Brightness'))}
             checked={autoScreenBrightness}
             onChange={() => setAutoScreenBrightness(!autoScreenBrightness)}
           />
         )}
         {appService?.hasScreenBrightness && (
           <SettingsSwitchRow
-            label={_('Swipe for Brightness')}
+            label={scopeTag.appWide(_('Swipe for Brightness'))}
             description={_('Slide along the left edge')}
             checked={swipeBrightnessGesture}
             onChange={() => setSwipeBrightnessGesture(!swipeBrightnessGesture)}
@@ -518,7 +520,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
           />
         )}
         <SettingsSwitchRow
-          label={_('Keep Screen Awake')}
+          label={scopeTag.appWide(_('Keep Screen Awake'))}
           description={_('Only while reading')}
           checked={screenWakeLock}
           onChange={() => setScreenWakeLock(!screenWakeLock)}
@@ -526,7 +528,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
         />
         {!appService?.isMobile && (
           <SettingsSwitchRow
-            label={_('Auto-hide Cursor')}
+            label={scopeTag.appWide(_('Auto-hide Cursor'))}
             description={_('After a moment of inactivity')}
             checked={autohideCursor}
             onChange={() => setAutohideCursor(!autohideCursor)}
@@ -538,12 +540,12 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
       {appService?.hasUpdater && (
         <BoxedList title={_('Update')} data-setting-id='settings.control.checkUpdates'>
           <SettingsSwitchRow
-            label={_('Check Updates on Start')}
+            label={scopeTag.appWide(_('Check Updates on Start'))}
             checked={isAutoCheckUpdates}
             onChange={toggleAutoCheckUpdates}
           />
           <SettingsSwitchRow
-            label={_('Nightly Builds')}
+            label={scopeTag.appWide(_('Nightly Builds'))}
             description={isNightlyChannel ? _('Early daily builds') : ''}
             checked={isNightlyChannel}
             onChange={toggleNightlyChannel}
@@ -554,7 +556,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
 
       <BoxedList title={_('Security')} data-setting-id='settings.control.allowJavascript'>
         <SettingsSwitchRow
-          label={_('Allow JavaScript')}
+          label={scopeTag.alwaysBook(_('Allow JavaScript'))}
           description={_('Enable only if you trust the file.')}
           checked={allowScript}
           disabled={bookData?.book?.format !== 'EPUB'}
@@ -564,7 +566,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
 
       <BoxedList title={_('Privacy')} data-setting-id='settings.control.telemetry'>
         <SettingsSwitchRow
-          label={_('Help improve Readest')}
+          label={scopeTag.appWide(_('Help improve Readest'))}
           description={isTelemetryEnabled ? _('Sharing anonymized statistics') : ''}
           checked={isTelemetryEnabled}
           onChange={toggleTelemetry}

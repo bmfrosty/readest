@@ -2045,5 +2045,13 @@
   "Auto-download from “{{name}}”?": "Unduh otomatis dari “{{name}}”?",
   "Stop auto-downloading from “{{name}}”?": "Hentikan unduh otomatis dari “{{name}}”?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest akan otomatis mengunduh setiap publikasi baru dari katalog ini saat aplikasi disinkronkan. Ini dapat mengunduh sejumlah besar buku.",
-  "New publications from this catalog will no longer be downloaded automatically.": "Publikasi baru dari katalog ini tidak akan diunduh otomatis lagi."
+  "New publications from this catalog will no longer be downloaded automatically.": "Publikasi baru dari katalog ini tidak akan diunduh otomatis lagi.",
+  "Global defaults — applies to all books": "Default global — berlaku untuk semua buku",
+  "This book: {{title}} — overrides only": "Buku ini: {{title}} — hanya penimpaan",
+  "Settings Scope": "Cakupan Pengaturan",
+  "All Books": "Semua Buku",
+  "This Book": "Buku Ini",
+  "This book has its own value — reset it to your global setting": "Buku ini memiliki nilainya sendiri — atur ulang ke pengaturan global Anda",
+  "This book only": "Hanya buku ini",
+  "Whole app": "Seluruh aplikasi"
 }

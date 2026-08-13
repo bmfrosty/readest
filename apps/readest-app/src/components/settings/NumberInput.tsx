@@ -7,7 +7,8 @@ import { SettingLabel } from './primitives';
 interface NumberInputProps {
   className?: string;
   inputClassName?: string;
-  label: string;
+  /** ReactNode so callers can pass a `useScopedLabel`-decorated label. */
+  label: React.ReactNode;
   iconSize?: number;
   value: number;
   min: number;

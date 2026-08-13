@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { ReadingRulerColor } from '@/types/book';
+import { useScopedLabel } from '../SettingsScopeContext';
 import { BoxedList, SettingsRow, SettingsSwitchRow } from '../primitives';
 import NumberInput from '../NumberInput';
 
@@ -36,11 +37,12 @@ const ReadingRulerSettings: React.FC<ReadingRulerSettingsProps> = ({
   'data-setting-id': dataSettingId,
 }) => {
   const _ = useTranslation();
+  const scopedLabel = useScopedLabel();
 
   return (
     <BoxedList title={_('Reading Ruler')} data-setting-id={dataSettingId}>
       <SettingsSwitchRow
-        label={_('Enable Reading Ruler')}
+        label={scopedLabel(_('Enable Reading Ruler'), 'readingRulerEnabled', onEnabledChange)}
         checked={enabled}
         onChange={() => onEnabledChange(!enabled)}
       />
@@ -48,7 +50,7 @@ const ReadingRulerSettings: React.FC<ReadingRulerSettingsProps> = ({
           matches the SettingsRow's min-h-14 so it visually rhymes with
           the rows above and below. */}
       <NumberInput
-        label={_('Lines to Highlight')}
+        label={scopedLabel(_('Lines to Highlight'), 'readingRulerLines', onLinesChange)}
         value={lines}
         onChange={onLinesChange}
         disabled={!enabled}
@@ -56,7 +58,7 @@ const ReadingRulerSettings: React.FC<ReadingRulerSettingsProps> = ({
         max={6}
         step={1}
       />
-      <SettingsRow label={_('Ruler Color')}>
+      <SettingsRow label={scopedLabel(_('Ruler Color'), 'readingRulerColor', onColorChange)}>
         <div className='flex gap-2'>
           {RULER_COLORS.map(({ value, className, hoverClassName }) => (
             <button
@@ -70,7 +72,7 @@ const ReadingRulerSettings: React.FC<ReadingRulerSettingsProps> = ({
         </div>
       </SettingsRow>
       <NumberInput
-        label={_('Opacity')}
+        label={scopedLabel(_('Opacity'), 'readingRulerOpacity', onOpacityChange)}
         value={opacity}
         onChange={onOpacityChange}
         disabled={!enabled}

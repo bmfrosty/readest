@@ -2045,5 +2045,13 @@
   "Auto-download from “{{name}}”?": "Tự động tải xuống từ “{{name}}”?",
   "Stop auto-downloading from “{{name}}”?": "Dừng tự động tải xuống từ “{{name}}”?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest sẽ tự động tải xuống mọi ấn phẩm mới từ danh mục này khi ứng dụng đồng bộ hóa. Việc này có thể tải xuống một số lượng lớn sách.",
-  "New publications from this catalog will no longer be downloaded automatically.": "Các ấn phẩm mới từ danh mục này sẽ không còn được tải xuống tự động."
+  "New publications from this catalog will no longer be downloaded automatically.": "Các ấn phẩm mới từ danh mục này sẽ không còn được tải xuống tự động.",
+  "Global defaults — applies to all books": "Mặc định chung — áp dụng cho tất cả sách",
+  "This book: {{title}} — overrides only": "Sách này: {{title}} — chỉ ghi đè",
+  "Settings Scope": "Phạm vi cài đặt",
+  "All Books": "Tất cả sách",
+  "This Book": "Sách này",
+  "This book has its own value — reset it to your global setting": "Sách này có giá trị riêng — đặt lại về cài đặt chung của bạn",
+  "This book only": "Chỉ sách này",
+  "Whole app": "Toàn bộ ứng dụng"
 }

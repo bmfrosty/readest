@@ -2045,5 +2045,13 @@
   "Auto-download from “{{name}}”?": "從「{{name}}」自動下載？",
   "Stop auto-downloading from “{{name}}”?": "停止從「{{name}}」自動下載？",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "應用同步時，Readest 將自動下載此目錄中的每一本新出版物。這可能會下載大量書籍。",
-  "New publications from this catalog will no longer be downloaded automatically.": "此目錄中的新出版物將不再自動下載。"
+  "New publications from this catalog will no longer be downloaded automatically.": "此目錄中的新出版物將不再自動下載。",
+  "Global defaults — applies to all books": "全局預設設定 — 應用於所有書籍",
+  "This book: {{title}} — overrides only": "此書籍：{{title}} — 僅本書設定",
+  "Settings Scope": "設定範圍",
+  "All Books": "所有書籍",
+  "This Book": "此書籍",
+  "This book has its own value — reset it to your global setting": "此書籍有自己的值 — 重置為您的全局設定",
+  "This book only": "僅此書籍",
+  "Whole app": "整個應用程式"
 }

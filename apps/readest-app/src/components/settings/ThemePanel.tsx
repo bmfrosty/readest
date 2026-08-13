@@ -25,6 +25,7 @@ import {
 import { useBackgroundTexture } from '@/hooks/useBackgroundTexture';
 import { manageSyntaxHighlighting } from '@/utils/highlightjs';
 import { SettingsPanelPanelProp } from './SettingsDialog';
+import { useScopedLabel } from './SettingsScopeContext';
 import { useFileSelector } from '@/hooks/useFileSelector';
 import { PREDEFINED_TEXTURES } from '@/styles/textures';
 import { useAtmosphereStore } from '@/store/atmosphereStore';
@@ -50,6 +51,7 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
   const { settings, setSettings, saveSettings } = useSettingsStore();
   const { getView, getViewSettings } = useReaderStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const scopedLabel = useScopedLabel();
 
   // The Background Image picker edits one of two scopes (issue #5306): the
   // library's own texture (#4743 fields, per-field fallback to reader/global)
@@ -408,7 +410,13 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
               isDarkMode && 'cursor-pointer',
             )}
           >
-            <SettingLabel>{_('Invert Image In Dark Mode')}</SettingLabel>
+            <SettingLabel>
+              {scopedLabel(
+                _('Invert Image In Dark Mode'),
+                'invertImgColorInDark',
+                setInvertImgColorInDark,
+              )}
+            </SettingLabel>
             <Toggle
               checked={invertImgColorInDark}
               disabled={!isDarkMode}
@@ -420,7 +428,9 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
             data-setting-id='settings.color.overrideBookColor'
             className='flex cursor-pointer items-center justify-between px-4'
           >
-            <SettingLabel>{_('Override Book Color')}</SettingLabel>
+            <SettingLabel>
+              {scopedLabel(_('Override Book Color'), 'overrideColor', setOverrideColor)}
+            </SettingLabel>
             <Toggle checked={overrideColor} onChange={() => setOverrideColor(!overrideColor)} />
           </label>
 
