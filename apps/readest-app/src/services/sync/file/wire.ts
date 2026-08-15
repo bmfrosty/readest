@@ -41,9 +41,9 @@ export interface RemoteBookConfig {
  *   - Different devices have different screen sizes / DPI / typography
  *     preferences. Pushing a phone's 14pt setting onto a desktop would
  *     surprise users in a bad way.
- *   - readest's own cloud sync similarly carves out viewSettings from
- *     cross-device replication. Duplicating that policy here keeps the
- *     backends behaviourally aligned.
+ *   - readest's own cloud sync carves out viewSettings too, apart from
+ *     referencePageCount, which describes the edition rather than the device.
+ *     Keeping the rest device-local keeps the backends aligned.
  *   - The trim list below is the SOURCE OF TRUTH for what travels —
  *     when adding a new BookConfig field, decide here whether it's a
  *     "reading state" (include) or a "device preference" (skip).

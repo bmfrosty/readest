@@ -97,8 +97,10 @@ vi.mock('@/store/readerStore', () => ({
     getView: () => (h.state.hasView ? h.view : null),
     getProgress: () => h.state.progress,
     getViewSettings: () => h.state.viewSettings,
-    // Mirror the real store: setViewSettings replaces this view's settings, so
-    // a later getViewSettings in the same pass sees the update.
+    // Partial mirror of the real store: it replaces this view's settings, so a
+    // later getViewSettings in the same pass sees the update. It does NOT write
+    // bookData.config or stamp updatedAt, which the real store does for a
+    // primary view.
     setViewSettings: (key: string, vs: unknown) => {
       h.state.viewSettings = vs as typeof h.state.viewSettings;
       h.setViewSettingsMock(key, vs);
@@ -478,7 +480,7 @@ describe('useProgressSync', () => {
   // not write the config; a push can only come from a non-preview session.
   // This pins THIS write only. The proofread merge further down the same pull
   // has no preview guard of its own, so a pull that also changes a rule still
-  // persists the previewed position -- pre-existing, and noted in the PR.
+  // persists the previewed position. That is pre-existing.
   test('adopts the count in memory during a preview without writing to disk', async () => {
     h.cfiCompareMock.mockReturnValue(0);
     h.state.previewMode = true;
@@ -526,6 +528,45 @@ describe('useProgressSync', () => {
     await advance(0);
 
     expect(h.cfiCompareMock).toHaveBeenCalledWith('cfi-after-turn', 'cfi-remote');
+  });
+
+  // The value crosses JSON.parse from a server column, and adopting is what makes
+  // a bad one stick: it lands in config.json and goes back up. Delete the guard
+  // and both of these adopt.
+  test('ignores a synced referencePageCount that is not a number', async () => {
+    h.cfiCompareMock.mockReturnValue(0);
+    h.state.viewSettings = { proofreadRules: [], referencePageCount: 0 };
+    h.state.syncedConfigs = [
+      {
+        bookHash: 'h1',
+        metaHash: 'm1',
+        updatedAt: 5000,
+        viewSettings: { referencePageCount: '8235' },
+      },
+    ];
+    renderHook(() => useProgressSync('h1-view1'));
+    await advance(0);
+
+    expect(h.setViewSettingsMock).not.toHaveBeenCalled();
+    expect(h.saveConfigMock).not.toHaveBeenCalled();
+  });
+
+  test('ignores a synced referencePageCount outside the input range', async () => {
+    h.cfiCompareMock.mockReturnValue(0);
+    h.state.viewSettings = { proofreadRules: [], referencePageCount: 0 };
+    h.state.syncedConfigs = [
+      {
+        bookHash: 'h1',
+        metaHash: 'm1',
+        updatedAt: 5000,
+        viewSettings: { referencePageCount: 20000 },
+      },
+    ];
+    renderHook(() => useProgressSync('h1-view1'));
+    await advance(0);
+
+    expect(h.setViewSettingsMock).not.toHaveBeenCalled();
+    expect(h.saveConfigMock).not.toHaveBeenCalled();
   });
 
   // A failed disk write must not reject the pull. Aborting here would skip the
