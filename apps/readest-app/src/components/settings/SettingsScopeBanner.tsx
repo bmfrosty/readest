@@ -47,8 +47,8 @@ const SettingsScopeBanner: React.FC = () => {
         isGlobal ? 'border-error bg-error/20' : 'border-warning bg-warning/10',
       )}
     >
-      <ScopeIcon className='text-base-content/70 h-4 w-4 shrink-0' aria-hidden='true' />
-      <span className='text-base-content/70 min-w-0 flex-1 truncate text-[0.8em]'>
+      <ScopeIcon className='text-base-content h-4 w-4 shrink-0' aria-hidden='true' />
+      <span className='text-base-content min-w-0 flex-1 truncate text-[0.8em]'>
         {isGlobal
           ? _('Global defaults — applies to all books')
           : _('This book: {{title}} — overrides only', { title: bookTitle })}
