@@ -2053,5 +2053,7 @@
   "This Book": "この書籍",
   "This book has its own value — reset it to your global setting": "この書籍は独自の値を持っています — 全体設定に戻す",
   "This book only": "この書籍のみ",
-  "Whole app": "アプリ全体"
+  "Whole app": "アプリ全体",
+  "Changed from the default — reset it": "デフォルトから変更済み — 元に戻す",
+  "This book overrides it": "この書籍が上書きしています"
 }

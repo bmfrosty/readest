@@ -2109,5 +2109,7 @@
   "This Book": "Ushbu kitob",
   "This book has its own value — reset it to your global setting": "Ushbu kitobning oʻz qiymati bor — umumiy sozlamangizga qaytarish",
   "This book only": "Faqat ushbu kitob",
-  "Whole app": "Butun ilova"
+  "Whole app": "Butun ilova",
+  "Changed from the default — reset it": "Standart qiymatdan oʻzgartirilgan — qaytarish",
+  "This book overrides it": "Ushbu kitob uni oʻzgartiradi"
 }

@@ -2053,5 +2053,7 @@
   "This Book": "此書籍",
   "This book has its own value — reset it to your global setting": "此書籍有自己的值 — 重置為您的全局設定",
   "This book only": "僅此書籍",
-  "Whole app": "整個應用程式"
+  "Whole app": "整個應用程式",
+  "Changed from the default — reset it": "已從預設值變更 — 重置",
+  "This book overrides it": "此書籍覆蓋了它"
 }

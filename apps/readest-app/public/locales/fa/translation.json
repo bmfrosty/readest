@@ -2109,5 +2109,7 @@
   "This Book": "این کتاب",
   "This book has its own value — reset it to your global setting": "این کتاب مقدار مخصوص خود را دارد — بازنشانی به تنظیم سراسری شما",
   "This book only": "فقط این کتاب",
-  "Whole app": "کل برنامه"
+  "Whole app": "کل برنامه",
+  "Changed from the default — reset it": "نسبت به پیش‌فرض تغییر کرده — بازنشانی",
+  "This book overrides it": "این کتاب آن را بازنویسی می‌کند"
 }

@@ -2109,5 +2109,7 @@
   "This Book": "Αυτό το βιβλίο",
   "This book has its own value — reset it to your global setting": "Αυτό το βιβλίο έχει δική του τιμή — επαναφορά στη γενική σας ρύθμιση",
   "This book only": "Μόνο αυτό το βιβλίο",
-  "Whole app": "Όλη η εφαρμογή"
+  "Whole app": "Όλη η εφαρμογή",
+  "Changed from the default — reset it": "Άλλαξε από την προεπιλογή — επαναφορά",
+  "This book overrides it": "Αυτό το βιβλίο το παρακάμπτει"
 }

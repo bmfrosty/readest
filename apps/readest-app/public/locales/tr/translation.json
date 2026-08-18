@@ -2109,5 +2109,7 @@
   "This Book": "Bu Kitap",
   "This book has its own value — reset it to your global setting": "Bu kitabın kendi değeri var — genel ayarınıza sıfırlayın",
   "This book only": "Yalnızca bu kitap",
-  "Whole app": "Tüm uygulama"
+  "Whole app": "Tüm uygulama",
+  "Changed from the default — reset it": "Varsayılandan değiştirildi — sıfırla",
+  "This book overrides it": "Bu kitap bunu geçersiz kılıyor"
 }

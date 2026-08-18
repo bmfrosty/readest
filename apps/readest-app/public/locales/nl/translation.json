@@ -2109,5 +2109,7 @@
   "This Book": "Dit boek",
   "This book has its own value — reset it to your global setting": "Dit boek heeft een eigen waarde — terugzetten naar je algemene instelling",
   "This book only": "Alleen dit boek",
-  "Whole app": "Hele app"
+  "Whole app": "Hele app",
+  "Changed from the default — reset it": "Gewijzigd t.o.v. de standaard — terugzetten",
+  "This book overrides it": "Dit boek overschrijft het"
 }

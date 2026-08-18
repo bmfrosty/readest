@@ -40,7 +40,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   const { setViewSettings, recreateViewer } = useReaderStore();
   const { getBookData } = useBookDataStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
-  const { edited } = useEditedViewSettings(bookKey);
+  const { edited, book } = useEditedViewSettings(bookKey);
   const scopedLabel = useScopedLabel();
 
   const view = getView(bookKey);
@@ -68,7 +68,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   const [maxColumnCount, setMaxColumnCount] = useState(edited.maxColumnCount);
   const [maxInlineSize, setMaxInlineSize] = useState(edited.maxInlineSize);
   const [maxBlockSize, setMaxBlockSize] = useState(edited.maxBlockSize);
-  const [writingMode, setWritingMode] = useState(edited.writingMode);
+  const [writingMode, setWritingMode] = useState(book.writingMode);
   const [overrideLayout, setOverrideLayout] = useState(edited.overrideLayout);
   const [useBookLayout, setUseBookLayout] = useState(edited.useBookLayout);
   const [doubleBorder, setDoubleBorder] = useState(edited.doubleBorder);
@@ -86,7 +86,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   );
   const [showBatteryPercentage, setShowBatteryPercentage] = useState(edited.showBatteryPercentage);
   const [progressStyle, setProgressStyle] = useState(edited.progressStyle);
-  const [referencePageCount, setReferencePageCount] = useState(edited.referencePageCount);
+  const [referencePageCount, setReferencePageCount] = useState(book.referencePageCount);
   const [screenOrientation, setScreenOrientation] = useState(edited.screenOrientation);
 
   const resetToDefaults = useResetViewSettings();
@@ -290,7 +290,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [maxBlockSize]);
 
   useEffect(() => {
-    if (writingMode === edited.writingMode) return;
+    if (writingMode === book.writingMode) return;
     // global settings are not supported for writing mode
     const prevWritingMode = viewSettings.writingMode;
     if (writingMode.includes('vertical')) {

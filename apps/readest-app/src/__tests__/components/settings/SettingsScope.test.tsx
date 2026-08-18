@@ -37,8 +37,14 @@ const h = await vi.hoisted(async () => {
   };
 });
 
+const FACTORY = {
+  serifFont: 'Bookerly',
+  progressStyle: 'percentage',
+  annotationToolbarItems: ['copy'],
+};
+
 vi.mock('@/context/EnvContext', () => ({
-  useEnv: () => ({ envConfig: {}, appService: null }),
+  useEnv: () => ({ envConfig: {}, appService: { getDefaultViewSettings: () => FACTORY } }),
 }));
 
 vi.mock('@/hooks/useTranslation', () => ({
@@ -76,6 +82,8 @@ const SettingsScopeBanner = (await import('@/components/settings/SettingsScopeBa
 const { useScopeTags } = await import('@/components/settings/ScopeTag');
 
 const RESET = 'This book has its own value — reset it to your global setting';
+const RESET_GLOBAL = 'Changed from the default — reset it';
+const MASKED = 'This book overrides it';
 const BOOK = 'book-1';
 
 /** Seed the book's effective settings and the global defaults. */
@@ -108,6 +116,7 @@ const renderScoped = (bookKey: string, children: React.ReactNode) =>
   render(<SettingsScopeProvider bookKey={bookKey}>{children}</SettingsScopeProvider>);
 
 const badge = () => screen.queryByRole('button', { name: RESET });
+const globalBadge = () => screen.queryByRole('button', { name: RESET_GLOBAL });
 
 beforeEach(() => {
   h.saveViewSettings.mockClear();
@@ -161,13 +170,32 @@ describe('useScopedLabel', () => {
     expect(badge()).toBeTruthy();
   });
 
-  it('badges a value that belongs to the book while editing global defaults', () => {
-    // The regression that matters: the View menu writes per-book whatever the
-    // banner says, so this is where a reader is most likely to be misled.
+  it('badges a global value the reader has moved off the factory default', () => {
+    // What you see in global scope IS the global value, so the useful question
+    // is whether you have changed it from the shipped default.
+    seed({ isGlobal: true, serifFont: 'Literata' }, { serifFont: 'Literata' });
+    renderScoped(BOOK, <SerifRow />);
+
+    expect(globalBadge()).toBeTruthy();
+  });
+
+  it('says nothing about a global value still at the factory default', () => {
+    seed({ isGlobal: true, serifFont: 'Bookerly' }, { serifFont: 'Bookerly' });
+    renderScoped(BOOK, <SerifRow />);
+
+    expect(globalBadge()).toBeNull();
+    expect(screen.queryByText(MASKED)).toBeNull();
+  });
+
+  it('still warns, separately, when a book masks the global value on show', () => {
+    // The View menu writes per-book whatever the banner says. The global value
+    // shown here is the factory one, so there is no badge — but the book will
+    // not use it, and that has to be visible.
     seed({ isGlobal: true, serifFont: 'Literata' }, { serifFont: 'Bookerly' });
     renderScoped(BOOK, <SerifRow />);
 
-    expect(badge()).toBeTruthy();
+    expect(globalBadge()).toBeNull();
+    expect(screen.getByText(MASKED)).toBeTruthy();
   });
 
   it('leaves the label bare when the book matches global', () => {

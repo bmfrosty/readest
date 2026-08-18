@@ -2053,5 +2053,7 @@
   "This Book": "དཔེ་དེབ་འདི།",
   "This book has its own value — reset it to your global setting": "དཔེ་དེབ་འདིར་རང་གི་གནས་གོང་ཡོད། — ཁྱེད་ཀྱི་ཁྱོན་ཡོངས་སྒྲིག་བཀོད་ལ་བསྐྱར་སྒྲིག",
   "This book only": "དཔེ་དེབ་འདི་ཁོ་ན།",
-  "Whole app": "ཉེར་སྤྱོད་ཡོངས།"
+  "Whole app": "ཉེར་སྤྱོད་ཡོངས།",
+  "Changed from the default — reset it": "སྔོན་སྒྲིག་ལས་བསྒྱུར་ཟིན། — བསྐྱར་སྒྲིག",
+  "This book overrides it": "དཔེ་དེབ་འདིས་བརྗེ་བཅོས་བྱས།"
 }

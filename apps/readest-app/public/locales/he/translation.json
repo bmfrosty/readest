@@ -2165,5 +2165,7 @@
   "This Book": "ספר זה",
   "This book has its own value — reset it to your global setting": "לספר זה יש ערך משלו — אפס להגדרה הגלובלית שלך",
   "This book only": "ספר זה בלבד",
-  "Whole app": "כל האפליקציה"
+  "Whole app": "כל האפליקציה",
+  "Changed from the default — reset it": "שונה מברירת המחדל — אפס",
+  "This book overrides it": "ספר זה עוקף אותו"
 }

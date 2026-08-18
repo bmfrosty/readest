@@ -2221,5 +2221,7 @@
   "This Book": "Ця книга",
   "This book has its own value — reset it to your global setting": "Ця книга має власне значення — скинути до вашого ґлобального налаштування",
   "This book only": "Лише ця книга",
-  "Whole app": "Увесь застосунок"
+  "Whole app": "Увесь застосунок",
+  "Changed from the default — reset it": "Змінено відносно значення за замовчуванням — скинути",
+  "This book overrides it": "Ця книга перевизначає це"
 }

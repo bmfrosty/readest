@@ -2109,5 +2109,7 @@
   "This Book": "இந்தப் புத்தகம்",
   "This book has its own value — reset it to your global setting": "இந்தப் புத்தகத்திற்கு சொந்த மதிப்பு உள்ளது — உங்கள் உலகளாவிய அமைப்புக்கு மீட்டமைக்கவும்",
   "This book only": "இந்தப் புத்தகம் மட்டும்",
-  "Whole app": "முழு செயலி"
+  "Whole app": "முழு செயலி",
+  "Changed from the default — reset it": "இயல்புநிலையிலிருந்து மாற்றப்பட்டது — மீட்டமைக்கவும்",
+  "This book overrides it": "இந்தப் புத்தகம் அதை மேலெழுதுகிறது"
 }

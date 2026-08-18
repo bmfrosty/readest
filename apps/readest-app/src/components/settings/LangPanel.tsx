@@ -44,10 +44,10 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const { getBookData } = useBookDataStore();
   const view = getView(bookKey);
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
-  const { edited } = useEditedViewSettings(bookKey);
+  const { edited, book } = useEditedViewSettings(bookKey);
 
   const [uiLanguage, setUILanguage] = useState(edited.uiLanguage);
-  const [translationEnabled, setTranslationEnabled] = useState(edited.translationEnabled);
+  const [translationEnabled, setTranslationEnabled] = useState(book.translationEnabled);
   const [translationProvider, setTranslationProvider] = useState(edited.translationProvider);
   const [translateTargetLang, setTranslateTargetLang] = useState(edited.translateTargetLang);
   const [showTranslateSource, setShowTranslateSource] = useState(edited.showTranslateSource);
@@ -201,7 +201,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   }, [uiLanguage]);
 
   useEffect(() => {
-    if (translationEnabled === edited.translationEnabled) return;
+    if (translationEnabled === book.translationEnabled) return;
     saveViewSettings(
       envConfig,
       bookKey,

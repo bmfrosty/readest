@@ -40,7 +40,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
   const { applyEinkMode } = useEinkMode();
   const bookData = getBookData(bookKey);
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
-  const { edited } = useEditedViewSettings(bookKey);
+  const { edited, book } = useEditedViewSettings(bookKey);
 
   const [isScrolledMode, setScrolledMode] = useState(edited.scrolled);
   const [noContinuousScroll, setNoContinuousScroll] = useState(edited.noContinuousScroll);
@@ -68,7 +68,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
   );
   const [screenWakeLock, setScreenWakeLock] = useState(settings.screenWakeLock);
   const [autohideCursor, setAutohideCursor] = useState(settings.autohideCursor);
-  const [allowScript, setAllowScript] = useState(edited.allowScript);
+  const [allowScript, setAllowScript] = useState(book.allowScript);
   const [isAutoCheckUpdates, setIsAutoCheckUpdates] = useState(settings.autoCheckUpdates);
   const [isNightlyChannel, setIsNightlyChannel] = useState(settings.updateChannel === 'nightly');
   const [isTelemetryEnabled, setIsTelemetryEnabled] = useState(settings.telemetryEnabled);
@@ -273,7 +273,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
   }, [autohideCursor]);
 
   useEffect(() => {
-    if (edited.allowScript === allowScript) return;
+    if (book.allowScript === allowScript) return;
     saveViewSettings(envConfig, bookKey, 'allowScript', allowScript, true, false).then(() => {
       recreateViewer(envConfig, bookKey);
     });

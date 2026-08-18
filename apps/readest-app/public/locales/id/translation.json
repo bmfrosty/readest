@@ -2053,5 +2053,7 @@
   "This Book": "Buku Ini",
   "This book has its own value — reset it to your global setting": "Buku ini memiliki nilainya sendiri — atur ulang ke pengaturan global Anda",
   "This book only": "Hanya buku ini",
-  "Whole app": "Seluruh aplikasi"
+  "Whole app": "Seluruh aplikasi",
+  "Changed from the default — reset it": "Diubah dari default — atur ulang",
+  "This book overrides it": "Buku ini menimpanya"
 }

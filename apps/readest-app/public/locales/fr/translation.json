@@ -2165,5 +2165,7 @@
   "This Book": "Ce livre",
   "This book has its own value — reset it to your global setting": "Ce livre a sa propre valeur — réinitialiser à votre paramètre global",
   "This book only": "Ce livre uniquement",
-  "Whole app": "Toute l’application"
+  "Whole app": "Toute l’application",
+  "Changed from the default — reset it": "Modifié par rapport au défaut — réinitialiser",
+  "This book overrides it": "Ce livre le remplace"
 }

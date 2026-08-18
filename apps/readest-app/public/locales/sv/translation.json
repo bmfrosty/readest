@@ -2109,5 +2109,7 @@
   "This Book": "Den här boken",
   "This book has its own value — reset it to your global setting": "Den här boken har ett eget värde — återställ till din globala inställning",
   "This book only": "Endast den här boken",
-  "Whole app": "Hela appen"
+  "Whole app": "Hela appen",
+  "Changed from the default — reset it": "Ändrad från standardvärdet — återställ",
+  "This book overrides it": "Den här boken åsidosätter det"
 }

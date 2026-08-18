@@ -2109,5 +2109,7 @@
   "This Book": "Ez a könyv",
   "This book has its own value — reset it to your global setting": "Ennek a könyvnek saját értéke van — visszaállítás a globális beállításodra",
   "This book only": "Csak ez a könyv",
-  "Whole app": "Az egész alkalmazás"
+  "Whole app": "Az egész alkalmazás",
+  "Changed from the default — reset it": "Eltér az alapértelmezéstől — visszaállítás",
+  "This book overrides it": "Ez a könyv felülírja"
 }

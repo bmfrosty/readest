@@ -2109,5 +2109,7 @@
   "This Book": "यह पुस्तक",
   "This book has its own value — reset it to your global setting": "इस पुस्तक का अपना मान है — अपनी वैश्विक सेटिंग पर रीसेट करें",
   "This book only": "केवल यह पुस्तक",
-  "Whole app": "पूरा ऐप"
+  "Whole app": "पूरा ऐप",
+  "Changed from the default — reset it": "डिफ़ॉल्ट से बदला गया — रीसेट करें",
+  "This book overrides it": "यह पुस्तक इसे ओवरराइड करती है"
 }

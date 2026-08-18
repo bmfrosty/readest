@@ -2053,5 +2053,7 @@
   "This Book": "หนังสือเล่มนี้",
   "This book has its own value — reset it to your global setting": "หนังสือเล่มนี้มีค่าของตัวเอง — รีเซ็ตเป็นการตั้งค่าทั่วไปของคุณ",
   "This book only": "เฉพาะหนังสือเล่มนี้",
-  "Whole app": "ทั้งแอป"
+  "Whole app": "ทั้งแอป",
+  "Changed from the default — reset it": "เปลี่ยนจากค่าเริ่มต้น — รีเซ็ต",
+  "This book overrides it": "หนังสือเล่มนี้แทนที่ค่านี้"
 }

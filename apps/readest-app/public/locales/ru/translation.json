@@ -2221,5 +2221,7 @@
   "This Book": "Эта книга",
   "This book has its own value — reset it to your global setting": "У этой книги своё значение — сбросить к вашей общей настройке",
   "This book only": "Только эта книга",
-  "Whole app": "Всё приложение"
+  "Whole app": "Всё приложение",
+  "Changed from the default — reset it": "Изменено относительно значения по умолчанию — сбросить",
+  "This book overrides it": "Эта книга переопределяет его"
 }

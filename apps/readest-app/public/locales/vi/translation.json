@@ -2053,5 +2053,7 @@
   "This Book": "Sách này",
   "This book has its own value — reset it to your global setting": "Sách này có giá trị riêng — đặt lại về cài đặt chung của bạn",
   "This book only": "Chỉ sách này",
-  "Whole app": "Toàn bộ ứng dụng"
+  "Whole app": "Toàn bộ ứng dụng",
+  "Changed from the default — reset it": "Đã đổi khác mặc định — đặt lại",
+  "This book overrides it": "Sách này ghi đè giá trị này"
 }

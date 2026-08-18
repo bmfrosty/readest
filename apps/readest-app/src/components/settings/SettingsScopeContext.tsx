@@ -1,42 +1,49 @@
 import React, { createContext, useContext } from 'react';
 import { ViewSettings } from '@/types/book';
 import { useEnv } from '@/context/EnvContext';
-import { useReaderStore } from '@/store/readerStore';
-import { useBookDataStore } from '@/store/bookDataStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useBookDataStore } from '@/store/bookDataStore';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 import { saveViewSettings } from '@/helpers/settings';
 import { isSameViewSettingValue } from '@/utils/serializer';
 import OverrideBadge from './OverrideBadge';
+import ScopeTag from './ScopeTag';
 
 /**
- * Which of the two stores a settings panel writes to (#5632).
+ * Which of the two stores a settings panel writes to, and how far each row has
+ * been moved from what it inherits.
  *
- * `viewSettings.isGlobal` has always decided this, but it lived behind one
+ * `viewSettings.isGlobal` has always decided the scope, but it lived behind one
  * checkmark in the overflow menu, so a font picked while a book was open
- * silently became a per-book override that the reader could neither see nor
- * find later. This context surfaces the flag: `<SettingsScopeBanner>` states
- * the active scope in the dialog header, and `useScopedLabel` marks the
- * individual settings this book overrides.
+ * silently became a per-book value the reader could neither see nor find.
  *
- * Effective view settings are `{ ...globalViewSettings, ...perBookOverrides }`,
- * and `serializeConfig` persists only the keys that differ from global. So a
- * per-book value that differs from the global one IS the override, and writing
- * the global value back drops the key from `book_configs` — real inheritance,
- * not a pinned copy. That is why the reset action needs no separate unset path.
+ * Every row is measured against the baseline its own scope inherits, so the
+ * badge always answers the same question — "have I moved this?" — and its ↺
+ * always restores the thing directly beneath:
+ *
+ *   book scope    edited = the book's values     baseline = the resolved global
+ *   global scope  edited = the global defaults   baseline = the factory defaults
+ *
+ * In global scope a second, separate signal is still needed: a book can hold
+ * its own value for a row, which masks the global value on display. That is not
+ * "you moved this", so it gets a quiet chip rather than the badge.
  */
 export interface SettingsScope {
   /** False in the library context: with no book there is nothing to scope to. */
   canScopeToBook: boolean;
-  /** True when the panels write the global defaults instead of book overrides. */
+  /** True when the panels show and write the global defaults. */
   isGlobal: boolean;
   /** Title of the scoped book, for the banner. Empty in the library context. */
   bookTitle: string;
   /** Switch the scope. No-op in the library context. */
   setGlobal: (global: boolean) => void;
-  /** True when this book stores a value that differs from the global default. */
-  isOverridden: <K extends keyof ViewSettings>(key: K) => boolean;
-  getGlobalValue: <K extends keyof ViewSettings>(key: K) => ViewSettings[K];
+  /** True when the displayed value differs from what this scope inherits. */
+  isChanged: <K extends keyof ViewSettings>(key: K) => boolean;
+  /** The value this scope inherits — the global value, or the factory default. */
+  getBaselineValue: <K extends keyof ViewSettings>(key: K) => ViewSettings[K];
+  /** Global scope only: the open book holds its own value, masking the global one. */
+  isMaskedByBook: <K extends keyof ViewSettings>(key: K) => boolean;
 }
 
 const SettingsScopeContext = createContext<SettingsScope | null>(null);
@@ -45,15 +52,25 @@ export const SettingsScopeProvider: React.FC<{ bookKey: string; children: React.
   bookKey,
   children,
 }) => {
-  const { envConfig } = useEnv();
+  const { envConfig, appService } = useEnv();
   const { settings } = useSettingsStore();
-  const { getViewSettings } = useReaderStore();
   const { getBookData } = useBookDataStore();
+  const { edited, book, isGlobal } = useEditedViewSettings(bookKey);
 
-  const viewSettings = getViewSettings(bookKey);
   const globalViewSettings = settings?.globalViewSettings;
+  // appService is null on the first renders; without it the factory defaults
+  // are unknown, so global scope simply reports nothing rather than guessing.
+  const baseline = isGlobal ? appService?.getDefaultViewSettings() : globalViewSettings;
   const canScopeToBook = !!bookKey;
-  const isGlobal = !canScopeToBook || (viewSettings?.isGlobal ?? true);
+
+  // Compare by value, exactly like serializeConfig does — an array or object
+  // setting is a fresh reference on every read and would otherwise always
+  // report as changed. `key in` guards a baseline that never held the key.
+  const differs = (
+    a: ViewSettings | undefined,
+    b: ViewSettings | undefined,
+    key: keyof ViewSettings,
+  ) => !!a && !!b && key in b && !isSameViewSettingValue(a[key], b[key]);
 
   const scope: SettingsScope = {
     canScopeToBook,
@@ -64,28 +81,9 @@ export const SettingsScopeProvider: React.FC<{ bookKey: string; children: React.
       // skipGlobal, so the flag itself is always stored on the book.
       saveViewSettings(envConfig, bookKey, 'isGlobal', global, true, false);
     },
-    // Deliberately NOT gated on `isGlobal`. The scope flag only governs where
-    // THIS dialog writes; the View menu and Book menu write per-book always
-    // (15 keys pass `skipGlobal`), so a book can hold its own value while the
-    // banner reads "Global". Gating here would hide exactly those, which is
-    // the case that misleads readers. `viewSettings` is null in the library,
-    // where there is no book to override anything.
-    //
-    // Compare by value, exactly like serializeConfig does — an array or object
-    // setting is a fresh reference on every read and would otherwise always
-    // report as overridden.
-    isOverridden: (key) =>
-      !!viewSettings &&
-      !!globalViewSettings &&
-      // The comparison target is the RESOLVED global — whatever the reader has
-      // set globally — not the factory default. Those differ once anything is
-      // changed globally, and only the resolved value is what this book would
-      // inherit. `key in` guards a key the global side has never held: with
-      // nothing to fall back to there is no override to report, and resetting
-      // would write `undefined`.
-      key in globalViewSettings &&
-      !isSameViewSettingValue(viewSettings[key], globalViewSettings[key]),
-    getGlobalValue: (key) => globalViewSettings?.[key],
+    isChanged: (key) => differs(edited, baseline, key),
+    getBaselineValue: (key) => baseline?.[key] as ViewSettings[typeof key],
+    isMaskedByBook: (key) => isGlobal && canScopeToBook && differs(book, globalViewSettings, key),
   };
 
   return <SettingsScopeContext.Provider value={scope}>{children}</SettingsScopeContext.Provider>;
@@ -94,8 +92,7 @@ export const SettingsScopeProvider: React.FC<{ bookKey: string; children: React.
 export const useSettingsScope = () => useContext(SettingsScopeContext);
 
 /**
- * Returns a decorator for settings-row labels. Wrap a label with it to get the
- * "overridden for this book" badge plus its reset-to-global button:
+ * Decorates a settings-row label with whatever that row needs to disclose:
  *
  * ```tsx
  * <SettingsRow label={scopedLabel(_('Serif Font'), 'serifFont', setSerifFont)}>
@@ -103,44 +100,46 @@ export const useSettingsScope = () => useContext(SettingsScopeContext);
  *
  * `onReset` is the same state setter the control itself uses, so resetting
  * flows through the panel's existing save effect — nothing new to keep in sync.
- * The label passes through untouched for settings that match global, so callers
- * can decorate unconditionally.
+ * Labels pass through untouched when there is nothing to say, so callers can
+ * decorate unconditionally.
  *
- * The badge shows in BOTH scopes: it answers "does this book have its own
- * value", which is true regardless of where the dialog currently writes.
- *
- * Do NOT decorate settings that have no meaningful global counterpart — the
+ * Do NOT decorate a setting the panel can only ever write per-book — the
  * `isGlobal` flag itself, and anything saved with `skipGlobal` (`writingMode`,
- * `referencePageCount`). They are per-book by design and would always read as
- * overridden. Tag those with `useScopeTags().alwaysBook` instead.
- *
- * For the rows this banner does NOT govern, use `useScopeTags` from
- * `./ScopeTag` instead. Those tags are static and store-free by design, so a
- * leaf component can mark a row without importing the settings stores.
+ * `referencePageCount`, `allowScript`, `translationEnabled`). Their scope is
+ * fixed, so use `useScopeTags().alwaysBook` from `./ScopeTag` instead.
  */
 export const useScopedLabel = () => {
   const _ = useTranslation();
   const scope = useSettingsScope();
 
-  const scopedLabel = <K extends keyof ViewSettings>(
+  return <K extends keyof ViewSettings>(
     label: React.ReactNode,
     key: K,
     onReset: (value: ViewSettings[K]) => void,
   ): React.ReactNode => {
-    if (!scope?.isOverridden(key)) return label;
-    // A fragment, not a wrapper element: labels render inside `<SettingLabel>`,
-    // whose `line-clamp-2` makes a `-webkit-box`. Keeping the badge inline-level
-    // lets it share the label's anonymous block instead of stacking under it.
+    if (!scope) return label;
+    const changed = scope.isChanged(key);
+    const masked = scope.isMaskedByBook(key);
+    if (!changed && !masked) return label;
+
+    // Fragments, not a wrapper element: labels render inside `<SettingLabel>`,
+    // whose `line-clamp-2` makes a `-webkit-box`. Keeping these inline-level
+    // lets them share the label's anonymous block instead of stacking under it.
     return (
       <>
         {label}
-        <OverrideBadge
-          title={_('This book has its own value — reset it to your global setting')}
-          onReset={() => onReset(scope.getGlobalValue(key))}
-        />
+        {changed && (
+          <OverrideBadge
+            title={
+              scope.isGlobal
+                ? _('Changed from the default — reset it')
+                : _('This book has its own value — reset it to your global setting')
+            }
+            onReset={() => onReset(scope.getBaselineValue(key))}
+          />
+        )}
+        {masked && <ScopeTag text={_('This book overrides it')} />}
       </>
     );
   };
-
-  return scopedLabel;
 };

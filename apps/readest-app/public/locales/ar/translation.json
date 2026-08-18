@@ -2333,5 +2333,7 @@
   "This Book": "هذا الكتاب",
   "This book has its own value — reset it to your global setting": "لهذا الكتاب قيمته الخاصة — أعد تعيينها إلى إعدادك العام",
   "This book only": "هذا الكتاب فقط",
-  "Whole app": "التطبيق بأكمله"
+  "Whole app": "التطبيق بأكمله",
+  "Changed from the default — reset it": "تم التغيير عن الإعداد الافتراضي — أعد تعيينه",
+  "This book overrides it": "هذا الكتاب يتجاوزه"
 }

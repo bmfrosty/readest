@@ -2162,5 +2162,7 @@
   "This Book": "ეს წიგნი",
   "This book has its own value — reset it to your global setting": "ამ წიგნს აქვს საკუთარი მნიშვნელობა — დააბრუნეთ თქვენს გლობალურ პარამეტრზე",
   "This book only": "მხოლოდ ეს წიგნი",
-  "Whole app": "მთელი აპლიკაცია"
+  "Whole app": "მთელი აპლიკაცია",
+  "Changed from the default — reset it": "შეცვლილია ნაგულისხმევიდან — დააბრუნეთ",
+  "This book overrides it": "ეს წიგნი გადაფარავს მას"
 }
