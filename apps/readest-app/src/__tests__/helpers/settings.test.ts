@@ -1,5 +1,6 @@
 import { describe, test, expect, beforeEach, vi } from 'vitest';
 
+const useReaderStoreBookKeys: string[] = [];
 const getViewSettingsMock = vi.fn<(bookKey: string) => { isGlobal?: boolean } | undefined>(
   () => undefined,
 );
@@ -10,7 +11,7 @@ const getViewStateMock = vi.fn(() => undefined);
 vi.mock('@/store/readerStore', () => ({
   useReaderStore: {
     getState: () => ({
-      bookKeys: [],
+      bookKeys: useReaderStoreBookKeys,
       getView: getViewMock,
       getViewState: getViewStateMock,
       getViewSettings: getViewSettingsMock,
@@ -63,6 +64,7 @@ beforeEach(() => {
   getViewSettingsMock.mockReset();
   getViewSettingsMock.mockReturnValue(undefined);
   setViewSettingsMock.mockReset();
+  useReaderStoreBookKeys.length = 0;
   useSettingsStore.setState({
     settings: makeSettings(),
     setSettings: (s: SystemSettings) => useSettingsStore.setState({ settings: s }),
@@ -224,5 +226,40 @@ describe('saveViewSettings', () => {
     // into the cross-device globals.
     expect(referenceChanges).toHaveLength(0);
     expect(useSettingsStore.getState().settings).toBe(initial);
+  });
+});
+
+describe('a global write that changes nothing', () => {
+  /**
+   * The global branch replays the value onto every open book, which is how a
+   * real global change reaches them. But it used to run even when the value was
+   * already the global one, and that replay CLEARS a book's own value for the
+   * key.
+   *
+   * Settings panels remount when the scope switch is flipped, and many of their
+   * save effects fire unguarded on mount with the freshly seeded global value.
+   * So flipping "This book" -> "All books" quietly wiped every per-book override
+   * the reader had just made.
+   */
+  test('leaves an open book’s own value alone', async () => {
+    const settings = useSettingsStore.getState().settings;
+    settings.globalViewSettings = {
+      ...settings.globalViewSettings,
+      progressStyle: 'percentage',
+    } as ViewSettings;
+
+    const bookViewSettings = {
+      isGlobal: true,
+      progressStyle: 'fraction',
+    } as unknown as ViewSettings;
+    getViewSettingsMock.mockImplementation(() => bookViewSettings);
+    getViewStateMock.mockImplementation(() => ({ isPrimary: true }) as never);
+    useReaderStoreBookKeys.push('book-1');
+
+    // The panel remounts and re-asserts the value global already holds.
+    await saveViewSettings(envConfig, 'book-1', 'progressStyle', 'percentage', false, false);
+
+    expect(bookViewSettings.progressStyle).toBe('fraction');
+    expect(setViewSettingsMock).not.toHaveBeenCalled();
   });
 });
