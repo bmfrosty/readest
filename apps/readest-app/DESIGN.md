@@ -419,46 +419,60 @@ subtitle, and the badge + toggle + edit/delete buttons stack as suffixes.
 These names come from libadwaita and apply 1:1 to Readest's lists. Use the names in code
 comments and PR descriptions.
 
-#### Settings scope: state it, then mark the exceptions
+#### Settings scope: edit what the banner names
 
 A reader settings panel writes one of two stores — the global defaults, or the open book's
-overrides — and which one is a mode, not a control. A mode the user can't see is a mode
-they'll set by accident, so the settings dialog states it in two places:
+own values — and which one is a mode, not a control. A mode the reader can't see is a mode
+they'll set by accident.
 
-- **The scope, always on screen.** `<SettingsScopeBanner>` sits in the dialog header (not
-  the scrolling body) and names the active scope in words: "Global defaults — applies to
-  all books" or "This book: _Title_ — overrides only". The scope switch lives in the banner
-  itself, so reading the state and changing it are the same gesture.
-- **The exceptions, on the rows.** Any row whose value differs from the global default
-  carries `<OverrideBadge>` — a dot plus a reset-to-global button, inline in the row label
-  via `useScopedLabel`.
+**The panel must show the scope it writes.** `useEditedViewSettings` returns `edited`, which
+follows the scope, and `book`, which is the open book regardless. Seed control state from
+`edited` and compare against it in the on-mount guards; use `book` only for structural reads
+(writing mode, vertical, grid insets, legacy margin fields). Panels seed once in `useState`,
+so `SettingsDialog` keys each on the scope and the flip remounts them.
 
-Three rules keep this honest:
+Getting this wrong is not cosmetic. Panels used to seed from the book in both scopes, and
+because most save effects fire unguarded on mount, merely *opening* a panel in global scope
+copied the book's values into the global defaults — which then replayed onto every other
+open book.
 
-- **Badge in both scopes.** `isOverridden` is deliberately NOT gated on `isGlobal`. The
-  scope flag governs only where *this dialog* writes; the View menu and Book menu write
-  per-book unconditionally (15 keys pass `skipGlobal`). So a book can hold its own value
-  while the banner reads "Global", and that is precisely the state that misleads readers —
-  a value looks like a default and is not. Gating the badge on book scope would hide it.
-- **Compare the way the store does.** `isOverridden` calls `isSameViewSettingValue`, the
-  same value-compare `serializeConfig` uses to decide what to persist. A row is badged
-  exactly when the key really is stored on the book.
-- **Compare against the resolved global, never the factory default.** The target is
-  `settings.globalViewSettings[key]` — whatever the reader has actually set globally. Those
-  two diverge the moment anything is changed globally, and only the resolved value is what
-  the book would inherit. Note the dialog holds two different resets: the overflow menu's
-  **Reset Settings** restores *factory* defaults, while the badge's ↺ restores the reader's
-  *global* value. Word them so they cannot be confused.
-- **Only badge settings the panel can write globally.** `isGlobal` itself, and settings the
-  panel saves with `skipGlobal` (`writingMode`, `referencePageCount`), are per-book by
-  design; badging them would mark a row that can never be anything else.
+**State the scope, always on screen.** `<SettingsScopeBanner>` sits in the dialog header,
+not the scrolling body, and names the scope in words, with the switch in the banner itself
+so reading the state and changing it are one gesture.
 
-One asymmetry to know about. Reset runs through the panel's own state setter, so it obeys
-the active scope like any other write. In book scope it clears this book's value alone. In
-global scope `saveViewSettings` fans out to every open book, so resetting one row also
-normalises that key across a split view. That is the app's existing global-write semantics,
-not a special case for the badge — but do not word the tooltip as though it touched one book
-only.
+**Measure each row against what its own scope inherits.** The badge then always answers one
+question — "have I moved this?" — and its ↺ always restores the thing directly beneath:
+
+| Scope  | `edited` shows      | Baseline             | ↺ restores           |
+| ------ | ------------------- | -------------------- | -------------------- |
+| Book   | The book's values   | The resolved global  | The global value     |
+| Global | The global defaults | The factory defaults | The shipped default  |
+
+The resolved global is `settings.globalViewSettings`, not the factory default — the two
+diverge the moment anything is changed globally, and only the resolved value is what a book
+inherits. Note the dialog holds two resets: the overflow menu's **Reset Settings** restores
+*factory* defaults, the badge's ↺ restores whatever the current scope inherits. Word them so
+they cannot be confused.
+
+**One signal per question.** In global scope a book can still hold its own value for a row,
+masking the global value on display. That is not "you moved this", so it gets its own quiet
+chip rather than being folded into the badge.
+
+**Compare the way the store does.** Every comparison uses `isSameViewSettingValue`, the same
+value-compare `serializeConfig` uses to decide what to persist. Array and object settings are
+a fresh reference on every read and slip past a `!==`.
+
+**A write that changes nothing must do nothing.** `saveViewSettings`'s global branch replays
+the value onto every open book, which is how a real global change reaches them — but that
+replay also clears each book's own value for the key. Re-asserting the value the global
+already holds therefore destroys overrides for free, and panels re-assert current values on
+every mount. The guard lives in `saveViewSettings`, not in the panels: guarding effects fixes
+one panel and leaves every other caller exposed.
+
+**Don't badge a row whose scope is fixed.** `isGlobal` itself, and anything the panel saves
+with `skipGlobal` (`writingMode`, `referencePageCount`, `allowScript`, `translationEnabled`),
+are per-book whatever the banner says. Seed and guard those from `book`, never from `edited`,
+and tag them instead — see below.
 
 #### Tag the rows the banner does not govern
 
@@ -466,11 +480,16 @@ A banner makes a blanket claim over a whole panel, so any row that disobeys it t
 indicator into a lie — worse than the silence it replaced. Inside the settings dialog three
 kinds of row exist:
 
-| Kind | Write path                                  | Obeys the banner? | Marking                   |
-| ---- | ------------------------------------------- | ----------------- | ------------------------- |
-| A    | `saveViewSettings`, scope decides            | Yes               | none — silence means true |
-| B    | `saveViewSettings` with `skipGlobal`         | No, always book   | `scopedLabel.alwaysBook`  |
-| C    | `saveSysSettings`, `bookKey` never read      | No, always app    | `scopedLabel.appWide`     |
+| Kind | Write path                              | Obeys the banner? | Marking                   |
+| ---- | --------------------------------------- | ----------------- | ------------------------- |
+| A    | `saveViewSettings`, scope decides       | Yes               | none — silence means true |
+| B    | `saveViewSettings` with `skipGlobal`    | No, always book   | `scopeTag.alwaysBook`     |
+| C    | `saveSysSettings`, `bookKey` never read | No, always app    | `scopeTag.appWide`        |
+
+A kind-B row has nothing to write to in the library: a `skipGlobal` write matches neither
+branch of `saveViewSettings` without a `bookKey`, so the control moves and saves nothing at
+all. Pass the panel's `bookKey` to `useScopeTags` there — the tag becomes *Open a book to
+change this* — and disable the control, rather than pointing at a book that does not exist.
 
 The dangerous case is C under a "This book" banner: the reader is told the change is
 confined to one book and it is not. Tag B and C; leave A silent, so silence carries meaning.
