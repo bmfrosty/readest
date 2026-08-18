@@ -34,6 +34,7 @@ import NumberInput from './NumberInput';
 import FontDropdown from './FontDropDown';
 import CustomFonts from './CustomFonts';
 import { Toggle } from '../primitives/toggle';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 const genCJKFontsList = (sysFonts: string[]) => {
   return Array.from(new Set([...sysFonts, ...CJK_SERIF_FONTS, ...CJK_SANS_SERIF_FONTS]))
@@ -100,6 +101,7 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const { settings, fontPanelView, setFontPanelView } = useSettingsStore();
   const { fonts: allCustomFonts, getFontFamilies } = useCustomFontStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const { edited } = useEditedViewSettings(bookKey);
   const view = getView(bookKey);
   const scopedLabel = useScopedLabel();
 
@@ -136,15 +138,15 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
       break;
   }
   const [sysFonts, setSysFonts] = useState<string[]>(defaultSysFonts);
-  const [defaultFont, setDefaultFont] = useState(viewSettings.defaultFont);
-  const [defaultFontSize, setDefaultFontSize] = useState(viewSettings.defaultFontSize);
-  const [minFontSize, setMinFontSize] = useState(viewSettings.minimumFontSize);
-  const [overrideFont, setOverrideFont] = useState(viewSettings.overrideFont);
-  const [defaultCJKFont, setDefaultCJKFont] = useState(viewSettings.defaultCJKFont);
-  const [serifFont, setSerifFont] = useState(viewSettings.serifFont);
-  const [sansSerifFont, setSansSerifFont] = useState(viewSettings.sansSerifFont);
-  const [monospaceFont, setMonospaceFont] = useState(viewSettings.monospaceFont);
-  const [fontWeight, setFontWeight] = useState(viewSettings.fontWeight);
+  const [defaultFont, setDefaultFont] = useState(edited.defaultFont);
+  const [defaultFontSize, setDefaultFontSize] = useState(edited.defaultFontSize);
+  const [minFontSize, setMinFontSize] = useState(edited.minimumFontSize);
+  const [overrideFont, setOverrideFont] = useState(edited.overrideFont);
+  const [defaultCJKFont, setDefaultCJKFont] = useState(edited.defaultCJKFont);
+  const [serifFont, setSerifFont] = useState(edited.serifFont);
+  const [sansSerifFont, setSansSerifFont] = useState(edited.sansSerifFont);
+  const [monospaceFont, setMonospaceFont] = useState(edited.monospaceFont);
+  const [fontWeight, setFontWeight] = useState(edited.fontWeight);
 
   const [customFonts, setCustomFonts] = useState<string[]>(getFontFamilies());
   const [CJKFonts, setCJKFonts] = useState<string[]>(() => {

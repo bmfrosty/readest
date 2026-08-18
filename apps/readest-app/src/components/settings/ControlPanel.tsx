@@ -28,6 +28,7 @@ import AnnotationToolbarCustomizer from './AnnotationToolbarCustomizer';
 import { DEFAULT_ANNOTATION_TOOLBAR_ITEMS } from '@/utils/annotationToolbar';
 import { canShareText } from '@/utils/share';
 import { optInTelemetry, optOutTelemetry } from '@/utils/telemetry';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
@@ -39,38 +40,35 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
   const { applyEinkMode } = useEinkMode();
   const bookData = getBookData(bookKey);
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const { edited } = useEditedViewSettings(bookKey);
 
-  const [isScrolledMode, setScrolledMode] = useState(viewSettings.scrolled);
-  const [noContinuousScroll, setNoContinuousScroll] = useState(viewSettings.noContinuousScroll);
-  const [scrollingOverlap, setScrollingOverlap] = useState(viewSettings.scrollingOverlap);
-  const [hideScrollbar, setHideScrollbar] = useState(viewSettings.hideScrollbar || false);
-  const [showPaginationButtons, setShowPaginationButtons] = useState(
-    viewSettings.showPaginationButtons,
-  );
-  const [isDisableClick, setIsDisableClick] = useState(viewSettings.disableClick);
-  const [isDisableSwipe, setIsDisableSwipe] = useState(viewSettings.disableSwipe);
-  const [fullscreenClickArea, setFullscreenClickArea] = useState(viewSettings.fullscreenClickArea);
-  const [swapClickArea, setSwapClickArea] = useState(viewSettings.swapClickArea);
-  const [isDisableDoubleClick, setIsDisableDoubleClick] = useState(viewSettings.disableDoubleClick);
+  const [isScrolledMode, setScrolledMode] = useState(edited.scrolled);
+  const [noContinuousScroll, setNoContinuousScroll] = useState(edited.noContinuousScroll);
+  const [scrollingOverlap, setScrollingOverlap] = useState(edited.scrollingOverlap);
+  const [hideScrollbar, setHideScrollbar] = useState(edited.hideScrollbar || false);
+  const [showPaginationButtons, setShowPaginationButtons] = useState(edited.showPaginationButtons);
+  const [isDisableClick, setIsDisableClick] = useState(edited.disableClick);
+  const [isDisableSwipe, setIsDisableSwipe] = useState(edited.disableSwipe);
+  const [fullscreenClickArea, setFullscreenClickArea] = useState(edited.fullscreenClickArea);
+  const [swapClickArea, setSwapClickArea] = useState(edited.swapClickArea);
+  const [isDisableDoubleClick, setIsDisableDoubleClick] = useState(edited.disableDoubleClick);
   const [enableAnnotationQuickActions, setEnableAnnotationQuickActions] = useState(
-    viewSettings.enableAnnotationQuickActions,
+    edited.enableAnnotationQuickActions,
   );
-  const [annotationQuickAction, setAnnotationQuickAction] = useState(
-    viewSettings.annotationQuickAction,
-  );
-  const [copyToNotebook, setCopyToNotebook] = useState(viewSettings.copyToNotebook);
+  const [annotationQuickAction, setAnnotationQuickAction] = useState(edited.annotationQuickAction);
+  const [copyToNotebook, setCopyToNotebook] = useState(edited.copyToNotebook);
   const [showToolbarCustomizer, setShowToolbarCustomizer] = useState(false);
-  const [animated, setAnimated] = useState(viewSettings.animated);
-  const [pageTurnStyle, setPageTurnStyle] = useState(viewSettings.pageTurnStyle || 'push');
-  const [isEink, setIsEink] = useState(viewSettings.isEink);
-  const [isColorEink, setIsColorEink] = useState(viewSettings.isColorEink);
+  const [animated, setAnimated] = useState(edited.animated);
+  const [pageTurnStyle, setPageTurnStyle] = useState(edited.pageTurnStyle || 'push');
+  const [isEink, setIsEink] = useState(edited.isEink);
+  const [isColorEink, setIsColorEink] = useState(edited.isColorEink);
   const [autoScreenBrightness, setAutoScreenBrightness] = useState(settings.autoScreenBrightness);
   const [swipeBrightnessGesture, setSwipeBrightnessGesture] = useState(
     settings.swipeBrightnessGesture,
   );
   const [screenWakeLock, setScreenWakeLock] = useState(settings.screenWakeLock);
   const [autohideCursor, setAutohideCursor] = useState(settings.autohideCursor);
-  const [allowScript, setAllowScript] = useState(viewSettings.allowScript);
+  const [allowScript, setAllowScript] = useState(edited.allowScript);
   const [isAutoCheckUpdates, setIsAutoCheckUpdates] = useState(settings.autoCheckUpdates);
   const [isNightlyChannel, setIsNightlyChannel] = useState(settings.updateChannel === 'nightly');
   const [isTelemetryEnabled, setIsTelemetryEnabled] = useState(settings.telemetryEnabled);
@@ -127,7 +125,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
   }, []);
 
   useEffect(() => {
-    if (isScrolledMode === viewSettings.scrolled) return;
+    if (isScrolledMode === edited.scrolled) return;
     saveViewSettings(envConfig, bookKey, 'scrolled', isScrolledMode);
     getView(bookKey)?.renderer.setAttribute('flow', isScrolledMode ? 'scrolled' : 'paginated');
     getView(bookKey)?.renderer.setAttribute(
@@ -145,7 +143,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
   }, [isScrolledMode]);
 
   useEffect(() => {
-    if (noContinuousScroll === viewSettings.noContinuousScroll) return;
+    if (noContinuousScroll === edited.noContinuousScroll) return;
     saveViewSettings(envConfig, bookKey, 'noContinuousScroll', noContinuousScroll);
     if (noContinuousScroll) {
       getView(bookKey)?.renderer.setAttribute('no-continuous-scroll', '');
@@ -161,7 +159,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
   }, [hideScrollbar]);
 
   useEffect(() => {
-    if (scrollingOverlap === viewSettings.scrollingOverlap) return;
+    if (scrollingOverlap === edited.scrollingOverlap) return;
     saveViewSettings(envConfig, bookKey, 'scrollingOverlap', scrollingOverlap, false, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scrollingOverlap]);
@@ -275,7 +273,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
   }, [autohideCursor]);
 
   useEffect(() => {
-    if (viewSettings.allowScript === allowScript) return;
+    if (edited.allowScript === allowScript) return;
     saveViewSettings(envConfig, bookKey, 'allowScript', allowScript, true, false).then(() => {
       recreateViewer(envConfig, bookKey);
     });

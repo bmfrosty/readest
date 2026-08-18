@@ -42,6 +42,7 @@ import CodeHighlightingSettings from './theme/CodeHighlightingSettings';
 import ReadingRulerSettings from './theme/ReadingRulerSettings';
 import { Toggle } from '../primitives/toggle';
 import LibrarySettings from './theme/LibrarySettings';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
@@ -51,6 +52,7 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
   const { settings, setSettings, saveSettings } = useSettingsStore();
   const { getView, getViewSettings } = useReaderStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const { edited } = useEditedViewSettings(bookKey);
   const scopedLabel = useScopedLabel();
 
   // The Background Image picker edits one of two scopes (issue #5306): the
@@ -70,19 +72,17 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
   const currentBackgroundOpacity = currentBackground.backgroundOpacity;
   const currentBackgroundSize = currentBackground.backgroundSize;
 
-  const [invertImgColorInDark, setInvertImgColorInDark] = useState(
-    viewSettings.invertImgColorInDark,
-  );
+  const [invertImgColorInDark, setInvertImgColorInDark] = useState(edited.invertImgColorInDark);
   const [editTheme, setEditTheme] = useState<CustomTheme | null>(null);
   const [customThemes, setCustomThemes] = useState<Theme[]>([]);
   const [showCustomThemeEditor, setShowCustomThemeEditor] = useState(false);
-  const [overrideColor, setOverrideColor] = useState(viewSettings.overrideColor);
-  const [codeHighlighting, setcodeHighlighting] = useState(viewSettings.codeHighlighting);
-  const [codeLanguage, setCodeLanguage] = useState(viewSettings.codeLanguage);
+  const [overrideColor, setOverrideColor] = useState(edited.overrideColor);
+  const [codeHighlighting, setcodeHighlighting] = useState(edited.codeHighlighting);
+  const [codeLanguage, setCodeLanguage] = useState(edited.codeLanguage);
   const [selectedTextureId, setSelectedTextureId] = useState(currentTextureId);
   const [backgroundOpacity, setBackgroundOpacity] = useState(currentBackgroundOpacity);
   const [backgroundSize, setBackgroundSize] = useState(currentBackgroundSize);
-  const [highlightOpacity, setHighlightOpacity] = useState(viewSettings.highlightOpacity ?? 0.3);
+  const [highlightOpacity, setHighlightOpacity] = useState(edited.highlightOpacity ?? 0.3);
   const [customHighlightColors, setCustomHighlightColors] = useState(
     settings.globalReadSettings.customHighlightColors,
   );
@@ -93,10 +93,10 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
     Partial<Record<DefaultHighlightColor, string>>
   >(settings.globalReadSettings.defaultHighlightLabels ?? {});
 
-  const [readingRulerEnabled, setReadingRulerEnabled] = useState(viewSettings.readingRulerEnabled);
-  const [readingRulerLines, setReadingRulerLines] = useState(viewSettings.readingRulerLines);
-  const [readingRulerOpacity, setReadingRulerOpacity] = useState(viewSettings.readingRulerOpacity);
-  const [readingRulerColor, setReadingRulerColor] = useState(viewSettings.readingRulerColor);
+  const [readingRulerEnabled, setReadingRulerEnabled] = useState(edited.readingRulerEnabled);
+  const [readingRulerLines, setReadingRulerLines] = useState(edited.readingRulerLines);
+  const [readingRulerOpacity, setReadingRulerOpacity] = useState(edited.readingRulerOpacity);
+  const [readingRulerColor, setReadingRulerColor] = useState(edited.readingRulerColor);
 
   const [skeuomorphicCovers, setSkeuomorphicCovers] = useState(settings.librarySkeuomorphicCovers);
 
@@ -168,19 +168,19 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
   }, [loadCustomTextures, envConfig]);
 
   useEffect(() => {
-    if (invertImgColorInDark === viewSettings.invertImgColorInDark) return;
+    if (invertImgColorInDark === edited.invertImgColorInDark) return;
     saveViewSettings(envConfig, bookKey, 'invertImgColorInDark', invertImgColorInDark);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [invertImgColorInDark]);
 
   useEffect(() => {
-    if (overrideColor === viewSettings.overrideColor) return;
+    if (overrideColor === edited.overrideColor) return;
     saveViewSettings(envConfig, bookKey, 'overrideColor', overrideColor);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [overrideColor]);
 
   useEffect(() => {
-    if (highlightOpacity === viewSettings.highlightOpacity) return;
+    if (highlightOpacity === edited.highlightOpacity) return;
     saveViewSettings(envConfig, bookKey, 'highlightOpacity', highlightOpacity);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [highlightOpacity]);

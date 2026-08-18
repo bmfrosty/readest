@@ -29,6 +29,7 @@ import {
 } from './primitives';
 import NumberInput from './NumberInput';
 import { Toggle } from '../primitives/toggle';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
@@ -39,61 +40,54 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   const { setViewSettings, recreateViewer } = useReaderStore();
   const { getBookData } = useBookDataStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const { edited } = useEditedViewSettings(bookKey);
   const scopedLabel = useScopedLabel();
 
   const view = getView(bookKey);
   const bookData = getBookData(bookKey);
   const gridInsets = getGridInsets(bookKey) || { top: 0, bottom: 0, left: 0, right: 0 };
 
-  const [paragraphMargin, setParagraphMargin] = useState(viewSettings.paragraphMargin);
-  const [lineHeight, setLineHeight] = useState(viewSettings.lineHeight);
-  const [wordSpacing, setWordSpacing] = useState(viewSettings.wordSpacing);
-  const [letterSpacing, setLetterSpacing] = useState(viewSettings.letterSpacing);
-  const [textIndent, setTextIndent] = useState(viewSettings.textIndent!);
-  const [fullJustification, setFullJustification] = useState(viewSettings.fullJustification);
-  const [hyphenation, setHyphenation] = useState(viewSettings.hyphenation);
-  const [marginTopPx, setMarginTopPx] = useState(viewSettings.marginPx || viewSettings.marginTopPx);
-  const [marginBottomPx, setMarginBottomPx] = useState(viewSettings.marginBottomPx);
-  const [marginLeftPx, setMarginLeftPx] = useState(viewSettings.marginLeftPx);
-  const [marginRightPx, setMarginRightPx] = useState(viewSettings.marginRightPx);
+  const [paragraphMargin, setParagraphMargin] = useState(edited.paragraphMargin);
+  const [lineHeight, setLineHeight] = useState(edited.lineHeight);
+  const [wordSpacing, setWordSpacing] = useState(edited.wordSpacing);
+  const [letterSpacing, setLetterSpacing] = useState(edited.letterSpacing);
+  const [textIndent, setTextIndent] = useState(edited.textIndent!);
+  const [fullJustification, setFullJustification] = useState(edited.fullJustification);
+  const [hyphenation, setHyphenation] = useState(edited.hyphenation);
+  const [marginTopPx, setMarginTopPx] = useState(edited.marginPx || viewSettings.marginTopPx);
+  const [marginBottomPx, setMarginBottomPx] = useState(edited.marginBottomPx);
+  const [marginLeftPx, setMarginLeftPx] = useState(edited.marginLeftPx);
+  const [marginRightPx, setMarginRightPx] = useState(edited.marginRightPx);
   const [compactMarginTopPx, setCompactMarginTopPx] = useState(
-    viewSettings.compactMarginPx || viewSettings.compactMarginTopPx,
+    edited.compactMarginPx || viewSettings.compactMarginTopPx,
   );
-  const [compactMarginBottomPx, setCompactMarginBottomPx] = useState(
-    viewSettings.compactMarginBottomPx,
-  );
-  const [gapPercent, setGapPercent] = useState(viewSettings.gapPercent);
-  const [compactMarginLeftPx, setCompactMarginLeftPx] = useState(viewSettings.compactMarginLeftPx);
-  const [compactMarginRightPx, setCompactMarginRightPx] = useState(
-    viewSettings.compactMarginRightPx,
-  );
-  const [maxColumnCount, setMaxColumnCount] = useState(viewSettings.maxColumnCount);
-  const [maxInlineSize, setMaxInlineSize] = useState(viewSettings.maxInlineSize);
-  const [maxBlockSize, setMaxBlockSize] = useState(viewSettings.maxBlockSize);
-  const [writingMode, setWritingMode] = useState(viewSettings.writingMode);
-  const [overrideLayout, setOverrideLayout] = useState(viewSettings.overrideLayout);
-  const [useBookLayout, setUseBookLayout] = useState(viewSettings.useBookLayout);
-  const [doubleBorder, setDoubleBorder] = useState(viewSettings.doubleBorder);
-  const [borderColor, setBorderColor] = useState(viewSettings.borderColor);
-  const [showHeader, setShowHeader] = useState(viewSettings.showHeader);
-  const [showFooter, setShowFooter] = useState(viewSettings.showFooter);
-  const [showRemainingTime, setShowRemainingTime] = useState(viewSettings.showRemainingTime);
-  const [showRemainingPages, setShowRemainingPages] = useState(viewSettings.showRemainingPages);
-  const [showProgressInfo, setShowProgressInfo] = useState(viewSettings.showProgressInfo);
-  const [showStickyProgressBar, setShowStickyProgressBar] = useState(
-    viewSettings.showStickyProgressBar,
-  );
-  const [showCurrentTime, setShowCurrentTime] = useState(viewSettings.showCurrentTime);
-  const [use24HourClock, setUse24HourClock] = useState(viewSettings.use24HourClock);
+  const [compactMarginBottomPx, setCompactMarginBottomPx] = useState(edited.compactMarginBottomPx);
+  const [gapPercent, setGapPercent] = useState(edited.gapPercent);
+  const [compactMarginLeftPx, setCompactMarginLeftPx] = useState(edited.compactMarginLeftPx);
+  const [compactMarginRightPx, setCompactMarginRightPx] = useState(edited.compactMarginRightPx);
+  const [maxColumnCount, setMaxColumnCount] = useState(edited.maxColumnCount);
+  const [maxInlineSize, setMaxInlineSize] = useState(edited.maxInlineSize);
+  const [maxBlockSize, setMaxBlockSize] = useState(edited.maxBlockSize);
+  const [writingMode, setWritingMode] = useState(edited.writingMode);
+  const [overrideLayout, setOverrideLayout] = useState(edited.overrideLayout);
+  const [useBookLayout, setUseBookLayout] = useState(edited.useBookLayout);
+  const [doubleBorder, setDoubleBorder] = useState(edited.doubleBorder);
+  const [borderColor, setBorderColor] = useState(edited.borderColor);
+  const [showHeader, setShowHeader] = useState(edited.showHeader);
+  const [showFooter, setShowFooter] = useState(edited.showFooter);
+  const [showRemainingTime, setShowRemainingTime] = useState(edited.showRemainingTime);
+  const [showRemainingPages, setShowRemainingPages] = useState(edited.showRemainingPages);
+  const [showProgressInfo, setShowProgressInfo] = useState(edited.showProgressInfo);
+  const [showStickyProgressBar, setShowStickyProgressBar] = useState(edited.showStickyProgressBar);
+  const [showCurrentTime, setShowCurrentTime] = useState(edited.showCurrentTime);
+  const [use24HourClock, setUse24HourClock] = useState(edited.use24HourClock);
   const [showCurrentBatteryStatus, setShowCurrentBatteryStatus] = useState(
-    viewSettings.showCurrentBatteryStatus,
+    edited.showCurrentBatteryStatus,
   );
-  const [showBatteryPercentage, setShowBatteryPercentage] = useState(
-    viewSettings.showBatteryPercentage,
-  );
-  const [progressStyle, setProgressStyle] = useState(viewSettings.progressStyle);
-  const [referencePageCount, setReferencePageCount] = useState(viewSettings.referencePageCount);
-  const [screenOrientation, setScreenOrientation] = useState(viewSettings.screenOrientation);
+  const [showBatteryPercentage, setShowBatteryPercentage] = useState(edited.showBatteryPercentage);
+  const [progressStyle, setProgressStyle] = useState(edited.progressStyle);
+  const [referencePageCount, setReferencePageCount] = useState(edited.referencePageCount);
+  const [screenOrientation, setScreenOrientation] = useState(edited.screenOrientation);
 
   const resetToDefaults = useResetViewSettings();
 
@@ -176,8 +170,8 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [hyphenation]);
 
   useEffect(() => {
-    if (marginTopPx === viewSettings.marginTopPx) return;
-    if (viewSettings.marginPx !== undefined) {
+    if (marginTopPx === edited.marginTopPx) return;
+    if (edited.marginPx !== undefined) {
       saveViewSettings(envConfig, bookKey, 'marginPx', undefined, false, false);
     }
     saveViewSettings(envConfig, bookKey, 'marginTopPx', marginTopPx, false, false);
@@ -185,8 +179,8 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [marginTopPx]);
 
   useEffect(() => {
-    if (marginBottomPx === viewSettings.marginBottomPx) return;
-    if (viewSettings.marginPx !== undefined) {
+    if (marginBottomPx === edited.marginBottomPx) return;
+    if (edited.marginPx !== undefined) {
       saveViewSettings(envConfig, bookKey, 'marginPx', undefined, false, false);
     }
     saveViewSettings(envConfig, bookKey, 'marginBottomPx', marginBottomPx, false, false);
@@ -194,8 +188,8 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [marginBottomPx]);
 
   useEffect(() => {
-    if (marginRightPx === viewSettings.marginRightPx) return;
-    if (viewSettings.marginPx !== undefined) {
+    if (marginRightPx === edited.marginRightPx) return;
+    if (edited.marginPx !== undefined) {
       saveViewSettings(envConfig, bookKey, 'marginPx', undefined, false, false);
     }
     saveViewSettings(envConfig, bookKey, 'marginRightPx', marginRightPx, false, false);
@@ -203,8 +197,8 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [marginRightPx]);
 
   useEffect(() => {
-    if (marginLeftPx === viewSettings.marginLeftPx) return;
-    if (viewSettings.marginPx !== undefined) {
+    if (marginLeftPx === edited.marginLeftPx) return;
+    if (edited.marginPx !== undefined) {
       saveViewSettings(envConfig, bookKey, 'marginPx', undefined, false, false);
     }
     saveViewSettings(envConfig, bookKey, 'marginLeftPx', marginLeftPx, false, false);
@@ -212,8 +206,8 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [marginLeftPx]);
 
   useEffect(() => {
-    if (compactMarginTopPx === viewSettings.compactMarginTopPx) return;
-    if (viewSettings.compactMarginPx !== undefined) {
+    if (compactMarginTopPx === edited.compactMarginTopPx) return;
+    if (edited.compactMarginPx !== undefined) {
       saveViewSettings(envConfig, bookKey, 'compactMarginPx', undefined, false, false);
     }
     saveViewSettings(envConfig, bookKey, 'compactMarginTopPx', compactMarginTopPx, false, false);
@@ -221,8 +215,8 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [compactMarginTopPx]);
 
   useEffect(() => {
-    if (compactMarginBottomPx === viewSettings.compactMarginBottomPx) return;
-    if (viewSettings.compactMarginPx !== undefined) {
+    if (compactMarginBottomPx === edited.compactMarginBottomPx) return;
+    if (edited.compactMarginPx !== undefined) {
       saveViewSettings(envConfig, bookKey, 'compactMarginPx', undefined, false, false);
     }
     saveViewSettings(
@@ -237,8 +231,8 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [compactMarginBottomPx]);
 
   useEffect(() => {
-    if (compactMarginRightPx === viewSettings.compactMarginRightPx) return;
-    if (viewSettings.compactMarginPx !== undefined) {
+    if (compactMarginRightPx === edited.compactMarginRightPx) return;
+    if (edited.compactMarginPx !== undefined) {
       saveViewSettings(envConfig, bookKey, 'compactMarginPx', undefined, false, false);
     }
     saveViewSettings(
@@ -253,8 +247,8 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [compactMarginRightPx]);
 
   useEffect(() => {
-    if (compactMarginLeftPx === viewSettings.compactMarginLeftPx) return;
-    if (viewSettings.compactMarginPx !== undefined) {
+    if (compactMarginLeftPx === edited.compactMarginLeftPx) return;
+    if (edited.compactMarginPx !== undefined) {
       saveViewSettings(envConfig, bookKey, 'compactMarginPx', undefined, false, false);
     }
     saveViewSettings(envConfig, bookKey, 'compactMarginLeftPx', compactMarginLeftPx, false, false);
@@ -262,7 +256,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [compactMarginLeftPx]);
 
   useEffect(() => {
-    if (gapPercent === viewSettings.gapPercent) return;
+    if (gapPercent === edited.gapPercent) return;
     saveViewSettings(envConfig, bookKey, 'gapPercent', gapPercent, false, false);
     view?.renderer.setAttribute('gap', `${gapPercent}%`);
     if (viewSettings.scrolled) {
@@ -272,7 +266,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [gapPercent]);
 
   useEffect(() => {
-    if (maxColumnCount === viewSettings.maxColumnCount) return;
+    if (maxColumnCount === edited.maxColumnCount) return;
     saveViewSettings(envConfig, bookKey, 'maxColumnCount', maxColumnCount, false, false);
     const newViewSettings = getViewSettings(bookKey)!;
     view?.renderer.setAttribute('max-column-count', maxColumnCount);
@@ -281,7 +275,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [maxColumnCount]);
 
   useEffect(() => {
-    if (maxInlineSize === viewSettings.maxInlineSize) return;
+    if (maxInlineSize === edited.maxInlineSize) return;
     saveViewSettings(envConfig, bookKey, 'maxInlineSize', maxInlineSize, false, false);
     const newViewSettings = getViewSettings(bookKey)!;
     view?.renderer.setAttribute('max-inline-size', `${getMaxInlineSize(newViewSettings)}px`);
@@ -289,14 +283,14 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [maxInlineSize]);
 
   useEffect(() => {
-    if (maxBlockSize === viewSettings.maxBlockSize) return;
+    if (maxBlockSize === edited.maxBlockSize) return;
     saveViewSettings(envConfig, bookKey, 'maxBlockSize', maxBlockSize, false, false);
     view?.renderer.setAttribute('max-block-size', `${maxBlockSize}px`);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxBlockSize]);
 
   useEffect(() => {
-    if (writingMode === viewSettings.writingMode) return;
+    if (writingMode === edited.writingMode) return;
     // global settings are not supported for writing mode
     const prevWritingMode = viewSettings.writingMode;
     if (writingMode.includes('vertical')) {
@@ -322,19 +316,19 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [writingMode]);
 
   useEffect(() => {
-    if (overrideLayout === viewSettings.overrideLayout) return;
+    if (overrideLayout === edited.overrideLayout) return;
     saveViewSettings(envConfig, bookKey, 'overrideLayout', overrideLayout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [overrideLayout]);
 
   useEffect(() => {
-    if (useBookLayout === viewSettings.useBookLayout) return;
+    if (useBookLayout === edited.useBookLayout) return;
     saveViewSettings(envConfig, bookKey, 'useBookLayout', useBookLayout);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [useBookLayout]);
 
   useEffect(() => {
-    if (doubleBorder === viewSettings.doubleBorder) return;
+    if (doubleBorder === edited.doubleBorder) return;
     saveViewSettings(envConfig, bookKey, 'doubleBorder', doubleBorder, false, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [doubleBorder]);
@@ -416,7 +410,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [referencePageCount]);
 
   useEffect(() => {
-    if (showHeader === viewSettings.showHeader) return;
+    if (showHeader === edited.showHeader) return;
     if (showHeader && !viewSettings.vertical) {
       const minMarginTop = Math.max(0, Math.round((44 - gridInsets.top) / 4) * 4);
       viewSettings.marginTopPx = Math.max(viewSettings.marginTopPx, minMarginTop);
@@ -429,7 +423,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   }, [showHeader]);
 
   useEffect(() => {
-    if (showFooter === viewSettings.showFooter) return;
+    if (showFooter === edited.showFooter) return;
     if (showFooter && !viewSettings.vertical) {
       const minMarginBottom = Math.max(0, Math.round((44 - gridInsets.bottom) / 4) * 4);
       viewSettings.marginBottomPx = Math.max(viewSettings.marginBottomPx, minMarginBottom);
