@@ -35,7 +35,7 @@ import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
-  const scopeTag = useScopeTags();
+  const scopeTag = useScopeTags(bookKey);
   const { token } = useAuth();
   const { envConfig } = useEnv();
   const { settings, applyUILanguage, activeSettingsItemId, setActiveSettingsItemId } =

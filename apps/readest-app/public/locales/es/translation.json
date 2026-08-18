@@ -2167,5 +2167,6 @@
   "This book only": "Solo este libro",
   "Whole app": "Toda la aplicación",
   "Changed from the default — reset it": "Modificado respecto al predeterminado — restablecer",
-  "This book overrides it": "Este libro lo anula"
+  "This book overrides it": "Este libro lo anula",
+  "Open a book to change this": "Abre un libro para cambiar esto"
 }

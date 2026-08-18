@@ -2111,5 +2111,6 @@
   "This book only": "Csak ez a könyv",
   "Whole app": "Az egész alkalmazás",
   "Changed from the default — reset it": "Eltér az alapértelmezéstől — visszaállítás",
-  "This book overrides it": "Ez a könyv felülírja"
+  "This book overrides it": "Ez a könyv felülírja",
+  "Open a book to change this": "Nyisson meg egy könyvet a módosításhoz"
 }

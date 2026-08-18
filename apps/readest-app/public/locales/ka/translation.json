@@ -2164,5 +2164,6 @@
   "This book only": "მხოლოდ ეს წიგნი",
   "Whole app": "მთელი აპლიკაცია",
   "Changed from the default — reset it": "შეცვლილია ნაგულისხმევიდან — დააბრუნეთ",
-  "This book overrides it": "ეს წიგნი გადაფარავს მას"
+  "This book overrides it": "ეს წიგნი გადაფარავს მას",
+  "Open a book to change this": "გასახსნელად გახსენით წიგნი"
 }

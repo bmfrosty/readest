@@ -2223,5 +2223,6 @@
   "This book only": "Только эта книга",
   "Whole app": "Всё приложение",
   "Changed from the default — reset it": "Изменено относительно значения по умолчанию — сбросить",
-  "This book overrides it": "Эта книга переопределяет его"
+  "This book overrides it": "Эта книга переопределяет его",
+  "Open a book to change this": "Откройте книгу, чтобы изменить это"
 }

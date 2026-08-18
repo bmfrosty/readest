@@ -33,7 +33,7 @@ import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
-  const scopeTag = useScopeTags();
+  const scopeTag = useScopeTags(bookKey);
   const { envConfig, appService } = useEnv();
   const { settings } = useSettingsStore();
   const { getView, getViewSettings, getGridInsets } = useReaderStore();
@@ -468,6 +468,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
             <button
               title={_('Default')}
               className={`btn btn-ghost btn-circle btn-sm ${writingMode === 'auto' ? 'btn-active bg-base-300' : ''}`}
+              disabled={!bookKey}
               onClick={() => setWritingMode('auto')}
             >
               <MdOutlineAutoMode />
@@ -476,6 +477,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
             <button
               title={_('Horizontal Direction')}
               className={`btn btn-ghost btn-circle btn-sm ${writingMode === 'horizontal-tb' ? 'btn-active bg-base-300' : ''}`}
+              disabled={!bookKey}
               onClick={() => setWritingMode('horizontal-tb')}
             >
               <MdOutlineTextRotationNone />
@@ -484,6 +486,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
             <button
               title={_('Vertical Direction')}
               className={`btn btn-ghost btn-circle btn-sm ${writingMode === 'vertical-rl' ? 'btn-active bg-base-300' : ''}`}
+              disabled={!bookKey}
               onClick={() => setWritingMode('vertical-rl')}
             >
               <MdTextRotateVertical />
@@ -492,6 +495,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
             <button
               title={_('RTL Direction')}
               className={`btn btn-ghost btn-circle btn-sm ${writingMode === 'horizontal-rl' ? 'btn-active bg-base-300' : ''}`}
+              disabled={!bookKey}
               onClick={() => setWritingMode('horizontal-rl')}
             >
               <TbTextDirectionRtl />
@@ -772,7 +776,8 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
             label={scopeTag.alwaysBook(_('Reference Page Count'))}
             value={referencePageCount}
             onChange={setReferencePageCount}
-            disabled={!showProgressInfo}
+            // Saved with skipGlobal, so it has nowhere to go without a book.
+            disabled={!showProgressInfo || !bookKey}
             min={0}
             max={10000}
             data-setting-id='settings.layout.referencePageCount'

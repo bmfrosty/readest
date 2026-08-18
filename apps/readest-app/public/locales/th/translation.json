@@ -2055,5 +2055,6 @@
   "This book only": "เฉพาะหนังสือเล่มนี้",
   "Whole app": "ทั้งแอป",
   "Changed from the default — reset it": "เปลี่ยนจากค่าเริ่มต้น — รีเซ็ต",
-  "This book overrides it": "หนังสือเล่มนี้แทนที่ค่านี้"
+  "This book overrides it": "หนังสือเล่มนี้แทนที่ค่านี้",
+  "Open a book to change this": "เปิดหนังสือเพื่อเปลี่ยนค่านี้"
 }

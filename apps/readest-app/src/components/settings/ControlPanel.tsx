@@ -32,7 +32,7 @@ import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
-  const scopeTag = useScopeTags();
+  const scopeTag = useScopeTags(bookKey);
   const { envConfig, appService } = useEnv();
   const { getView, getViews, getViewSettings, recreateViewer } = useReaderStore();
   const { getBookData } = useBookDataStore();

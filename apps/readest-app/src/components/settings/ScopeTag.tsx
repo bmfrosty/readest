@@ -36,19 +36,28 @@ export default ScopeTag;
  * these here lets a leaf component tag a row without pulling in the settings
  * and reader stores.
  *
+ * Pass the panel's `bookKey` so `alwaysBook` can tell the library apart, where
+ * those settings have nothing to write to. Leaf components that only need
+ * `appWide` can omit it.
+ *
  * ```tsx
- * const tag = useScopeTags();
+ * const tag = useScopeTags(bookKey);
  * label={tag.alwaysBook(_('Allow Scripts'))}   // saved with skipGlobal
  * label={tag.appWide(_('Telemetry'))}          // saved via saveSysSettings
  * ```
  */
-export const useScopeTags = () => {
+export const useScopeTags = (bookKey?: string) => {
   const _ = useTranslation();
+  // A `skipGlobal` write matches neither branch of saveViewSettings when there
+  // is no bookKey, so in the library these controls save nothing at all. Say
+  // so, and let the caller disable them, rather than claim "this book only"
+  // when there is no book.
+  const hasBook = bookKey === undefined || !!bookKey;
   return {
     alwaysBook: (label: React.ReactNode): React.ReactNode => (
       <>
         {label}
-        <ScopeTag text={_('This book only')} />
+        <ScopeTag text={hasBook ? _('This book only') : _('Open a book to change this')} />
       </>
     ),
     appWide: (label: React.ReactNode): React.ReactNode => (

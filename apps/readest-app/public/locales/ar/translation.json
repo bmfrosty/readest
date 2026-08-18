@@ -2335,5 +2335,6 @@
   "This book only": "هذا الكتاب فقط",
   "Whole app": "التطبيق بأكمله",
   "Changed from the default — reset it": "تم التغيير عن الإعداد الافتراضي — أعد تعيينه",
-  "This book overrides it": "هذا الكتاب يتجاوزه"
+  "This book overrides it": "هذا الكتاب يتجاوزه",
+  "Open a book to change this": "افتح كتابًا لتغيير هذا"
 }

@@ -312,9 +312,34 @@ describe('scope tags on rows the banner does not govern', () => {
     expect(screen.getByText('Whole app')).toBeTruthy();
   });
 
-  it('keeps the tags in the library, where there is no book at all', () => {
+  it('keeps the app-wide tag in the library, where there is no book at all', () => {
     seed(null, {});
     renderScoped('', <Tagged kind='appWide' />);
     expect(screen.getByText('Whole app')).toBeTruthy();
+  });
+
+  it('does not claim "this book only" in the library, where there is no book', () => {
+    // A skipGlobal write matches neither branch of saveViewSettings without a
+    // bookKey, so these controls save nothing there. Claiming "this book only"
+    // pointed at a book that does not exist.
+    const NoBook = () => {
+      const scopeTag = useScopeTags('');
+      return <div>{scopeTag.alwaysBook('Reference Page Count')}</div>;
+    };
+    seed(null, {});
+    renderScoped('', <NoBook />);
+
+    expect(screen.queryByText('This book only')).toBeNull();
+    expect(screen.getByText('Open a book to change this')).toBeTruthy();
+  });
+
+  it('still says "this book only" when a book is open', () => {
+    const WithBook = () => {
+      const scopeTag = useScopeTags(BOOK);
+      return <div>{scopeTag.alwaysBook('Reference Page Count')}</div>;
+    };
+    renderScoped(BOOK, <WithBook />);
+
+    expect(screen.getByText('This book only')).toBeTruthy();
   });
 });

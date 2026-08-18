@@ -2111,5 +2111,6 @@
   "This book only": "Yalnızca bu kitap",
   "Whole app": "Tüm uygulama",
   "Changed from the default — reset it": "Varsayılandan değiştirildi — sıfırla",
-  "This book overrides it": "Bu kitap bunu geçersiz kılıyor"
+  "This book overrides it": "Bu kitap bunu geçersiz kılıyor",
+  "Open a book to change this": "Bunu değiştirmek için bir kitap açın"
 }

@@ -2055,5 +2055,6 @@
   "This book only": "དཔེ་དེབ་འདི་ཁོ་ན།",
   "Whole app": "ཉེར་སྤྱོད་ཡོངས།",
   "Changed from the default — reset it": "སྔོན་སྒྲིག་ལས་བསྒྱུར་ཟིན། — བསྐྱར་སྒྲིག",
-  "This book overrides it": "དཔེ་དེབ་འདིས་བརྗེ་བཅོས་བྱས།"
+  "This book overrides it": "དཔེ་དེབ་འདིས་བརྗེ་བཅོས་བྱས།",
+  "Open a book to change this": "འདི་བསྒྱུར་བར་དཔེ་དེབ་ཅིག་ཁ་ཕྱེ།"
 }

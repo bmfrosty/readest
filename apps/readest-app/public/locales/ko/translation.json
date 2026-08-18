@@ -2055,5 +2055,6 @@
   "This book only": "이 책만",
   "Whole app": "앱 전체",
   "Changed from the default — reset it": "기본값에서 변경됨 — 재설정",
-  "This book overrides it": "이 책이 재정의합니다"
+  "This book overrides it": "이 책이 재정의합니다",
+  "Open a book to change this": "변경하려면 책을 여세요"
 }

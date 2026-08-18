@@ -2055,5 +2055,6 @@
   "This book only": "この書籍のみ",
   "Whole app": "アプリ全体",
   "Changed from the default — reset it": "デフォルトから変更済み — 元に戻す",
-  "This book overrides it": "この書籍が上書きしています"
+  "This book overrides it": "この書籍が上書きしています",
+  "Open a book to change this": "変更するには書籍を開いてください"
 }
