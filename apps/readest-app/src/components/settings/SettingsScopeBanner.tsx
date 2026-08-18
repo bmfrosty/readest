@@ -31,9 +31,11 @@ const SettingsScopeBanner: React.FC = () => {
     <div
       className={clsx(
         'eink-bordered mb-1 flex w-full items-center gap-2 rounded-lg px-2.5 py-1',
-        // The book scope is the surprising one, so it is the one that gets a
-        // tint. Global stays a plain View-tier surface (DESIGN.md §3).
-        isGlobal ? 'bg-base-200/40' : 'bg-warning/10',
+        // Both scopes are tinted, by reach rather than by surprise: amber for a
+        // change confined to one book, red for one that lands on the whole
+        // library. Kept at /10 so it reads as a status wash on a settings
+        // surface, not as a destructive control (DESIGN.md §4.6).
+        isGlobal ? 'bg-error/10' : 'bg-warning/10',
       )}
     >
       <ScopeIcon className='text-base-content/70 h-4 w-4 shrink-0' aria-hidden='true' />
