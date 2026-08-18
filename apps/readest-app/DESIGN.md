@@ -454,6 +454,16 @@ inherits. Note the dialog holds two resets: the overflow menu's **Reset Settings
 *factory* defaults, the badge's ↺ restores whatever the current scope inherits. Word them so
 they cannot be confused.
 
+**Never let colour be the signal.** The scope banner is tinted by reach — amber for one
+book, red for the whole library — but red against amber is the worst pair for deutan and
+protan vision, roughly 8% of men. So the tint only ever reinforces: the icon (globe vs
+book), the sentence, and the pressed segment each state the scope on their own, per WCAG
+1.4.1. Where two states must be told apart at a glance, separate them on more than hue —
+lightness and shape both survive colour-vision deficiency, and a small area of saturated
+colour reads better than a large pale wash. E-ink mode is the cheap test: flip it on, and
+if the two states are still distinguishable when every tint flattens to the same grey, the
+design does not depend on colour.
+
 **One signal per question.** In global scope a book can still hold its own value for a row,
 masking the global value on display. That is not "you moved this", so it gets its own quiet
 chip rather than being folded into the badge.

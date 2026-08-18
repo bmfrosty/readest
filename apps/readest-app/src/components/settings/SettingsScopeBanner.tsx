@@ -30,12 +30,21 @@ const SettingsScopeBanner: React.FC = () => {
   return (
     <div
       className={clsx(
-        'eink-bordered mb-1 flex w-full items-center gap-2 rounded-lg px-2.5 py-1',
-        // Both scopes are tinted, by reach rather than by surprise: amber for a
-        // change confined to one book, red for one that lands on the whole
-        // library. Kept at /10 so it reads as a status wash on a settings
-        // surface, not as a destructive control (DESIGN.md §4.6).
-        isGlobal ? 'bg-error/10' : 'bg-warning/10',
+        'eink-bordered mb-1 flex w-full items-center gap-2 rounded-lg border-s-4 px-2.5 py-1',
+        // Tinted by reach: amber for a change confined to one book, red for one
+        // that lands on the whole library.
+        //
+        // Red against amber is the worst possible pair for deutan and protan
+        // vision (~8% of men), and at a /10 wash it is hard for anyone. So the
+        // two differ on three axes, not one: hue, lightness (red carries twice
+        // the wash), and a saturated inline-start bar, where a small area of
+        // strong colour reads far better than a large pale one.
+        //
+        // Colour is never the signal here regardless — the icon (globe vs
+        // book), the sentence, and the pressed segment each state the scope on
+        // their own, per WCAG 1.4.1. Confirm that by toggling e-ink, where both
+        // washes flatten to the same grey.
+        isGlobal ? 'border-error bg-error/20' : 'border-warning bg-warning/10',
       )}
     >
       <ScopeIcon className='text-base-content/70 h-4 w-4 shrink-0' aria-hidden='true' />
