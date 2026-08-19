@@ -40,6 +40,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const { envConfig } = useEnv();
   const { settings, applyUILanguage, activeSettingsItemId, setActiveSettingsItemId } =
     useSettingsStore();
+  const { settingsSubPage, setSettingsSubPage } = useSettingsStore();
   const { getView, getViewSettings, setViewSettings, recreateViewer } = useReaderStore();
   const { getBookData } = useBookDataStore();
   const view = getView(bookKey);
@@ -54,8 +55,13 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const [ttsReadAloudText, setTtsReadAloudText] = useState(edited.ttsReadAloudText);
   const [replaceQuotationMarks, setReplaceQuotationMarks] = useState(edited.replaceQuotationMarks);
   const [convertChineseVariant, setConvertChineseVariant] = useState(edited.convertChineseVariant);
-  const [showCustomDictionaries, setShowCustomDictionaries] = useState(false);
-  const [showWordLens, setShowWordLens] = useState(false);
+  // Held in the store, not here: a scope switch remounts this panel and local
+  // state would not survive it. Where you are is not a scoped value.
+  const showCustomDictionaries = settingsSubPage === 'dictionaries';
+  const showWordLens = settingsSubPage === 'word-lens';
+  const setShowCustomDictionaries = (open: boolean) =>
+    setSettingsSubPage(open ? 'dictionaries' : null);
+  const setShowWordLens = (open: boolean) => setSettingsSubPage(open ? 'word-lens' : null);
 
   // Translation is unavailable for PDFs and for books already in the target
   // language (issue #5600). The reader toolbar's toggler has always refused

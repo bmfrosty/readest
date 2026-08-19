@@ -93,6 +93,8 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
   const [canScrollTabsForward, setCanScrollTabsForward] = useState(false);
   const {
     setFontPanelView,
+    setSettingsSubPage,
+    setEditThemeName,
     setSettingsDialogOpen,
     activeSettingsItemId,
     setActiveSettingsItemId,
@@ -179,9 +181,15 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const resetSubPages = () => {
+    setFontPanelView('main-fonts');
+    setSettingsSubPage(null);
+    setEditThemeName(null);
+  };
+
   const handleSetActivePanel = (tab: SettingsPanelType) => {
     setActivePanel(tab);
-    setFontPanelView('main-fonts');
+    resetSubPages();
     localStorage.setItem('lastConfigPanel', tab);
   };
 
@@ -190,7 +198,7 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
   useEffect(() => {
     if (activePanelRef.current !== activePanel) {
       activePanelRef.current = activePanel;
-      setFontPanelView('main-fonts');
+      resetSubPages();
       localStorage.setItem('lastConfigPanel', activePanel);
     }
   }, [activePanel, setFontPanelView]);
@@ -267,7 +275,7 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
   }, [activeSettingsItemId, activePanel, setActiveSettingsItemId]);
 
   useEffect(() => {
-    setFontPanelView('main-fonts');
+    resetSubPages();
 
     const container = tabsRef.current;
     if (!container) return;

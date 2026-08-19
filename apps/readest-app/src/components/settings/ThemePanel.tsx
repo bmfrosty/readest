@@ -50,6 +50,8 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
     useThemeStore();
   const { envConfig, appService } = useEnv();
   const { settings, setSettings, saveSettings } = useSettingsStore();
+  const { settingsSubPage, setSettingsSubPage, editThemeName, setEditThemeName } =
+    useSettingsStore();
   const { getView, getViewSettings } = useReaderStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
   const { edited } = useEditedViewSettings(bookKey);
@@ -73,9 +75,19 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
   const currentBackgroundSize = currentBackground.backgroundSize;
 
   const [invertImgColorInDark, setInvertImgColorInDark] = useState(edited.invertImgColorInDark);
-  const [editTheme, setEditTheme] = useState<CustomTheme | null>(null);
   const [customThemes, setCustomThemes] = useState<Theme[]>([]);
-  const [showCustomThemeEditor, setShowCustomThemeEditor] = useState(false);
+  // In the store, not here. A scope switch remounts this panel to re-seed its
+  // controls, and local state would take the open editor and its colours with
+  // it. Custom themes are app-wide, so a scope switch has no business closing
+  // the editor at all. The theme is held by NAME and re-derived, so the store
+  // keeps a key rather than a copy of the data.
+  const showCustomThemeEditor = settingsSubPage === 'theme-editor';
+  const editTheme =
+    settings.globalReadSettings.customThemes?.find((t) => t.name === editThemeName) ?? null;
+  const setShowCustomThemeEditor = (open: boolean) => {
+    setSettingsSubPage(open ? 'theme-editor' : null);
+    if (!open) setEditThemeName(null);
+  };
   const [overrideColor, setOverrideColor] = useState(edited.overrideColor);
   const [codeHighlighting, setcodeHighlighting] = useState(edited.codeHighlighting);
   const [codeLanguage, setCodeLanguage] = useState(edited.codeLanguage);
@@ -314,10 +326,9 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
   };
 
   const handleEditTheme = (name: string) => {
-    const customTheme = settings.globalReadSettings.customThemes.find((t) => t.name === name);
-    if (customTheme) {
-      setEditTheme(customTheme);
-      setShowCustomThemeEditor(true);
+    if (settings.globalReadSettings.customThemes.some((t) => t.name === name)) {
+      setEditThemeName(name);
+      setSettingsSubPage('theme-editor');
     }
   };
 

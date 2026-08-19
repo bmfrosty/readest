@@ -193,3 +193,29 @@ describe('settings controls are seeded from the scope being edited', () => {
     expect(offenders(/if \(.*(===|!==) viewSettings\./)).toEqual([]);
   });
 });
+
+/**
+ * Sub-page position must not be held in a panel. A scope switch remounts the
+ * panels, so local state is destroyed — that is how the custom-theme editor
+ * used to close mid-edit. `fontPanelView` was the one panel that got this
+ * right; the rule now applies to all of them.
+ */
+describe('sub-page position is never held in a panel', () => {
+  it('has no local show-a-sub-page flag in the settings panels', () => {
+    const local = sourceFiles(SETTINGS_DIR).flatMap((file) =>
+      readFileSync(file, 'utf8')
+        .split('\n')
+        .map((line, i) => ({ line: line.trim(), at: `${file.split('/').pop()}:${i + 1}` }))
+        // The sub-page flags that a scope flip used to destroy. Panel-local
+        // booleans that merely toggle a control (showPaginationButtons, the
+        // header/footer view settings) are not sub-pages and are fine.
+        .filter(({ line }) =>
+          /const \[(showCustomThemeEditor|showCustomDictionaries|showWordLens|showToolbarCustomizer|editTheme)\b/.test(
+            line,
+          ),
+        )
+        .map(({ at }) => at),
+    );
+    expect(local).toEqual([]);
+  });
+});

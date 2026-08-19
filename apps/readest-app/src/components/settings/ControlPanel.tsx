@@ -37,6 +37,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
   const { getView, getViews, getViewSettings, recreateViewer } = useReaderStore();
   const { getBookData } = useBookDataStore();
   const { settings } = useSettingsStore();
+  const { settingsSubPage, setSettingsSubPage } = useSettingsStore();
   const { applyEinkMode } = useEinkMode();
   const bookData = getBookData(bookKey);
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
@@ -57,7 +58,9 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
   );
   const [annotationQuickAction, setAnnotationQuickAction] = useState(edited.annotationQuickAction);
   const [copyToNotebook, setCopyToNotebook] = useState(edited.copyToNotebook);
-  const [showToolbarCustomizer, setShowToolbarCustomizer] = useState(false);
+  // In the store so a scope switch cannot close it — see settingsStore.
+  const showToolbarCustomizer = settingsSubPage === 'toolbar';
+  const setShowToolbarCustomizer = (open: boolean) => setSettingsSubPage(open ? 'toolbar' : null);
   const [animated, setAnimated] = useState(edited.animated);
   const [pageTurnStyle, setPageTurnStyle] = useState(edited.pageTurnStyle || 'push');
   const [isEink, setIsEink] = useState(edited.isEink);
