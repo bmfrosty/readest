@@ -152,3 +152,37 @@ describe('settings rows the scope banner does not govern', () => {
     ]);
   });
 });
+
+/**
+ * Control state must be seeded from the scope being edited, never from the open
+ * book. Seed from the book while the mount guard tests the global and the panel
+ * writes the book's value into the global defaults the moment it opens — which
+ * then replays onto every open book and destroys their values.
+ *
+ * That defect shipped three times on this branch, in four files, and every
+ * mounted-panel test passed each time. The seeds are the thing to police, so
+ * police them directly.
+ *
+ * `book.` is the deliberate exception: settings saved with `skipGlobal` are
+ * per-book whatever the scope says, so they must show the book's value.
+ */
+describe('settings controls are seeded from the scope being edited', () => {
+  const offenders = (re: RegExp) =>
+    sourceFiles(SETTINGS_DIR).flatMap((file) =>
+      readFileSync(file, 'utf8')
+        .split('\n')
+        .map((line, i) => ({ line: line.trim(), at: `${file.split('/').pop()}:${i + 1}` }))
+        .filter(({ line }) => re.test(line))
+        .map(({ line, at }) => `${at}  ${line.slice(0, 80)}`),
+    );
+
+  it('never seeds a control from the open book', () => {
+    // Catches `useState(viewSettings.x)`, the multiline generic form, and the
+    // deprecated-field fallback `useState(edited.a || viewSettings.b)`.
+    expect(offenders(/useState[<(].*viewSettings\./)).toEqual([]);
+  });
+
+  it('never re-syncs a control from the open book after seeding', () => {
+    expect(offenders(/^set[A-Z]\w*\(viewSettings\./)).toEqual([]);
+  });
+});

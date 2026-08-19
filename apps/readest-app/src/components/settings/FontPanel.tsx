@@ -97,10 +97,9 @@ const FontFace = ({
 const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
   const { envConfig, appService } = useEnv();
-  const { getView, getViewSettings } = useReaderStore();
-  const { settings, fontPanelView, setFontPanelView } = useSettingsStore();
+  const { getView } = useReaderStore();
+  const { fontPanelView, setFontPanelView } = useSettingsStore();
   const { fonts: allCustomFonts, getFontFamilies } = useCustomFontStore();
-  const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
   const { edited } = useEditedViewSettings(bookKey);
   const view = getView(bookKey);
   const scopedLabel = useScopedLabel();
@@ -207,10 +206,12 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   }, [allCustomFonts, getFontFamilies]);
 
   useEffect(() => {
-    setSerifFont(viewSettings.serifFont);
-    setSansSerifFont(viewSettings.sansSerifFont);
-    setMonospaceFont(viewSettings.monospaceFont);
-  }, [viewSettings.serifFont, viewSettings.sansSerifFont, viewSettings.monospaceFont]);
+    setSerifFont(edited.serifFont);
+    setSansSerifFont(edited.sansSerifFont);
+    setMonospaceFont(edited.monospaceFont);
+    // Tracks the scope being edited, not the book. Seeding from `edited` and
+    // then re-syncing from the book put the book's faces into the global.
+  }, [edited.serifFont, edited.sansSerifFont, edited.monospaceFont]);
 
   useEffect(() => {
     if (isTauriAppPlatform() && appService && !appService.isAndroidApp) {

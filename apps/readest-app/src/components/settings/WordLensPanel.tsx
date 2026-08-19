@@ -28,6 +28,7 @@ import {
 import SubPageHeader from './SubPageHeader';
 import ColorInput from './theme/ColorInput';
 import { BoxedList, SettingsRow, SettingsSelect, SettingsSwitchRow } from './primitives';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 // Swatch shown for the "default" (muted, theme-adaptive) gloss color, which has
 // no fixed hex of its own. Picking any color overrides; "Default" clears back.
@@ -47,16 +48,17 @@ const WordLensPanel: React.FC<WordLensPanelProps> = ({ bookKey, onBack }) => {
   const { getBookData } = useBookDataStore();
   const { settings, setSettings, saveSettings } = useSettingsStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const { edited } = useEditedViewSettings(bookKey);
   const bookData = getBookData(bookKey);
 
   const appLang = baseCode(getLocale());
   const bookSource = toWordLensSource(bookData?.book?.primaryLanguage);
 
-  const [wordLensEnabled, setWordLensEnabled] = useState(viewSettings.wordLensEnabled ?? false);
-  const [wordLensLevel, setWordLensLevel] = useState(viewSettings.wordLensLevel ?? 3);
-  const [hintLang, setHintLang] = useState(viewSettings.wordLensHintLang || appLang);
-  const [glossFontSize, setGlossFontSize] = useState(viewSettings.wordLensGlossFontSize ?? 0.5);
-  const [glossColor, setGlossColor] = useState(viewSettings.wordLensGlossColor ?? '');
+  const [wordLensEnabled, setWordLensEnabled] = useState(edited.wordLensEnabled ?? false);
+  const [wordLensLevel, setWordLensLevel] = useState(edited.wordLensLevel ?? 3);
+  const [hintLang, setHintLang] = useState(edited.wordLensHintLang || appLang);
+  const [glossFontSize, setGlossFontSize] = useState(edited.wordLensGlossFontSize ?? 0.5);
+  const [glossColor, setGlossColor] = useState(edited.wordLensGlossColor ?? '');
   // Track the latest gloss color so ColorInput's onCommit (no args) persists the
   // value the user landed on after dragging, without re-injecting CSS per tick.
   const glossColorRef = useRef(glossColor);

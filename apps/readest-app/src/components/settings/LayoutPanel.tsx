@@ -37,7 +37,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   const { envConfig, appService } = useEnv();
   const { settings } = useSettingsStore();
   const { getView, getViewSettings, getGridInsets } = useReaderStore();
-  const { setViewSettings, recreateViewer } = useReaderStore();
+  const { recreateViewer } = useReaderStore();
   const { getBookData } = useBookDataStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
   const { edited, book } = useEditedViewSettings(bookKey);
@@ -54,12 +54,12 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
   const [textIndent, setTextIndent] = useState(edited.textIndent!);
   const [fullJustification, setFullJustification] = useState(edited.fullJustification);
   const [hyphenation, setHyphenation] = useState(edited.hyphenation);
-  const [marginTopPx, setMarginTopPx] = useState(edited.marginPx || viewSettings.marginTopPx);
+  const [marginTopPx, setMarginTopPx] = useState(edited.marginPx || edited.marginTopPx);
   const [marginBottomPx, setMarginBottomPx] = useState(edited.marginBottomPx);
   const [marginLeftPx, setMarginLeftPx] = useState(edited.marginLeftPx);
   const [marginRightPx, setMarginRightPx] = useState(edited.marginRightPx);
   const [compactMarginTopPx, setCompactMarginTopPx] = useState(
-    edited.compactMarginPx || viewSettings.compactMarginTopPx,
+    edited.compactMarginPx || edited.compactMarginTopPx,
   );
   const [compactMarginBottomPx, setCompactMarginBottomPx] = useState(edited.compactMarginBottomPx);
   const [gapPercent, setGapPercent] = useState(edited.gapPercent);
@@ -413,9 +413,9 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
     if (showHeader === edited.showHeader) return;
     if (showHeader && !viewSettings.vertical) {
       const minMarginTop = Math.max(0, Math.round((44 - gridInsets.top) / 4) * 4);
-      viewSettings.marginTopPx = Math.max(viewSettings.marginTopPx, minMarginTop);
-      setMarginTopPx(viewSettings.marginTopPx);
-      setViewSettings(bookKey, viewSettings);
+      // Clamp the scope being edited. Reaching into the book's object here
+      // pushed its margin into the global whenever the header was toggled.
+      setMarginTopPx(Math.max(edited.marginTopPx, minMarginTop));
     }
     saveViewSettings(envConfig, bookKey, 'showHeader', showHeader, false, false);
     // Margin and gap settings will be applied in FoliateViewer
@@ -426,9 +426,7 @@ const LayoutPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRese
     if (showFooter === edited.showFooter) return;
     if (showFooter && !viewSettings.vertical) {
       const minMarginBottom = Math.max(0, Math.round((44 - gridInsets.bottom) / 4) * 4);
-      viewSettings.marginBottomPx = Math.max(viewSettings.marginBottomPx, minMarginBottom);
-      setMarginBottomPx(viewSettings.marginBottomPx);
-      setViewSettings(bookKey, viewSettings);
+      setMarginBottomPx(Math.max(edited.marginBottomPx, minMarginBottom));
     }
     saveViewSettings(envConfig, bookKey, 'showFooter', showFooter, false, false);
     // Margin and gap settings will be applied in FoliateViewer
