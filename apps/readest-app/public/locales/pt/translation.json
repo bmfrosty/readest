@@ -2168,5 +2168,8 @@
   "Whole app": "Toda a aplicação",
   "Changed from the default — reset it": "Alterado em relação ao padrão — repor",
   "This book overrides it": "Este livro substitui-o",
-  "Open a book to change this": "Abra um livro para alterar isto"
+  "Open a book to change this": "Abra um livro para alterar isto",
+  "Unapplied CSS": "CSS não aplicado",
+  "Switching scope will discard the CSS you have not applied yet.": "Mudar de âmbito irá descartar o CSS que não aplicou.",
+  "Discard": "Descartar"
 }

@@ -2056,5 +2056,8 @@
   "Whole app": "アプリ全体",
   "Changed from the default — reset it": "デフォルトから変更済み — 元に戻す",
   "This book overrides it": "この書籍が上書きしています",
-  "Open a book to change this": "変更するには書籍を開いてください"
+  "Open a book to change this": "変更するには書籍を開いてください",
+  "Unapplied CSS": "未適用の CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "範囲を切り替えると、適用していない CSS は破棄されます。",
+  "Discard": "破棄"
 }

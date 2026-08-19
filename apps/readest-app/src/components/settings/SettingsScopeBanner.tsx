@@ -1,7 +1,9 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, { useState } from 'react';
 import { MdOutlineMenuBook, MdOutlinePublic } from 'react-icons/md';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useSettingsStore } from '@/store/settingsStore';
+import Alert from '@/components/Alert';
 import { useSettingsScope } from './SettingsScopeContext';
 
 /**
@@ -16,9 +18,32 @@ import { useSettingsScope } from './SettingsScopeContext';
 const SettingsScopeBanner: React.FC = () => {
   const _ = useTranslation();
   const scope = useSettingsScope();
+  const { hasUnappliedDraft, setHasUnappliedDraft } = useSettingsStore();
+  // Holds the scope the reader asked for while the warning is up.
+  const [pendingScope, setPendingScope] = useState<boolean | null>(null);
   if (!scope) return null;
 
   const { canScopeToBook, isGlobal, bookTitle, setGlobal } = scope;
+
+  // Switching scope remounts the panels so their controls re-seed from the
+  // other store, which discards text typed into the custom-CSS editors. Ask
+  // first. Applying it instead is not on offer: Apply is disabled while the CSS
+  // is invalid, which is exactly the state a half-typed stylesheet is in.
+  const requestScope = (global: boolean) => {
+    if (global === isGlobal) return;
+    if (hasUnappliedDraft) {
+      setPendingScope(global);
+      return;
+    }
+    setGlobal(global);
+  };
+
+  const confirmScope = () => {
+    const global = pendingScope;
+    setPendingScope(null);
+    setHasUnappliedDraft(false);
+    if (global !== null) setGlobal(global);
+  };
   const ScopeIcon = isGlobal ? MdOutlinePublic : MdOutlineMenuBook;
 
   const scopeButtonClass = (active: boolean) =>
@@ -27,7 +52,7 @@ const SettingsScopeBanner: React.FC = () => {
       active ? 'bg-base-100 text-base-content' : 'text-base-content/60 hover:text-base-content',
     );
 
-  return (
+  const banner = (
     <div
       className={clsx(
         'eink-bordered mb-1 flex w-full items-center gap-2 rounded-lg border-s-4 px-2.5 py-1',
@@ -62,7 +87,7 @@ const SettingsScopeBanner: React.FC = () => {
           <button
             type='button'
             aria-pressed={isGlobal}
-            onClick={() => setGlobal(true)}
+            onClick={() => requestScope(true)}
             className={scopeButtonClass(isGlobal)}
           >
             {_('All Books')}
@@ -70,7 +95,7 @@ const SettingsScopeBanner: React.FC = () => {
           <button
             type='button'
             aria-pressed={!isGlobal}
-            onClick={() => setGlobal(false)}
+            onClick={() => requestScope(false)}
             className={scopeButtonClass(!isGlobal)}
           >
             {_('This Book')}
@@ -78,6 +103,20 @@ const SettingsScopeBanner: React.FC = () => {
         </div>
       )}
     </div>
+  );
+
+  if (pendingScope === null) return banner;
+  return (
+    <>
+      {banner}
+      <Alert
+        title={_('Unapplied CSS')}
+        message={_('Switching scope will discard the CSS you have not applied yet.')}
+        confirmLabel={_('Discard')}
+        onCancel={() => setPendingScope(null)}
+        onConfirm={confirmScope}
+      />
+    </>
   );
 };
 

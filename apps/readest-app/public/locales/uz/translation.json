@@ -2112,5 +2112,8 @@
   "Whole app": "Butun ilova",
   "Changed from the default — reset it": "Standart qiymatdan oʻzgartirilgan — qaytarish",
   "This book overrides it": "Ushbu kitob uni oʻzgartiradi",
-  "Open a book to change this": "Buni oʻzgartirish uchun kitob oching"
+  "Open a book to change this": "Buni oʻzgartirish uchun kitob oching",
+  "Unapplied CSS": "Qoʻllanmagan CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Qamrovni almashtirish qoʻllanmagan CSS ni bekor qiladi.",
+  "Discard": "Bekor qilish"
 }

@@ -2165,5 +2165,8 @@
   "Whole app": "მთელი აპლიკაცია",
   "Changed from the default — reset it": "შეცვლილია ნაგულისხმევიდან — დააბრუნეთ",
   "This book overrides it": "ეს წიგნი გადაფარავს მას",
-  "Open a book to change this": "გასახსნელად გახსენით წიგნი"
+  "Open a book to change this": "გასახსნელად გახსენით წიგნი",
+  "Unapplied CSS": "გამოუყენებელი CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "არეალის შეცვლა გააუქმებს გამოუყენებელ CSS-ს.",
+  "Discard": "გაუქმება"
 }

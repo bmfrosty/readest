@@ -2056,5 +2056,8 @@
   "Whole app": "Seluruh apl",
   "Changed from the default — reset it": "Diubah daripada lalai — tetapkan semula",
   "This book overrides it": "Buku ini menindihnya",
-  "Open a book to change this": "Buka buku untuk mengubahnya"
+  "Open a book to change this": "Buka buku untuk mengubahnya",
+  "Unapplied CSS": "CSS belum digunakan",
+  "Switching scope will discard the CSS you have not applied yet.": "Menukar skop akan membuang CSS yang belum anda gunakan.",
+  "Discard": "Buang"
 }

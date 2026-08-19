@@ -63,8 +63,17 @@ vi.mock('@/store/readerStore', () => ({
   },
 }));
 
+let hasUnappliedDraft = false;
+const setHasUnappliedDraft = vi.fn((v: boolean) => {
+  hasUnappliedDraft = v;
+});
+
 vi.mock('@/store/settingsStore', () => ({
-  useSettingsStore: () => ({ settings: h.settingsMock((s: { settings: unknown }) => s.settings) }),
+  useSettingsStore: () => ({
+    settings: h.settingsMock((s: { settings: unknown }) => s.settings),
+    hasUnappliedDraft,
+    setHasUnappliedDraft,
+  }),
 }));
 
 vi.mock('@/store/bookDataStore', () => ({
@@ -120,6 +129,8 @@ const globalBadge = () => screen.queryByRole('button', { name: RESET_GLOBAL });
 
 beforeEach(() => {
   h.saveViewSettings.mockClear();
+  hasUnappliedDraft = false;
+  setHasUnappliedDraft.mockClear();
   seed({ isGlobal: false, serifFont: 'Literata' }, { serifFont: 'Bookerly' });
 });
 
@@ -341,5 +352,58 @@ describe('scope tags on rows the banner does not govern', () => {
     renderScoped(BOOK, <WithBook />);
 
     expect(screen.getByText('This book only')).toBeTruthy();
+  });
+});
+
+describe('switching scope with text the reader has not applied', () => {
+  /**
+   * The switch remounts the panels so their controls re-seed from the other
+   * store, which throws away anything typed into the custom-CSS editors.
+   * Applying it instead is not an option: Apply is disabled while the CSS is
+   * invalid, which is what a half-typed stylesheet always is.
+   */
+  it('asks before discarding, and does not switch while the question stands', () => {
+    hasUnappliedDraft = true;
+    renderScoped(BOOK, <SettingsScopeBanner />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'All Books' }));
+
+    expect(
+      screen.getByText('Switching scope will discard the CSS you have not applied yet.'),
+    ).toBeTruthy();
+    expect(h.saveViewSettings).not.toHaveBeenCalled();
+  });
+
+  it('leaves the draft alone when the reader backs out', () => {
+    hasUnappliedDraft = true;
+    renderScoped(BOOK, <SettingsScopeBanner />);
+    fireEvent.click(screen.getByRole('button', { name: 'All Books' }));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+
+    expect(h.saveViewSettings).not.toHaveBeenCalled();
+    expect(setHasUnappliedDraft).not.toHaveBeenCalled();
+  });
+
+  it('switches once the reader accepts the loss', () => {
+    hasUnappliedDraft = true;
+    renderScoped(BOOK, <SettingsScopeBanner />);
+    fireEvent.click(screen.getByRole('button', { name: 'All Books' }));
+
+    fireEvent.click(screen.getByRole('button', { name: 'Discard' }));
+
+    expect(setHasUnappliedDraft).toHaveBeenCalledWith(false);
+    expect(h.saveViewSettings).toHaveBeenCalledWith({}, BOOK, 'isGlobal', true, true, false);
+  });
+
+  it('does not ask when there is nothing to lose', () => {
+    renderScoped(BOOK, <SettingsScopeBanner />);
+
+    fireEvent.click(screen.getByRole('button', { name: 'All Books' }));
+
+    expect(
+      screen.queryByText('Switching scope will discard the CSS you have not applied yet.'),
+    ).toBeNull();
+    expect(h.saveViewSettings).toHaveBeenCalledWith({}, BOOK, 'isGlobal', true, true, false);
   });
 });

@@ -2112,5 +2112,8 @@
   "Whole app": "Tüm uygulama",
   "Changed from the default — reset it": "Varsayılandan değiştirildi — sıfırla",
   "This book overrides it": "Bu kitap bunu geçersiz kılıyor",
-  "Open a book to change this": "Bunu değiştirmek için bir kitap açın"
+  "Open a book to change this": "Bunu değiştirmek için bir kitap açın",
+  "Unapplied CSS": "Uygulanmamış CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Kapsamı değiştirmek uygulamadığınız CSS’i atar.",
+  "Discard": "At"
 }

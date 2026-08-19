@@ -2112,5 +2112,8 @@
   "Whole app": "Hele app",
   "Changed from the default — reset it": "Gewijzigd t.o.v. de standaard — terugzetten",
   "This book overrides it": "Dit boek overschrijft het",
-  "Open a book to change this": "Open een boek om dit te wijzigen"
+  "Open a book to change this": "Open een boek om dit te wijzigen",
+  "Unapplied CSS": "Niet-toegepaste CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Van bereik wisselen verwijdert de CSS die je niet hebt toegepast.",
+  "Discard": "Weggooien"
 }

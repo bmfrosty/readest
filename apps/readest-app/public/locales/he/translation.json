@@ -2168,5 +2168,8 @@
   "Whole app": "כל האפליקציה",
   "Changed from the default — reset it": "שונה מברירת המחדל — אפס",
   "This book overrides it": "ספר זה עוקף אותו",
-  "Open a book to change this": "פתח ספר כדי לשנות זאת"
+  "Open a book to change this": "פתח ספר כדי לשנות זאת",
+  "Unapplied CSS": "CSS שלא הוחל",
+  "Switching scope will discard the CSS you have not applied yet.": "החלפת ההיקף תמחק את ה-CSS שלא החלת.",
+  "Discard": "התעלם"
 }

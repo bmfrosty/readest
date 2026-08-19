@@ -2224,5 +2224,8 @@
   "Whole app": "Cała aplikacja",
   "Changed from the default — reset it": "Zmienione względem domyślnej — przywróć",
   "This book overrides it": "Ta książka to nadpisuje",
-  "Open a book to change this": "Otwórz książkę, aby to zmienić"
+  "Open a book to change this": "Otwórz książkę, aby to zmienić",
+  "Unapplied CSS": "Niezastosowany CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Zmiana zakresu odrzuci niezastosowany CSS.",
+  "Discard": "Odrzuć"
 }

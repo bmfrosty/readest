@@ -2112,5 +2112,8 @@
   "Whole app": "Όλη η εφαρμογή",
   "Changed from the default — reset it": "Άλλαξε από την προεπιλογή — επαναφορά",
   "This book overrides it": "Αυτό το βιβλίο το παρακάμπτει",
-  "Open a book to change this": "Ανοίξτε ένα βιβλίο για να το αλλάξετε"
+  "Open a book to change this": "Ανοίξτε ένα βιβλίο για να το αλλάξετε",
+  "Unapplied CSS": "Μη εφαρμοσμένο CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Η αλλαγή εμβέλειας θα απορρίψει το CSS που δεν εφαρμόσατε.",
+  "Discard": "Απόρριψη"
 }

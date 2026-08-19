@@ -2168,5 +2168,8 @@
   "Whole app": "Toată aplicația",
   "Changed from the default — reset it": "Modificat față de valoarea implicită — resetează",
   "This book overrides it": "Această carte îl suprascrie",
-  "Open a book to change this": "Deschide o carte pentru a modifica"
+  "Open a book to change this": "Deschide o carte pentru a modifica",
+  "Unapplied CSS": "CSS neaplicat",
+  "Switching scope will discard the CSS you have not applied yet.": "Schimbarea domeniului va renunța la CSS-ul neaplicat.",
+  "Discard": "Renunță"
 }

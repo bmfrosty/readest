@@ -18,7 +18,7 @@ type CSSType = 'book' | 'reader';
 const MiscPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
   const { appService, envConfig } = useEnv();
-  const { settings } = useSettingsStore();
+  const { settings, setHasUnappliedDraft } = useSettingsStore();
   const { getView, getViewSettings, setViewSettings } = useReaderStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
   const { edited } = useEditedViewSettings(bookKey);
@@ -28,6 +28,16 @@ const MiscPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const [contentError, setContentError] = useState<string | null>(null);
   const [draftUIStylesheet, setDraftUIStylesheet] = useState(edited.userUIStylesheet);
   const [draftUIStylesheetSaved, setDraftUIStylesheetSaved] = useState(true);
+
+  // The scope switch remounts this panel to re-seed its controls, which throws
+  // away anything typed but not applied. Publish that state so the switch can
+  // warn first. Apply is disabled while the CSS is invalid, and half-typed CSS
+  // is invalid, so saving on the reader's behalf is not an option.
+  const hasUnapplied = !draftContentStylesheetSaved || !draftUIStylesheetSaved;
+  useEffect(() => {
+    setHasUnappliedDraft(hasUnapplied);
+    return () => setHasUnappliedDraft(false);
+  }, [hasUnapplied, setHasUnappliedDraft]);
   const [uiError, setUIError] = useState<string | null>(null);
 
   const [inputFocusInAndroid, setInputFocusInAndroid] = useState(false);

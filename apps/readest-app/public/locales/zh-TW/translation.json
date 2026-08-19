@@ -2056,5 +2056,8 @@
   "Whole app": "整個應用程式",
   "Changed from the default — reset it": "已從預設值變更 — 重置",
   "This book overrides it": "此書籍覆蓋了它",
-  "Open a book to change this": "開啟一本書以變更此項"
+  "Open a book to change this": "開啟一本書以變更此項",
+  "Unapplied CSS": "未套用的 CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "切換範圍將捨棄你尚未套用的 CSS。",
+  "Discard": "捨棄"
 }
