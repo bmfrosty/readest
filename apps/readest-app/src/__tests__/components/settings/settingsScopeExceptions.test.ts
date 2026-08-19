@@ -185,4 +185,11 @@ describe('settings controls are seeded from the scope being edited', () => {
   it('never re-syncs a control from the open book after seeding', () => {
     expect(offenders(/^set[A-Z]\w*\(viewSettings\./)).toEqual([]);
   });
+
+  it('never guards a save against the open book after seeding elsewhere', () => {
+    // The guard is the other half of the mechanism. Seed from `edited` and test
+    // the book, and the write is SWALLOWED whenever the book already holds the
+    // value the reader just chose — the control moves and nothing is saved.
+    expect(offenders(/if \(.*(===|!==) viewSettings\./)).toEqual([]);
+  });
 });

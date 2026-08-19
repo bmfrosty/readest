@@ -187,11 +187,11 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
 
   useEffect(() => {
     let update = false;
-    if (codeHighlighting !== viewSettings.codeHighlighting) {
+    if (codeHighlighting !== edited.codeHighlighting) {
       saveViewSettings(envConfig, bookKey, 'codeHighlighting', codeHighlighting);
       update = true;
     }
-    if (codeLanguage !== viewSettings.codeLanguage) {
+    if (codeLanguage !== edited.codeLanguage) {
       saveViewSettings(envConfig, bookKey, 'codeLanguage', codeLanguage);
       update = true;
     }

@@ -89,26 +89,25 @@ const MiscPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
     const cssInput = type === 'book' ? draftContentStylesheet : draftUIStylesheet;
     const formattedCSS = formatCSS(clear ? '' : cssInput);
 
+    const key = type === 'book' ? 'userStylesheet' : 'userUIStylesheet';
     if (type === 'book') {
       setDraftContentStylesheet(formattedCSS);
       setDraftContentStylesheetSaved(true);
-      viewSettings.userStylesheet = formattedCSS;
     } else {
       setDraftUIStylesheet(formattedCSS);
       setDraftUIStylesheetSaved(true);
-      viewSettings.userUIStylesheet = formattedCSS;
     }
 
-    setViewSettings(bookKey, { ...viewSettings });
-    getView(bookKey)?.renderer.setStyles?.(getStyles(viewSettings));
-    saveViewSettings(
-      envConfig,
-      bookKey,
-      type === 'book' ? 'userStylesheet' : 'userUIStylesheet',
-      formattedCSS,
-      false,
-      false,
-    );
+    // Save BEFORE touching any store object. In the library `viewSettings` IS
+    // `settings.globalViewSettings`, so writing the value in first made
+    // saveViewSettings see no change and return early — the stylesheet applied
+    // for the session and was never persisted. Every other panel already saves
+    // first; this one did not.
+    saveViewSettings(envConfig, bookKey, key, formattedCSS, false, false);
+
+    const nextViewSettings = { ...viewSettings, [key]: formattedCSS };
+    setViewSettings(bookKey, nextViewSettings);
+    getView(bookKey)?.renderer.setStyles?.(getStyles(nextViewSettings));
   };
 
   const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {

@@ -90,13 +90,13 @@ const WordLensPanel: React.FC<WordLensPanelProps> = ({ bookKey, onBack }) => {
   }, [appService]);
 
   useEffect(() => {
-    if (wordLensEnabled === viewSettings.wordLensEnabled) return;
+    if (wordLensEnabled === edited.wordLensEnabled) return;
     saveViewSettings(envConfig, bookKey, 'wordLensEnabled', wordLensEnabled, false, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wordLensEnabled]);
 
   useEffect(() => {
-    if (wordLensLevel === viewSettings.wordLensLevel) return;
+    if (wordLensLevel === edited.wordLensLevel) return;
     saveViewSettings(envConfig, bookKey, 'wordLensLevel', wordLensLevel, false, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [wordLensLevel]);

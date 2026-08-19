@@ -20,11 +20,12 @@ vi.mock('@/store/readerStore', () => ({
   },
 }));
 
+const useBookDataStoreConfigSpy = vi.fn();
 vi.mock('@/store/bookDataStore', () => ({
   useBookDataStore: {
     getState: () => ({
-      getConfig: vi.fn(() => null),
-      saveConfig: vi.fn(),
+      getConfig: vi.fn(() => ({}) as never),
+      saveConfig: useBookDataStoreConfigSpy,
     }),
   },
 }));
@@ -65,6 +66,7 @@ beforeEach(() => {
   getViewSettingsMock.mockReturnValue(undefined);
   setViewSettingsMock.mockReset();
   useReaderStoreBookKeys.length = 0;
+  useBookDataStoreConfigSpy.mockReset();
   useSettingsStore.setState({
     settings: makeSettings(),
     setSettings: (s: SystemSettings) => useSettingsStore.setState({ settings: s }),
@@ -261,5 +263,44 @@ describe('a global write that changes nothing', () => {
 
     expect(bookViewSettings.progressStyle).toBe('fraction');
     expect(setViewSettingsMock).not.toHaveBeenCalled();
+  });
+});
+
+describe('a real global change', () => {
+  /**
+   * `applyViewSettings` used to serialize each open book against the settings
+   * snapshot taken on ENTRY, before the global was replaced. serializeConfig
+   * keeps every key that differs from the global it is handed, so the new value
+   * was written into each open book's config as that book's OWN value.
+   *
+   * Close the book, change the global again, reopen: the book stays on the old
+   * value, and the badge reports it as the book's own. Every book open during a
+   * global change was pinned that way.
+   */
+  test('is not stamped onto open books as their own value', async () => {
+    const settings = useSettingsStore.getState().settings;
+    settings.globalViewSettings = {
+      ...settings.globalViewSettings,
+      lineHeight: 1.5,
+    } as ViewSettings;
+
+    const bookViewSettings = { isGlobal: true, lineHeight: 1.5 } as unknown as ViewSettings;
+    getViewSettingsMock.mockImplementation(() => bookViewSettings);
+    getViewStateMock.mockImplementation(() => ({ isPrimary: true }) as never);
+    useReaderStoreBookKeys.push('book-1');
+
+    const seen: ViewSettings[] = [];
+    useBookDataStoreConfigSpy.mockImplementation(
+      async (_e: unknown, _k: unknown, _c: unknown, s: SystemSettings) => {
+        seen.push(s.globalViewSettings);
+      },
+    );
+
+    await saveViewSettings(envConfig, 'book-1', 'lineHeight', 1.8, false, false);
+
+    expect(seen).toHaveLength(1);
+    // The book must be diffed against the global it is about to inherit, so
+    // serializeConfig drops the key instead of keeping it as an override.
+    expect(seen[0]!.lineHeight).toBe(1.8);
   });
 });
