@@ -464,6 +464,23 @@ colour reads better than a large pale wash. E-ink mode is the cheap test: flip i
 if the two states are still distinguishable when every tint flattens to the same grey, the
 design does not depend on colour.
 
+**One vocabulary for the marks.** Every scope mark comes from `ScopeIndicators`: a dot with
+a reset, an outlined chip, or a note on its own line under the setting. Nothing is hand-rolled
+at a call site.
+
+| Shape | Question | Actionable |
+| -------- | ---------------------------------------------------- | ----------- |
+| dot + ↺  | have I moved this from what this scope inherits?      | yes, resets |
+| chip     | which store does this row write, if not the banner's? | no          |
+| note     | is the value on screen overridden elsewhere?          | no          |
+
+Readest has three levels — factory default, global, per book — and a mark today only ever
+compares against the one directly above. A third-context mark ("your global also differs from
+the factory default", while editing a book) is a live open question. Keeping the vocabulary in
+one store-free module is what makes that a change in one place instead of sixty. Any new shape
+must survive e-ink and colour-vision deficiency on shape and position alone, and must not
+import a store, or a leaf component can no longer mark a row.
+
 **One signal per question.** In global scope a book can still hold its own value for a row,
 masking the global value on display. That is not "you moved this", so it gets its own quiet
 chip rather than being folded into the badge.

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { BoxedList, SettingsSwitchRow } from '../primitives';
-import { useScopeTags } from '../ScopeTag';
+import { useScopeTags } from '../ScopeIndicators';
 
 interface LibrarySettingsProps {
   skeuomorphicCovers: boolean;

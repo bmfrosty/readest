@@ -264,3 +264,31 @@ describe('every scoped control can show its state', () => {
     expect(missing).toEqual([]);
   });
 });
+
+/**
+ * Readest has three levels — factory default, global, per book — and a scope
+ * mark today only ever compares against the one directly above. If a
+ * third-context mark is ever wanted, it has to be addable in one place rather
+ * than invented per row, so every scope mark must come from the shared
+ * vocabulary in ScopeIndicators.
+ */
+describe('scope marks come from one vocabulary', () => {
+  it('has no hand-rolled scope mark outside ScopeIndicators', () => {
+    const offenders = sourceFiles(SETTINGS_DIR)
+      .filter((f) => !f.endsWith('ScopeIndicators.tsx'))
+      .filter((f) => {
+        const src = readFileSync(f, 'utf8');
+        // A scope mark is a span carrying one of the vocabulary's own styles.
+        return /className='[^']*(?:border-base-content\/25[^']*rounded-full|text-base-content\/65 block)/.test(
+          src,
+        );
+      })
+      .map((f) => f.split('/').pop());
+    expect(offenders).toEqual([]);
+  });
+
+  it('keeps the vocabulary store-free, so a leaf can mark a row', () => {
+    const src = readFileSync(`${SETTINGS_DIR}/ScopeIndicators.tsx`, 'utf8');
+    expect(src).not.toMatch(/@\/store\/|@\/helpers\/settings/);
+  });
+});

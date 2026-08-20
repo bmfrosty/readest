@@ -88,7 +88,7 @@ const { SettingsScopeProvider, useScopedLabel } = await import(
   '@/components/settings/SettingsScopeContext'
 );
 const SettingsScopeBanner = (await import('@/components/settings/SettingsScopeBanner')).default;
-const { useScopeTags } = await import('@/components/settings/ScopeTag');
+const { useScopeTags } = await import('@/components/settings/ScopeIndicators');
 
 const RESET = 'This book has its own value — reset it to your global setting';
 const RESET_GLOBAL = 'Changed from the default — reset it';

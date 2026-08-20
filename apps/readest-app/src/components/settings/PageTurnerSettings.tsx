@@ -18,7 +18,7 @@ import {
 import { HardwarePageTurnerSettings, KeyBinding } from '@/types/settings';
 import { BoxedList, SettingsRow, SettingsSwitchRow } from './primitives';
 import { useReaderStore } from '@/store/readerStore';
-import { useScopeTags } from './ScopeTag';
+import { useScopeTags } from './ScopeIndicators';
 import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 import { useScopedLabel } from './SettingsScopeContext';
 
