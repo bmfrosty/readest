@@ -2197,5 +2197,14 @@
   "This book: {{title}} — overrides only": "Ez a könyv: {{title}} — csak felülírások",
   "Settings Scope": "Beállítások hatóköre",
   "All Books": "Minden könyv",
-  "This Book": "Ez a könyv"
+  "This Book": "Ez a könyv",
+  "This book has its own value — reset it to your global setting": "Ennek a könyvnek saját értéke van — visszaállítás a globális beállításodra",
+  "This book only": "Csak ez a könyv",
+  "Whole app": "Az egész alkalmazás",
+  "Changed from the default — reset it": "Eltér az alapértelmezéstől — visszaállítás",
+  "Open a book to change this": "Nyisson meg egy könyvet a módosításhoz",
+  "Unapplied CSS": "Nem alkalmazott CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "A hatókör váltása eldobja a nem alkalmazott CSS-t.",
+  "Discard": "Elvetés",
+  "This book overrides it": "Ez a könyv felülírja ezt"
 }

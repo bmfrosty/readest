@@ -2315,5 +2315,14 @@
   "This book: {{title}} — overrides only": "Ta książka: {{title}} — tylko nadpisania",
   "Settings Scope": "Zakres ustawień",
   "All Books": "Wszystkie książki",
-  "This Book": "Ta książka"
+  "This Book": "Ta książka",
+  "This book has its own value — reset it to your global setting": "Ta książka ma własną wartość — przywróć swoje ustawienie globalne",
+  "This book only": "Tylko ta książka",
+  "Whole app": "Cała aplikacja",
+  "Changed from the default — reset it": "Zmienione względem domyślnej — przywróć",
+  "Open a book to change this": "Otwórz książkę, aby to zmienić",
+  "Unapplied CSS": "Niezastosowany CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Zmiana zakresu odrzuci niezastosowany CSS.",
+  "Discard": "Odrzuć",
+  "This book overrides it": "Ta książka to nadpisuje"
 }

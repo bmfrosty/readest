@@ -2256,5 +2256,14 @@
   "This book: {{title}} — overrides only": "Este libro: {{title}} — solo anulaciones",
   "Settings Scope": "Ámbito de la configuración",
   "All Books": "Todos los libros",
-  "This Book": "Este libro"
+  "This Book": "Este libro",
+  "This book has its own value — reset it to your global setting": "Este libro tiene su propio valor — restablecer a tu configuración global",
+  "This book only": "Solo este libro",
+  "Whole app": "Toda la aplicación",
+  "Changed from the default — reset it": "Modificado respecto al predeterminado — restablecer",
+  "Open a book to change this": "Abre un libro para cambiar esto",
+  "Unapplied CSS": "CSS sin aplicar",
+  "Switching scope will discard the CSS you have not applied yet.": "Cambiar de ámbito descartará el CSS que no has aplicado.",
+  "Discard": "Descartar",
+  "This book overrides it": "Este libro anula esto"
 }

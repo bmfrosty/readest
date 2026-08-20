@@ -2138,5 +2138,14 @@
   "This book: {{title}} — overrides only": "หนังสือเล่มนี้: {{title}} — เฉพาะค่าที่กำหนดเอง",
   "Settings Scope": "ขอบเขตการตั้งค่า",
   "All Books": "หนังสือทั้งหมด",
-  "This Book": "หนังสือเล่มนี้"
+  "This Book": "หนังสือเล่มนี้",
+  "This book has its own value — reset it to your global setting": "หนังสือเล่มนี้มีค่าของตัวเอง — รีเซ็ตเป็นการตั้งค่าทั่วไปของคุณ",
+  "This book only": "เฉพาะหนังสือเล่มนี้",
+  "Whole app": "ทั้งแอป",
+  "Changed from the default — reset it": "เปลี่ยนจากค่าเริ่มต้น — รีเซ็ต",
+  "Open a book to change this": "เปิดหนังสือเพื่อเปลี่ยนค่านี้",
+  "Unapplied CSS": "CSS ที่ยังไม่ได้ใช้",
+  "Switching scope will discard the CSS you have not applied yet.": "การสลับขอบเขตจะทิ้ง CSS ที่คุณยังไม่ได้ใช้",
+  "Discard": "ทิ้ง",
+  "This book overrides it": "หนังสือเล่มนี้แทนที่ค่านี้"
 }

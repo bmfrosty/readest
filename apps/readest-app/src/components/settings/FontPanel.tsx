@@ -28,6 +28,7 @@ import { useResetViewSettings } from '@/hooks/useResetSettings';
 import { useKeyDownActions } from '@/hooks/useKeyDownActions';
 import { saveViewSettings } from '@/helpers/settings';
 import { SettingsPanelPanelProp } from './SettingsDialog';
+import { useScopedLabel } from './SettingsScopeContext';
 import { BoxedList, NavigationRow, SettingLabel, SettingsRow } from './primitives';
 import NumberInput from './NumberInput';
 import FontDropdown from './FontDropDown';
@@ -48,7 +49,7 @@ const isSymbolicFontName = (font: string) =>
 interface FontFaceProps {
   className?: string;
   family: string;
-  label: string;
+  label: React.ReactNode;
   options: string[];
   moreOptions?: string[];
   selected: string;
@@ -101,6 +102,7 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const { fonts: allCustomFonts, getFontFamilies } = useCustomFontStore();
   const { edited } = useEditedViewSettings(bookKey);
   const view = getView(bookKey);
+  const scopedLabel = useScopedLabel();
 
   const fontFamilyOptions = [
     {
@@ -309,13 +311,15 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
         data-setting-id='settings.font.overrideBookFont'
         className='flex cursor-pointer items-center justify-between px-4'
       >
-        <SettingLabel>{_('Override Book Font')}</SettingLabel>
+        <SettingLabel>
+          {scopedLabel(_('Override Book Font'), 'overrideFont', setOverrideFont)}
+        </SettingLabel>
         <Toggle checked={overrideFont} onChange={() => setOverrideFont(!overrideFont)} />
       </label>
 
       <BoxedList title={_('Font Size')}>
         <NumberInput
-          label={_('Default Font Size')}
+          label={scopedLabel(_('Default Font Size'), 'defaultFontSize', setDefaultFontSize)}
           value={defaultFontSize}
           onChange={setDefaultFontSize}
           min={minFontSize}
@@ -323,7 +327,7 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
           data-setting-id='settings.font.defaultFontSize'
         />
         <NumberInput
-          label={_('Minimum Font Size')}
+          label={scopedLabel(_('Minimum Font Size'), 'minimumFontSize', setMinFontSize)}
           value={minFontSize}
           onChange={setMinFontSize}
           min={1}
@@ -334,7 +338,7 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
 
       <BoxedList title={_('Font Weight')} data-setting-id='settings.font.fontWeight'>
         <NumberInput
-          label={_('Font Weight')}
+          label={scopedLabel(_('Font Weight'), 'fontWeight', setFontWeight)}
           value={fontWeight}
           onChange={setFontWeight}
           min={100}
@@ -344,7 +348,10 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
       </BoxedList>
 
       <BoxedList title={_('Font Family')}>
-        <SettingsRow label={_('Default Font')} data-setting-id='settings.font.defaultFont'>
+        <SettingsRow
+          label={scopedLabel(_('Default Font'), 'defaultFont', setDefaultFont)}
+          data-setting-id='settings.font.defaultFont'
+        >
           <FontDropdown
             options={fontFamilyOptions}
             selected={defaultFont}
@@ -355,7 +362,7 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
         {(isCJKEnv() || view?.language.isCJK) && (
           <FontFace
             family='serif'
-            label={_('CJK Font')}
+            label={scopedLabel(_('CJK Font'), 'defaultCJKFont', setDefaultCJKFont)}
             options={CJKFonts}
             selected={defaultCJKFont}
             onSelect={setDefaultCJKFont}
@@ -367,7 +374,7 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
       <BoxedList title={_('Font Face')}>
         <FontFace
           family='serif'
-          label={_('Serif Font')}
+          label={scopedLabel(_('Serif Font'), 'serifFont', setSerifFont)}
           options={[...customFonts, ...SERIF_FONTS.filter(filterNonFreeFonts), ...CJK_SERIF_FONTS]}
           moreOptions={sysFonts}
           selected={serifFont}
@@ -376,7 +383,7 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
         />
         <FontFace
           family='sans-serif'
-          label={_('Sans-Serif Font')}
+          label={scopedLabel(_('Sans-Serif Font'), 'sansSerifFont', setSansSerifFont)}
           options={[
             ...customFonts,
             ...SANS_SERIF_FONTS.filter(filterNonFreeFonts),
@@ -389,7 +396,7 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
         />
         <FontFace
           family='monospace'
-          label={_('Monospace Font')}
+          label={scopedLabel(_('Monospace Font'), 'monospaceFont', setMonospaceFont)}
           options={[...customFonts, ...MONOSPACE_FONTS]}
           moreOptions={sysFonts}
           selected={monospaceFont}

@@ -2138,5 +2138,14 @@
   "This book: {{title}} — overrides only": "この書籍: {{title}} — 個別設定のみ",
   "Settings Scope": "設定の適用範囲",
   "All Books": "すべての書籍",
-  "This Book": "この書籍"
+  "This Book": "この書籍",
+  "This book has its own value — reset it to your global setting": "この書籍は独自の値を持っています — 全体設定に戻す",
+  "This book only": "この書籍のみ",
+  "Whole app": "アプリ全体",
+  "Changed from the default — reset it": "デフォルトから変更済み — 元に戻す",
+  "Open a book to change this": "変更するには書籍を開いてください",
+  "Unapplied CSS": "未適用の CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "範囲を切り替えると、適用していない CSS は破棄されます。",
+  "Discard": "破棄",
+  "This book overrides it": "この書籍がこれを上書きしています"
 }

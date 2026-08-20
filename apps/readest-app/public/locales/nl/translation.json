@@ -2197,5 +2197,14 @@
   "This book: {{title}} — overrides only": "Dit boek: {{title}} — alleen afwijkingen",
   "Settings Scope": "Bereik van instellingen",
   "All Books": "Alle boeken",
-  "This Book": "Dit boek"
+  "This Book": "Dit boek",
+  "This book has its own value — reset it to your global setting": "Dit boek heeft een eigen waarde — terugzetten naar je algemene instelling",
+  "This book only": "Alleen dit boek",
+  "Whole app": "Hele app",
+  "Changed from the default — reset it": "Gewijzigd t.o.v. de standaard — terugzetten",
+  "Open a book to change this": "Open een boek om dit te wijzigen",
+  "Unapplied CSS": "Niet-toegepaste CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Van bereik wisselen verwijdert de CSS die je niet hebt toegepast.",
+  "Discard": "Weggooien",
+  "This book overrides it": "Dit boek overschrijft dit"
 }

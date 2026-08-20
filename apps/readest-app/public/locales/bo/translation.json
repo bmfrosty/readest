@@ -2138,5 +2138,14 @@
   "This book: {{title}} — overrides only": "དཔེ་དེབ་འདི། {{title}} — བརྗེ་བཅོས་ཁོ་ན།",
   "Settings Scope": "སྒྲིག་བཀོད་ཀྱི་ཁྱབ་ཁོངས།",
   "All Books": "དཔེ་དེབ་ཡོད་རྒུ།",
-  "This Book": "དཔེ་དེབ་འདི།"
+  "This Book": "དཔེ་དེབ་འདི།",
+  "This book has its own value — reset it to your global setting": "དཔེ་དེབ་འདིར་རང་གི་གནས་གོང་ཡོད། — ཁྱེད་ཀྱི་ཁྱོན་ཡོངས་སྒྲིག་བཀོད་ལ་བསྐྱར་སྒྲིག",
+  "This book only": "དཔེ་དེབ་འདི་ཁོ་ན།",
+  "Whole app": "ཉེར་སྤྱོད་ཡོངས།",
+  "Changed from the default — reset it": "སྔོན་སྒྲིག་ལས་བསྒྱུར་ཟིན། — བསྐྱར་སྒྲིག",
+  "Open a book to change this": "འདི་བསྒྱུར་བར་དཔེ་དེབ་ཅིག་ཁ་ཕྱེ།",
+  "Unapplied CSS": "བཀོལ་སྤྱོད་མ་བྱས་པའི་ CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "ཁྱབ་ཁོངས་བརྗེ་ན་ཁྱེད་ཀྱིས་བཀོལ་མ་བྱས་པའི་ CSS དོར་བར་འགྱུར།",
+  "Discard": "དོར་བ།",
+  "This book overrides it": "དཔེ་དེབ་འདིས་འདི་བརྗེ་བཅོས་བྱེད།"
 }

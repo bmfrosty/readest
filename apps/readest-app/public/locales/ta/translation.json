@@ -2197,5 +2197,14 @@
   "This book: {{title}} — overrides only": "இந்தப் புத்தகம்: {{title}} — மேலெழுதல்கள் மட்டும்",
   "Settings Scope": "அமைப்புகளின் நோக்கெல்லை",
   "All Books": "அனைத்துப் புத்தகங்கள்",
-  "This Book": "இந்தப் புத்தகம்"
+  "This Book": "இந்தப் புத்தகம்",
+  "This book has its own value — reset it to your global setting": "இந்தப் புத்தகத்திற்கு சொந்த மதிப்பு உள்ளது — உங்கள் உலகளாவிய அமைப்புக்கு மீட்டமைக்கவும்",
+  "This book only": "இந்தப் புத்தகம் மட்டும்",
+  "Whole app": "முழு செயலி",
+  "Changed from the default — reset it": "இயல்புநிலையிலிருந்து மாற்றப்பட்டது — மீட்டமைக்கவும்",
+  "Open a book to change this": "இதை மாற்ற ஒரு புத்தகத்தைத் திறக்கவும்",
+  "Unapplied CSS": "பயன்படுத்தப்படாத CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "நோக்கெல்லையை மாற்றினால் பயன்படுத்தாத CSS நீக்கப்படும்.",
+  "Discard": "நிராகரி",
+  "This book overrides it": "இந்தப் புத்தகம் இதை மேலெழுதுகிறது"
 }

@@ -36,6 +36,8 @@ const stores = vi.hoisted(() => {
     settings: { globalViewSettings: { userStylesheet: '', userUIStylesheet: '' } },
     setSettings: vi.fn(),
     saveSettings: vi.fn(),
+    // Applying clears the unapplied-draft flag the scope switch warns on.
+    setHasUnappliedDraft: vi.fn(),
   });
   const readerState = () => ({
     bookKeys: ['book-1'],

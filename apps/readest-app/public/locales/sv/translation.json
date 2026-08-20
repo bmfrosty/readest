@@ -2197,5 +2197,14 @@
   "This book: {{title}} — overrides only": "Den här boken: {{title}} — endast avvikelser",
   "Settings Scope": "Inställningarnas omfattning",
   "All Books": "Alla böcker",
-  "This Book": "Den här boken"
+  "This Book": "Den här boken",
+  "This book has its own value — reset it to your global setting": "Den här boken har ett eget värde — återställ till din globala inställning",
+  "This book only": "Endast den här boken",
+  "Whole app": "Hela appen",
+  "Changed from the default — reset it": "Ändrad från standardvärdet — återställ",
+  "Open a book to change this": "Öppna en bok för att ändra detta",
+  "Unapplied CSS": "Ej tillämpad CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Att byta omfattning kasserar den CSS du inte har tillämpat.",
+  "Discard": "Kasta",
+  "This book overrides it": "Den här boken åsidosätter detta"
 }

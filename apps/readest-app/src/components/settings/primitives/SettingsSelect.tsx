@@ -3,7 +3,7 @@ import { MdArrowDropDown } from 'react-icons/md';
 
 interface SettingsSelectOption {
   value: string;
-  label: string;
+  label: React.ReactNode;
   disabled?: boolean;
 }
 

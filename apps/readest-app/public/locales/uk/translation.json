@@ -2315,5 +2315,14 @@
   "This book: {{title}} — overrides only": "Ця книга: {{title}} — лише перевизначення",
   "Settings Scope": "Область налаштувань",
   "All Books": "Усі книги",
-  "This Book": "Ця книга"
+  "This Book": "Ця книга",
+  "This book has its own value — reset it to your global setting": "Ця книга має власне значення — скинути до вашого ґлобального налаштування",
+  "This book only": "Лише ця книга",
+  "Whole app": "Увесь застосунок",
+  "Changed from the default — reset it": "Змінено відносно значення за замовчуванням — скинути",
+  "Open a book to change this": "Відкрийте книгу, щоб це змінити",
+  "Unapplied CSS": "Незастосований CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Зміна області відкине CSS, який ви не застосували.",
+  "Discard": "Відхилити",
+  "This book overrides it": "Ця книга перевизначає це"
 }

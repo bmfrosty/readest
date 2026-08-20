@@ -1,6 +1,7 @@
 import React from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import { BoxedList, SettingsSwitchRow } from '../primitives';
+import { useScopeTags } from '../ScopeIndicators';
 
 interface LibrarySettingsProps {
   skeuomorphicCovers: boolean;
@@ -14,11 +15,12 @@ const LibrarySettings: React.FC<LibrarySettingsProps> = ({
   'data-setting-id': dataSettingId,
 }) => {
   const _ = useTranslation();
+  const scopeTag = useScopeTags();
 
   return (
     <BoxedList title={_('Library')} data-setting-id={dataSettingId}>
       <SettingsSwitchRow
-        label={_('Skeuomorphic Book Covers')}
+        label={scopeTag.appWide(_('Skeuomorphic Book Covers'))}
         checked={skeuomorphicCovers}
         onChange={() => onToggle(!skeuomorphicCovers)}
       />

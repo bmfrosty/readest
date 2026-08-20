@@ -1,6 +1,7 @@
 import React from 'react';
 import { CODE_LANGUAGES, CodeLanguage } from '@/utils/highlightjs';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useScopedLabel } from '../SettingsScopeContext';
 import { BoxedList, SettingsRow, SettingsSelect, SettingsSwitchRow } from '../primitives';
 
 interface CodeHighlightingSettingsProps {
@@ -19,15 +20,22 @@ const CodeHighlightingSettings: React.FC<CodeHighlightingSettingsProps> = ({
   'data-setting-id': dataSettingId,
 }) => {
   const _ = useTranslation();
+  const scopedLabel = useScopedLabel();
 
   return (
     <BoxedList title={_('Code Highlighting')} data-setting-id={dataSettingId}>
       <SettingsSwitchRow
-        label={_('Enable Highlighting')}
+        label={scopedLabel(_('Enable Highlighting'), 'codeHighlighting', onToggle)}
         checked={codeHighlighting}
         onChange={() => onToggle(!codeHighlighting)}
       />
-      <SettingsRow label={_('Code Language')}>
+      <SettingsRow
+        label={scopedLabel(_('Code Language'), 'codeLanguage', (value) =>
+          // `codeLanguage` is a plain string in ViewSettings; the picker only
+          // ever holds one of CODE_LANGUAGES, same cast as the select below.
+          onLanguageChange(value as CodeLanguage),
+        )}
+      >
         <SettingsSelect
           value={codeLanguage}
           onChange={(event) => onLanguageChange(event.target.value as CodeLanguage)}

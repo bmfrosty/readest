@@ -2256,5 +2256,14 @@
   "This book: {{title}} — overrides only": "Ce livre : {{title}} — remplacements uniquement",
   "Settings Scope": "Portée des paramètres",
   "All Books": "Tous les livres",
-  "This Book": "Ce livre"
+  "This Book": "Ce livre",
+  "This book has its own value — reset it to your global setting": "Ce livre a sa propre valeur — réinitialiser à votre paramètre global",
+  "This book only": "Ce livre uniquement",
+  "Whole app": "Toute l’application",
+  "Changed from the default — reset it": "Modifié par rapport au défaut — réinitialiser",
+  "Open a book to change this": "Ouvrez un livre pour le modifier",
+  "Unapplied CSS": "CSS non appliqué",
+  "Switching scope will discard the CSS you have not applied yet.": "Changer de portée supprimera le CSS que vous n’avez pas appliqué.",
+  "Discard": "Abandonner",
+  "This book overrides it": "Ce livre remplace ceci"
 }

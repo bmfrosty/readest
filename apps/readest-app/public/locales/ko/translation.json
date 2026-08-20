@@ -2138,5 +2138,14 @@
   "This book: {{title}} — overrides only": "이 책: {{title}} — 개별 설정만",
   "Settings Scope": "설정 범위",
   "All Books": "모든 책",
-  "This Book": "이 책"
+  "This Book": "이 책",
+  "This book has its own value — reset it to your global setting": "이 책은 자체 값을 가지고 있습니다 — 전역 설정으로 재설정",
+  "This book only": "이 책만",
+  "Whole app": "앱 전체",
+  "Changed from the default — reset it": "기본값에서 변경됨 — 재설정",
+  "Open a book to change this": "변경하려면 책을 여세요",
+  "Unapplied CSS": "적용하지 않은 CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "범위를 전환하면 적용하지 않은 CSS가 삭제됩니다.",
+  "Discard": "버리기",
+  "This book overrides it": "이 책이 이 설정을 재정의합니다"
 }
