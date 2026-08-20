@@ -116,7 +116,21 @@ export const saveViewSettings = async <K extends keyof ViewSettings>(
     };
     setSettings(nextSettings);
 
+    // Replay the new global onto the open books so they re-render at once — but
+    // ONLY those that were inheriting it. A book holding its own value keeps it:
+    // that is the whole meaning of an override, and `deserializeConfig` merges
+    // `{ ...global, ...bookOverrides }` on the next load anyway.
+    //
+    // Without this test the replay assigned the new global to every open book,
+    // and serializeConfig then dropped the key from each config because it now
+    // matched global. A single global edit silently destroyed the per-book value
+    // of every book that happened to be open.
+    const previousGlobalValue = settings.globalViewSettings?.[key];
     for (const bookKey of bookKeys) {
+      const openBookSettings = getViewSettings(bookKey);
+      if (openBookSettings && !isSameViewSettingValue(openBookSettings[key], previousGlobalValue)) {
+        continue;
+      }
       await applyViewSettings(bookKey, nextSettings);
     }
     await saveSettings(envConfig, nextSettings);

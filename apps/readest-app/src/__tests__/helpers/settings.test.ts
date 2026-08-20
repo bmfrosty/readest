@@ -304,3 +304,47 @@ describe('a real global change', () => {
     expect(seen[0]!.lineHeight).toBe(1.8);
   });
 });
+
+describe('changing a global value', () => {
+  const setup = (globalValue: string, bookValue: string) => {
+    const settings = useSettingsStore.getState().settings;
+    settings.globalViewSettings = {
+      ...settings.globalViewSettings,
+      serifFont: globalValue,
+    } as ViewSettings;
+    const bookViewSettings = { isGlobal: true, serifFont: bookValue } as unknown as ViewSettings;
+    getViewSettingsMock.mockImplementation(() => bookViewSettings);
+    getViewStateMock.mockImplementation(() => ({ isPrimary: true }) as never);
+    useReaderStoreBookKeys.push('book-1');
+    return bookViewSettings;
+  };
+
+  /**
+   * A per-book value exists precisely so it survives changes to the global.
+   * `deserializeConfig` merges `{ ...global, ...bookOverrides }`, so the book's
+   * value is meant to win.
+   *
+   * The replay onto open books did not respect that: it assigned the new global
+   * to EVERY open book, so the book's value was overwritten in memory and then
+   * dropped from its config by serializeConfig, which keeps only keys that
+   * differ from global. Reported by hand — global Bookerly, book Literata, reset
+   * the global, and the book's Literata was gone.
+   */
+  test('leaves a book that has its own value alone', async () => {
+    const book = setup('Bookerly', 'Literata');
+
+    await saveViewSettings(envConfig, 'book-1', 'serifFont', 'Georgia', false, false);
+
+    expect(book.serifFont).toBe('Literata');
+    expect(useSettingsStore.getState().settings.globalViewSettings.serifFont).toBe('Georgia');
+  });
+
+  test('carries a book that was inheriting', async () => {
+    // Same value as global means the book had no opinion, so it must follow.
+    const book = setup('Bookerly', 'Bookerly');
+
+    await saveViewSettings(envConfig, 'book-1', 'serifFont', 'Georgia', false, false);
+
+    expect(book.serifFont).toBe('Georgia');
+  });
+});
