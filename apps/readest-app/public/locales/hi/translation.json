@@ -2111,9 +2111,9 @@
   "This book only": "केवल यह पुस्तक",
   "Whole app": "पूरा ऐप",
   "Changed from the default — reset it": "डिफ़ॉल्ट से बदला गया — रीसेट करें",
-  "This book overrides it": "यह पुस्तक इसे ओवरराइड करती है",
   "Open a book to change this": "इसे बदलने के लिए एक पुस्तक खोलें",
   "Unapplied CSS": "लागू न किया गया CSS",
   "Switching scope will discard the CSS you have not applied yet.": "दायरा बदलने पर आपका बिना लागू किया CSS हट जाएगा।",
-  "Discard": "छोड़ें"
+  "Discard": "छोड़ें",
+  "This book overrides it": "यह पुस्तक इसे ओवरराइड करती है"
 }

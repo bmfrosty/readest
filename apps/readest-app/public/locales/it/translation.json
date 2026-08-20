@@ -2167,9 +2167,9 @@
   "This book only": "Solo questo libro",
   "Whole app": "Tutta l’app",
   "Changed from the default — reset it": "Modificato rispetto al predefinito — reimposta",
-  "This book overrides it": "Questo libro lo sostituisce",
   "Open a book to change this": "Apri un libro per modificarlo",
   "Unapplied CSS": "CSS non applicato",
   "Switching scope will discard the CSS you have not applied yet.": "Cambiare ambito scarterà il CSS che non hai applicato.",
-  "Discard": "Scarta"
+  "Discard": "Scarta",
+  "This book overrides it": "Questo libro sostituisce questo"
 }

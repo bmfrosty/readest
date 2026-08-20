@@ -2223,9 +2223,9 @@
   "This book only": "Samo ta knjiga",
   "Whole app": "Celotna aplikacija",
   "Changed from the default — reset it": "Spremenjeno glede na privzeto — ponastavi",
-  "This book overrides it": "Ta knjiga to preglasi",
   "Open a book to change this": "Odprite knjigo, da to spremenite",
   "Unapplied CSS": "Neuporabljen CSS",
   "Switching scope will discard the CSS you have not applied yet.": "Zamenjava obsega bo zavrgla neuporabljen CSS.",
-  "Discard": "Zavrzi"
+  "Discard": "Zavrzi",
+  "This book overrides it": "Ta knjiga to preglasi"
 }

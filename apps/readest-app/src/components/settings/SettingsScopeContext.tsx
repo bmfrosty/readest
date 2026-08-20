@@ -8,7 +8,6 @@ import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 import { saveViewSettings } from '@/helpers/settings';
 import { isSameViewSettingValue } from '@/utils/serializer';
 import OverrideBadge from './OverrideBadge';
-import ScopeTag from './ScopeTag';
 
 /**
  * Which of the two stores a settings panel writes to, and how far each row has
@@ -138,7 +137,15 @@ export const useScopedLabel = () => {
             onReset={() => onReset(scope.getBaselineValue(key))}
           />
         )}
-        {masked && <ScopeTag text={_('This book overrides it')} />}
+        {masked && (
+          // A line of its own under the setting, not a chip beside the title:
+          // it is a sentence about the value below, not a label for the row.
+          // `block` inside SettingLabel's line-clamp box puts it on the next
+          // line; the clamp then holds title + note at two lines.
+          <span className='text-base-content/65 block text-[0.8em] font-normal leading-snug'>
+            {_('This book overrides it')}
+          </span>
+        )}
       </>
     );
   };

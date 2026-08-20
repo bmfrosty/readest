@@ -2055,9 +2055,9 @@
   "This book only": "དཔེ་དེབ་འདི་ཁོ་ན།",
   "Whole app": "ཉེར་སྤྱོད་ཡོངས།",
   "Changed from the default — reset it": "སྔོན་སྒྲིག་ལས་བསྒྱུར་ཟིན། — བསྐྱར་སྒྲིག",
-  "This book overrides it": "དཔེ་དེབ་འདིས་བརྗེ་བཅོས་བྱས།",
   "Open a book to change this": "འདི་བསྒྱུར་བར་དཔེ་དེབ་ཅིག་ཁ་ཕྱེ།",
   "Unapplied CSS": "བཀོལ་སྤྱོད་མ་བྱས་པའི་ CSS",
   "Switching scope will discard the CSS you have not applied yet.": "ཁྱབ་ཁོངས་བརྗེ་ན་ཁྱེད་ཀྱིས་བཀོལ་མ་བྱས་པའི་ CSS དོར་བར་འགྱུར།",
-  "Discard": "དོར་བ།"
+  "Discard": "དོར་བ།",
+  "This book overrides it": "དཔེ་དེབ་འདིས་འདི་བརྗེ་བཅོས་བྱེད།"
 }

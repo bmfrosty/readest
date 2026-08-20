@@ -395,32 +395,48 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
 
       <BoxedList title={_('Pagination')} data-setting-id='settings.control.clickToPaginate'>
         <SettingsSwitchRow
-          label={appService?.isMobileApp ? _('Tap to Paginate') : _('Click to Paginate')}
+          label={scopedLabel(
+            appService?.isMobileApp ? _('Tap to Paginate') : _('Click to Paginate'),
+            'disableClick',
+            setIsDisableClick,
+          )}
           checked={!isDisableClick}
           onChange={() => setIsDisableClick(!isDisableClick)}
         />
         <SettingsSwitchRow
-          label={_('Swipe to Paginate')}
+          label={scopedLabel(_('Swipe to Paginate'), 'disableSwipe', setIsDisableSwipe)}
           checked={!isDisableSwipe}
           onChange={() => setIsDisableSwipe(!isDisableSwipe)}
           data-setting-id='settings.control.swipeToPaginate'
         />
         <SettingsSwitchRow
-          label={appService?.isMobileApp ? _('Tap Both Sides') : _('Click Both Sides')}
+          label={scopedLabel(
+            appService?.isMobileApp ? _('Tap Both Sides') : _('Click Both Sides'),
+            'fullscreenClickArea',
+            setFullscreenClickArea,
+          )}
           checked={fullscreenClickArea}
           disabled={isDisableClick}
           onChange={() => setFullscreenClickArea(!fullscreenClickArea)}
           data-setting-id='settings.control.clickBothSides'
         />
         <SettingsSwitchRow
-          label={appService?.isMobileApp ? _('Swap Tap Sides') : _('Swap Click Sides')}
+          label={scopedLabel(
+            appService?.isMobileApp ? _('Swap Tap Sides') : _('Swap Click Sides'),
+            'swapClickArea',
+            setSwapClickArea,
+          )}
           checked={swapClickArea}
           disabled={isDisableClick || fullscreenClickArea}
           onChange={() => setSwapClickArea(!swapClickArea)}
           data-setting-id='settings.control.swapClickSides'
         />
         <SettingsSwitchRow
-          label={appService?.isMobileApp ? _('Disable Double Tap') : _('Disable Double Click')}
+          label={scopedLabel(
+            appService?.isMobileApp ? _('Disable Double Tap') : _('Disable Double Click'),
+            'disableDoubleClick',
+            setIsDisableDoubleClick,
+          )}
           checked={isDisableDoubleClick}
           onChange={() => setIsDisableDoubleClick(!isDisableDoubleClick)}
           data-setting-id='settings.control.disableDoubleClick'
@@ -457,7 +473,10 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
           checked={enableAnnotationQuickActions}
           onChange={() => setEnableAnnotationQuickActions(!enableAnnotationQuickActions)}
         />
-        <SettingsRow label={_('Quick Action')} data-setting-id='settings.control.quickAction'>
+        <SettingsRow
+          label={scopedLabel(_('Quick Action'), 'annotationQuickAction', setAnnotationQuickAction)}
+          data-setting-id='settings.control.quickAction'
+        >
           <SettingsSelect
             value={annotationQuickAction || ''}
             onChange={handleSelectAnnotationQuickAction}
@@ -485,7 +504,10 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
           checked={animated}
           onChange={() => setAnimated(!animated)}
         />
-        <SettingsRow label={_('Animation Style')} data-setting-id='settings.control.pageTurnStyle'>
+        <SettingsRow
+          label={scopedLabel(_('Animation Style'), 'pageTurnStyle', setPageTurnStyle)}
+          data-setting-id='settings.control.pageTurnStyle'
+        >
           <SettingsSelect
             // A synced slide/curl setting from another device still reads as
             // push here when this engine cannot animate it.

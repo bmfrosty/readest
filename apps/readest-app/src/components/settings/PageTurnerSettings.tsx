@@ -20,6 +20,7 @@ import { BoxedList, SettingsRow, SettingsSwitchRow } from './primitives';
 import { useReaderStore } from '@/store/readerStore';
 import { useScopeTags } from './ScopeTag';
 import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
+import { useScopedLabel } from './SettingsScopeContext';
 
 type Slot = PageTurnAction;
 const LEARN_TIMEOUT_MS = 8000;
@@ -31,6 +32,7 @@ interface PageTurnerSettingsProps {
 
 const PageTurnerSettings: React.FC<PageTurnerSettingsProps> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
+  const scopedLabel = useScopedLabel();
   const scopeTag = useScopeTags();
   const { envConfig, appService } = useEnv();
   const { getViewSettings } = useReaderStore();
@@ -199,7 +201,7 @@ const PageTurnerSettings: React.FC<PageTurnerSettingsProps> = ({ bookKey, onRegi
       >
         {appService?.isMobileApp && (
           <SettingsSwitchRow
-            label={_('Use Volume Keys')}
+            label={scopedLabel(_('Use Volume Keys'), 'volumeKeysToFlip', setVolumeKeysToFlip)}
             checked={volumeKeysToFlip}
             onChange={() => setVolumeKeysToFlip(!volumeKeysToFlip)}
           />

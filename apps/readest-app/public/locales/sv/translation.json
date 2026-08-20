@@ -2111,9 +2111,9 @@
   "This book only": "Endast den här boken",
   "Whole app": "Hela appen",
   "Changed from the default — reset it": "Ändrad från standardvärdet — återställ",
-  "This book overrides it": "Den här boken åsidosätter det",
   "Open a book to change this": "Öppna en bok för att ändra detta",
   "Unapplied CSS": "Ej tillämpad CSS",
   "Switching scope will discard the CSS you have not applied yet.": "Att byta omfattning kasserar den CSS du inte har tillämpat.",
-  "Discard": "Kasta"
+  "Discard": "Kasta",
+  "This book overrides it": "Den här boken åsidosätter detta"
 }

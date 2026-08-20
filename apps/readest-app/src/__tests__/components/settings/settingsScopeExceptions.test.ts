@@ -219,3 +219,48 @@ describe('sub-page position is never held in a panel', () => {
     expect(local).toEqual([]);
   });
 });
+
+/**
+ * Every control seeded from `edited` is a scoped setting, so every one of them
+ * must be able to show the badge and the override note. Wiring only some tabs
+ * made the banner claim to govern rows that displayed no state at all —
+ * reported by hand on the Behavior tab, where sixteen controls were silent.
+ *
+ * The shapes that hid rows from the first sweep: multiline generic seeds,
+ * negated bindings (`checked={!isDisableClick}`), computed values, conditional
+ * labels, and labels containing parentheses.
+ */
+describe('every scoped control can show its state', () => {
+  it('has no control seeded from the scope that lacks a badge', () => {
+    const files = sourceFiles(SETTINGS_DIR);
+
+    const scoped = new Map<string, string>();
+    for (const file of files) {
+      const re = /const \[(\w+), (set\w+)\] = useState[^(]*\(\s*edited\.(\w+)/g;
+      for (
+        let m = re.exec(readFileSync(file, 'utf8'));
+        m;
+        m = re.exec(readFileSync(file, 'utf8'))
+      ) {
+        scoped.set(m[3]!, file.split('/').pop()!);
+        if (re.lastIndex === 0) break;
+      }
+    }
+
+    const decorated = new Set<string>();
+    for (const file of files) {
+      const lines = readFileSync(file, 'utf8').split('\n');
+      lines.forEach((line, i) => {
+        if (!line.includes('scopedLabel(')) return;
+        const window = lines.slice(i, i + 6).join('\n');
+        for (const key of scoped.keys()) if (window.includes(`'${key}'`)) decorated.add(key);
+      });
+    }
+
+    // Deprecated fields, read only in a fallback expression — no control of
+    // their own, so nothing to decorate.
+    const legacy = new Set(['marginPx', 'compactMarginPx']);
+    const missing = [...scoped.keys()].filter((k) => !decorated.has(k) && !legacy.has(k)).sort();
+    expect(missing).toEqual([]);
+  });
+});

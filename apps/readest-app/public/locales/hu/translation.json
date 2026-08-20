@@ -2111,9 +2111,9 @@
   "This book only": "Csak ez a könyv",
   "Whole app": "Az egész alkalmazás",
   "Changed from the default — reset it": "Eltér az alapértelmezéstől — visszaállítás",
-  "This book overrides it": "Ez a könyv felülírja",
   "Open a book to change this": "Nyisson meg egy könyvet a módosításhoz",
   "Unapplied CSS": "Nem alkalmazott CSS",
   "Switching scope will discard the CSS you have not applied yet.": "A hatókör váltása eldobja a nem alkalmazott CSS-t.",
-  "Discard": "Elvetés"
+  "Discard": "Elvetés",
+  "This book overrides it": "Ez a könyv felülírja ezt"
 }

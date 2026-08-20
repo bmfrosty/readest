@@ -2111,9 +2111,9 @@
   "This book only": "මෙම පොත පමණි",
   "Whole app": "සම්පූර්ණ යෙදුම",
   "Changed from the default — reset it": "පෙරනිමියෙන් වෙනස් කර ඇත — නැවත සකසන්න",
-  "This book overrides it": "මෙම පොත එය ඉක්මවයි",
   "Open a book to change this": "මෙය වෙනස් කිරීමට පොතක් විවෘත කරන්න",
   "Unapplied CSS": "යොදා නොගත් CSS",
   "Switching scope will discard the CSS you have not applied yet.": "විෂය පථය මාරු කිරීමෙන් ඔබ යොදා නොගත් CSS ඉවත් වේ.",
-  "Discard": "ඉවත ලන්න"
+  "Discard": "ඉවත ලන්න",
+  "This book overrides it": "මෙම පොත මෙය ඉක්මවයි"
 }

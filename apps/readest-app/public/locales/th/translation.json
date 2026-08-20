@@ -2055,9 +2055,9 @@
   "This book only": "เฉพาะหนังสือเล่มนี้",
   "Whole app": "ทั้งแอป",
   "Changed from the default — reset it": "เปลี่ยนจากค่าเริ่มต้น — รีเซ็ต",
-  "This book overrides it": "หนังสือเล่มนี้แทนที่ค่านี้",
   "Open a book to change this": "เปิดหนังสือเพื่อเปลี่ยนค่านี้",
   "Unapplied CSS": "CSS ที่ยังไม่ได้ใช้",
   "Switching scope will discard the CSS you have not applied yet.": "การสลับขอบเขตจะทิ้ง CSS ที่คุณยังไม่ได้ใช้",
-  "Discard": "ทิ้ง"
+  "Discard": "ทิ้ง",
+  "This book overrides it": "หนังสือเล่มนี้แทนที่ค่านี้"
 }

@@ -316,7 +316,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   return (
     <div className={clsx('my-4 w-full space-y-6')}>
       <BoxedList title={_('Language')} data-setting-id='settings.language.interfaceLanguage'>
-        <SettingsRow label={_('Language')}>
+        <SettingsRow label={scopedLabel(_('Language'), 'uiLanguage', setUILanguage)}>
           <SettingsSelect
             value={getCurrentUILangOption().value}
             onChange={handleSelectUILang}
@@ -378,7 +378,11 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
           />
         </SettingsRow>
         <SettingsRow
-          label={_('Translation Service')}
+          label={scopedLabel(
+            _('Translation Service'),
+            'translationProvider',
+            setTranslationProvider,
+          )}
           data-setting-id='settings.language.translationProvider'
         >
           <SettingsSelect
@@ -388,7 +392,10 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
             options={getTranslationProviderOptions()}
           />
         </SettingsRow>
-        <SettingsRow label={_('Translate To')} data-setting-id='settings.language.targetLanguage'>
+        <SettingsRow
+          label={scopedLabel(_('Translate To'), 'translateTargetLang', setTranslateTargetLang)}
+          data-setting-id='settings.language.targetLanguage'
+        >
           <SettingsSelect
             value={getCurrentTargetLangOption().value}
             onChange={handleSelectTargetLang}
@@ -418,7 +425,13 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
           title={_('Convert Simplified and Traditional Chinese')}
           data-setting-id='settings.language.chineseConversion'
         >
-          <SettingsRow label={_('Convert Mode')}>
+          <SettingsRow
+            label={scopedLabel(
+              _('Convert Mode'),
+              'convertChineseVariant',
+              setConvertChineseVariant,
+            )}
+          >
             <SettingsSelect
               value={getConvertModeOption().value}
               onChange={handleSelectConvertMode}

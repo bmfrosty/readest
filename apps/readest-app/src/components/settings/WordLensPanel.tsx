@@ -29,6 +29,7 @@ import SubPageHeader from './SubPageHeader';
 import ColorInput from './theme/ColorInput';
 import { BoxedList, SettingsRow, SettingsSelect, SettingsSwitchRow } from './primitives';
 import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
+import { useScopedLabel } from './SettingsScopeContext';
 
 // Swatch shown for the "default" (muted, theme-adaptive) gloss color, which has
 // no fixed hex of its own. Picking any color overrides; "Default" clears back.
@@ -43,6 +44,7 @@ const baseCode = (lang?: string | null): string => (lang || '').toLowerCase().sp
 
 const WordLensPanel: React.FC<WordLensPanelProps> = ({ bookKey, onBack }) => {
   const _ = useTranslation();
+  const scopedLabel = useScopedLabel();
   const { envConfig, appService } = useEnv();
   const { getViewSettings, setViewSettings } = useReaderStore();
   const { getBookData } = useBookDataStore();
@@ -328,12 +330,16 @@ const WordLensPanel: React.FC<WordLensPanelProps> = ({ bookKey, onBack }) => {
 
       <BoxedList title={_('Word Lens')} data-setting-id='settings.wordlens.main'>
         <SettingsSwitchRow
-          label={_('Enable Word Lens')}
+          label={scopedLabel(_('Enable Word Lens'), 'wordLensEnabled', setWordLensEnabled)}
           checked={wordLensEnabled}
           onChange={() => setWordLensEnabled(!wordLensEnabled)}
           data-setting-id='settings.wordlens.enabled'
         />
-        <SettingsRow label={_('Level')} description={_('CEFR level')} disabled={!wordLensEnabled}>
+        <SettingsRow
+          label={scopedLabel(_('Level'), 'wordLensLevel', setWordLensLevel)}
+          description={_('CEFR level')}
+          disabled={!wordLensEnabled}
+        >
           <div className='flex items-center gap-2'>
             <input
               type='range'
@@ -352,7 +358,7 @@ const WordLensPanel: React.FC<WordLensPanelProps> = ({ bookKey, onBack }) => {
             </span>
           </div>
         </SettingsRow>
-        <SettingsRow label={_('Language')}>
+        <SettingsRow label={scopedLabel(_('Language'), 'wordLensHintLang', setHintLang)}>
           <SettingsSelect
             value={selectedHintValue}
             onChange={handleSelectHintLang}
@@ -361,7 +367,7 @@ const WordLensPanel: React.FC<WordLensPanelProps> = ({ bookKey, onBack }) => {
           />
         </SettingsRow>
         <SettingsRow
-          label={_('Hint size')}
+          label={scopedLabel(_('Hint size'), 'wordLensGlossFontSize', setGlossFontSize)}
           description={_('Gloss text size above the word')}
           disabled={!wordLensEnabled}
         >
@@ -374,7 +380,7 @@ const WordLensPanel: React.FC<WordLensPanelProps> = ({ bookKey, onBack }) => {
           />
         </SettingsRow>
         <SettingsRow
-          label={_('Hint color')}
+          label={scopedLabel(_('Hint color'), 'wordLensGlossColor', setGlossColor)}
           description={glossColor ? glossColor : _('Default')}
           disabled={!wordLensEnabled}
         >

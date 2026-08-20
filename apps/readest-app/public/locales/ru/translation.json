@@ -2223,9 +2223,9 @@
   "This book only": "Только эта книга",
   "Whole app": "Всё приложение",
   "Changed from the default — reset it": "Изменено относительно значения по умолчанию — сбросить",
-  "This book overrides it": "Эта книга переопределяет его",
   "Open a book to change this": "Откройте книгу, чтобы изменить это",
   "Unapplied CSS": "Неприменённый CSS",
   "Switching scope will discard the CSS you have not applied yet.": "Смена области отменит CSS, который вы не применили.",
-  "Discard": "Отбросить"
+  "Discard": "Отбросить",
+  "This book overrides it": "Эта книга переопределяет это"
 }

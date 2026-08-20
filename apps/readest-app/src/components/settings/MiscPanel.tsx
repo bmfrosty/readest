@@ -12,11 +12,13 @@ import { validateCSS, formatCSS } from '@/utils/css';
 import { getStyles } from '@/utils/style';
 import { BoxedList } from './primitives';
 import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
+import { useScopedLabel } from './SettingsScopeContext';
 
 type CSSType = 'book' | 'reader';
 
 const MiscPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
+  const scopedLabel = useScopedLabel();
   const { appService, envConfig } = useEnv();
   const { settings, setHasUnappliedDraft } = useSettingsStore();
   const { getView, getViewSettings, setViewSettings } = useReaderStore();
@@ -156,7 +158,15 @@ const MiscPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
     settingId?: string,
   ) => (
     <div className='w-full'>
-      <BoxedList title={_(title)} data-setting-id={settingId} innerClassName='!ps-0'>
+      <BoxedList
+        title={scopedLabel(
+          _(title),
+          type === 'book' ? 'userStylesheet' : 'userUIStylesheet',
+          type === 'book' ? setDraftContentStylesheet : setDraftUIStylesheet,
+        )}
+        data-setting-id={settingId}
+        innerClassName='!ps-0'
+      >
         {/* Single full-width child instead of typical settings rows — the
             textarea owns the whole card surface. Apply button overlays at
             the bottom-trailing corner; visible only when there are unsaved

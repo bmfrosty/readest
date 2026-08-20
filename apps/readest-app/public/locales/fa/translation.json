@@ -2111,9 +2111,9 @@
   "This book only": "فقط این کتاب",
   "Whole app": "کل برنامه",
   "Changed from the default — reset it": "نسبت به پیش‌فرض تغییر کرده — بازنشانی",
-  "This book overrides it": "این کتاب آن را بازنویسی می‌کند",
   "Open a book to change this": "برای تغییر این، کتابی را باز کنید",
   "Unapplied CSS": "CSS اعمال‌نشده",
   "Switching scope will discard the CSS you have not applied yet.": "تغییر دامنه، CSS اعمال‌نشده‌ی شما را دور می‌ریزد.",
-  "Discard": "دور انداختن"
+  "Discard": "دور انداختن",
+  "This book overrides it": "این کتاب این را بازنویسی می‌کند"
 }

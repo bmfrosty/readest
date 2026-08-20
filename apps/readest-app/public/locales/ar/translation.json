@@ -2335,9 +2335,9 @@
   "This book only": "هذا الكتاب فقط",
   "Whole app": "التطبيق بأكمله",
   "Changed from the default — reset it": "تم التغيير عن الإعداد الافتراضي — أعد تعيينه",
-  "This book overrides it": "هذا الكتاب يتجاوزه",
   "Open a book to change this": "افتح كتابًا لتغيير هذا",
   "Unapplied CSS": "CSS غير مطبَّق",
   "Switching scope will discard the CSS you have not applied yet.": "تبديل النطاق سيتجاهل CSS الذي لم تطبِّقه بعد.",
-  "Discard": "تجاهل"
+  "Discard": "تجاهل",
+  "This book overrides it": "هذا الكتاب يتجاوز هذا"
 }
