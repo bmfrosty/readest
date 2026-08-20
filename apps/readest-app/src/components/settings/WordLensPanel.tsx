@@ -44,7 +44,7 @@ const baseCode = (lang?: string | null): string => (lang || '').toLowerCase().sp
 const WordLensPanel: React.FC<WordLensPanelProps> = ({ bookKey, onBack }) => {
   const _ = useTranslation();
   const { envConfig, appService } = useEnv();
-  const { getViewSettings, setViewSettings } = useReaderStore();
+  const { getViewSettings } = useReaderStore();
   const { getBookData } = useBookDataStore();
   const { settings, setSettings, saveSettings } = useSettingsStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
@@ -164,8 +164,6 @@ const WordLensPanel: React.FC<WordLensPanelProps> = ({ bookKey, onBack }) => {
     const option = event.target.value;
     setHintLang(option || appLang);
     saveViewSettings(envConfig, bookKey, 'wordLensHintLang', option, false, false);
-    viewSettings.wordLensHintLang = option;
-    setViewSettings(bookKey, { ...viewSettings });
   };
 
   // Gloss appearance (font size + color) drives the <rt> CSS via getRubyStyles, so

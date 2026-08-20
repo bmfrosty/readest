@@ -19,7 +19,7 @@ const MiscPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const _ = useTranslation();
   const { appService, envConfig } = useEnv();
   const { settings } = useSettingsStore();
-  const { getView, getViewSettings, setViewSettings } = useReaderStore();
+  const { getView, getViewSettings } = useReaderStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
   const { edited } = useEditedViewSettings(bookKey);
 
@@ -104,9 +104,10 @@ const MiscPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
     // for the session and was never persisted.
     saveViewSettings(envConfig, bookKey, key, formattedCSS, false, false);
 
-    const nextViewSettings = { ...viewSettings, [key]: formattedCSS };
-    setViewSettings(bookKey, nextViewSettings);
-    getView(bookKey)?.renderer.setStyles?.(getStyles(nextViewSettings));
+    // Do NOT write the value onto the book here. saveViewSettings already
+    // applies it to the books that should receive it, and skips a book holding
+    // its own value — writing it back defeats that skip and deletes the override.
+    getView(bookKey)?.renderer.setStyles?.(getStyles(getViewSettings(bookKey) ?? viewSettings));
   };
 
   const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {

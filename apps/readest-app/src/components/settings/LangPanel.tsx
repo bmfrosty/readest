@@ -38,7 +38,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const { envConfig } = useEnv();
   const { settings, applyUILanguage, activeSettingsItemId, setActiveSettingsItemId } =
     useSettingsStore();
-  const { getView, getViewSettings, setViewSettings, recreateViewer } = useReaderStore();
+  const { getView, getViewSettings, recreateViewer } = useReaderStore();
   const { getBookData } = useBookDataStore();
   const view = getView(bookKey);
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
@@ -156,8 +156,6 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
     const option = event.target.value;
     setTranslationProvider(option);
     saveViewSettings(envConfig, bookKey, 'translationProvider', option, false, false);
-    viewSettings.translationProvider = option;
-    setViewSettings(bookKey, { ...viewSettings });
   };
 
   const getCurrentTargetLangOption = () => {
@@ -170,8 +168,6 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
     const option = event.target.value;
     setTranslateTargetLang(option);
     saveViewSettings(envConfig, bookKey, 'translateTargetLang', option, false, false);
-    viewSettings.translateTargetLang = option;
-    setViewSettings(bookKey, { ...viewSettings });
   };
 
   const handleSelectTTSText = (event: React.ChangeEvent<HTMLSelectElement>) => {
