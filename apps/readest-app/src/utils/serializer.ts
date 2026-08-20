@@ -21,7 +21,11 @@ export const serializeRawConfig = (config: Partial<BookConfig>): string => {
 // check would persist them as per-book overrides even when identical to global,
 // which then shadows later global changes on reopen. Primitives short-circuit;
 // the JSON compare covers arrays and plain config objects (all JSON-serializable).
-const isSameViewSettingValue = (a: unknown, b: unknown): boolean =>
+//
+// Exported so the settings UI's "overridden for this book" badge asks the same
+// question this function answers — a row is badged exactly when the key would
+// be persisted as a per-book override here.
+export const isSameViewSettingValue = (a: unknown, b: unknown): boolean =>
   a === b || JSON.stringify(a) === JSON.stringify(b);
 
 export const serializeConfig = (
