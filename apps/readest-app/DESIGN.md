@@ -472,12 +472,22 @@ chip rather than being folded into the badge.
 value-compare `serializeConfig` uses to decide what to persist. Array and object settings are
 a fresh reference on every read and slip past a `!==`.
 
-**A write that changes nothing must do nothing.** `saveViewSettings`'s global branch replays
-the value onto every open book, which is how a real global change reaches them — but that
-replay also clears each book's own value for the key. Re-asserting the value the global
-already holds therefore destroys overrides for free, and panels re-assert current values on
-every mount. The guard lives in `saveViewSettings`, not in the panels: guarding effects fixes
-one panel and leaves every other caller exposed.
+**The replay must not outrank a per-book value.** `saveViewSettings`'s global branch pushes a
+new global onto the open books so they re-render at once. Two rules keep that from destroying
+data, because assigning the value makes the book match global and `serializeConfig` then drops
+the key:
+
+- *A write that changes nothing does nothing.* Panels re-assert their current values on every
+  mount, and a scope flip remounts them, so an unguarded pass wiped overrides for free. The
+  guard sits in `saveViewSettings`, not in the panels — guarding effects fixes one panel and
+  leaves every other caller exposed.
+- *A real change reaches only the books that were inheriting it*, whose value still equals the
+  previous global. A book holding its own value is skipped. `deserializeConfig` merges
+  `{ ...global, ...bookOverrides }`, so the book's value is meant to win; the replay has to
+  agree with the storage model rather than fight it.
+
+The second rule was recorded here as deliberate — "what any global write does in this app" —
+until a hand test showed the loss. A note like that is a claim to re-check, not a decision.
 
 **Don't badge a row whose scope is fixed.** `isGlobal` itself, and anything the panel saves
 with `skipGlobal` (`writingMode`, `referencePageCount`, `allowScript`, `translationEnabled`),
