@@ -29,9 +29,11 @@ import { DEFAULT_ANNOTATION_TOOLBAR_ITEMS } from '@/utils/annotationToolbar';
 import { canShareText } from '@/utils/share';
 import { optInTelemetry, optOutTelemetry } from '@/utils/telemetry';
 import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
+import { useScopedLabel } from './SettingsScopeContext';
 
 const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
+  const scopedLabel = useScopedLabel();
   const scopeTag = useScopeTags(bookKey);
   const { envConfig, appService } = useEnv();
   const { getView, getViews, getViewSettings, recreateViewer } = useReaderStore();
@@ -357,19 +359,23 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
     <div className='my-4 w-full space-y-6'>
       <BoxedList title={_('Scroll')} data-setting-id='settings.control.scrolledMode'>
         <SettingsSwitchRow
-          label={_('Scrolled Mode')}
+          label={scopedLabel(_('Scrolled Mode'), 'scrolled', setScrolledMode)}
           checked={isScrolledMode}
           onChange={() => setScrolledMode(!isScrolledMode)}
         />
         <SettingsSwitchRow
-          label={_('Single Section Scroll')}
+          label={scopedLabel(
+            _('Single Section Scroll'),
+            'noContinuousScroll',
+            setNoContinuousScroll,
+          )}
           checked={noContinuousScroll}
           disabled={!viewSettings.scrolled}
           onChange={() => setNoContinuousScroll(!noContinuousScroll)}
           data-setting-id='settings.control.scroll.noContinuousScroll'
         />
         <NumberInput
-          label={_('Overlap Pixels')}
+          label={scopedLabel(_('Overlap Pixels'), 'scrollingOverlap', setScrollingOverlap)}
           value={scrollingOverlap}
           onChange={setScrollingOverlap}
           disabled={!viewSettings.scrolled}
@@ -379,7 +385,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
           data-setting-id='settings.control.overlapPixels'
         />
         <SettingsSwitchRow
-          label={_('Hide Scrollbar')}
+          label={scopedLabel(_('Hide Scrollbar'), 'hideScrollbar', setHideScrollbar)}
           checked={hideScrollbar}
           disabled={!viewSettings.scrolled}
           onChange={() => setHideScrollbar(!hideScrollbar)}
@@ -420,7 +426,11 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
           data-setting-id='settings.control.disableDoubleClick'
         />
         <SettingsSwitchRow
-          label={_('Show Page Navigation Buttons')}
+          label={scopedLabel(
+            _('Show Page Navigation Buttons'),
+            'showPaginationButtons',
+            setShowPaginationButtons,
+          )}
           checked={showPaginationButtons}
           onChange={() => setShowPaginationButtons(!showPaginationButtons)}
           data-setting-id='settings.control.showPaginationButtons'
@@ -439,7 +449,11 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
         data-setting-id='settings.control.enableQuickActions'
       >
         <SettingsSwitchRow
-          label={_('Enable Quick Actions')}
+          label={scopedLabel(
+            _('Enable Quick Actions'),
+            'enableAnnotationQuickActions',
+            setEnableAnnotationQuickActions,
+          )}
           checked={enableAnnotationQuickActions}
           onChange={() => setEnableAnnotationQuickActions(!enableAnnotationQuickActions)}
         />
@@ -453,7 +467,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
           />
         </SettingsRow>
         <SettingsSwitchRow
-          label={_('Copy to Notebook')}
+          label={scopedLabel(_('Copy to Notebook'), 'copyToNotebook', setCopyToNotebook)}
           checked={copyToNotebook}
           onChange={() => setCopyToNotebook(!copyToNotebook)}
           data-setting-id='settings.control.copyToNotebook'
@@ -467,7 +481,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
 
       <BoxedList title={_('Animation')} data-setting-id='settings.control.pagingAnimation'>
         <SettingsSwitchRow
-          label={_('Paging Animation')}
+          label={scopedLabel(_('Paging Animation'), 'animated', setAnimated)}
           checked={animated}
           onChange={() => setAnimated(!animated)}
         />
@@ -489,7 +503,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
       <BoxedList title={_('Device')} data-setting-id='settings.control.device'>
         {(appService?.isAndroidApp || appService?.appPlatform === 'web') && (
           <SettingsSwitchRow
-            label={_('E-Ink Mode')}
+            label={scopedLabel(_('E-Ink Mode'), 'isEink', setIsEink)}
             checked={isEink}
             onChange={() => setIsEink(!isEink)}
             data-setting-id='settings.control.einkMode'
@@ -497,7 +511,7 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
         )}
         {(appService?.isAndroidApp || appService?.appPlatform === 'web') && (
           <SettingsSwitchRow
-            label={_('Color E-Ink Mode')}
+            label={scopedLabel(_('Color E-Ink Mode'), 'isColorEink', setIsColorEink)}
             checked={isColorEink}
             disabled={!isEink}
             onChange={() => setIsColorEink(!isColorEink)}

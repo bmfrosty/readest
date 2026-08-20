@@ -14,9 +14,11 @@ import { getTTSCacheConfig, setTTSCacheConfig } from '@/services/tts/providers/b
 import { BoxedList, SettingsRow, SettingsSelect, SettingsSwitchRow } from './primitives';
 import TTSHighlightStyleEditor, { TTSHighlightStyle } from './theme/TTSHighlightStyleEditor';
 import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
+import { useScopedLabel } from './SettingsScopeContext';
 
 const TTSPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
+  const scopedLabel = useScopedLabel();
   const { envConfig } = useEnv();
   const { settings, setSettings, saveSettings } = useSettingsStore();
   const { edited } = useEditedViewSettings(bookKey);
@@ -135,7 +137,10 @@ const TTSPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }
       />
 
       <BoxedList title={_('Media Info')} data-setting-id='settings.tts.mediaMetadata'>
-        <SettingsRow label={_('Player Style')} data-setting-id='settings.tts.playerStyle'>
+        <SettingsRow
+          label={scopedLabel(_('Player Style'), 'ttsPlayerStyle', setTtsPlayerStyle)}
+          data-setting-id='settings.tts.playerStyle'
+        >
           <SettingsSelect
             value={ttsPlayerStyle}
             onChange={handlePlayerStyleChange}
@@ -146,7 +151,9 @@ const TTSPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }
             ]}
           />
         </SettingsRow>
-        <SettingsRow label={_('Update Frequency')}>
+        <SettingsRow
+          label={scopedLabel(_('Update Frequency'), 'ttsMediaMetadata', setTtsMediaMetadata)}
+        >
           <SettingsSelect
             value={ttsMediaMetadata}
             onChange={handleMediaMetadataChange}

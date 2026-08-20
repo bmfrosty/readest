@@ -32,9 +32,11 @@ import CustomDictionaries from './CustomDictionaries';
 import WordLensPanel from './WordLensPanel';
 import { PiTranslate } from 'react-icons/pi';
 import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
+import { useScopedLabel } from './SettingsScopeContext';
 
 const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
+  const scopedLabel = useScopedLabel();
   const scopeTag = useScopeTags(bookKey);
   const { token } = useAuth();
   const { envConfig } = useEnv();
@@ -360,11 +362,14 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
           disabled={!bookKey || (!translationAvailable && !translationEnabled)}
         />
         <SettingsSwitchRow
-          label={_('Show Source Text')}
+          label={scopedLabel(_('Show Source Text'), 'showTranslateSource', setShowTranslateSource)}
           checked={showTranslateSource}
           onChange={() => setShowTranslateSource(!showTranslateSource)}
         />
-        <SettingsRow label={_('TTS Text')} data-setting-id='settings.language.ttsTextTranslation'>
+        <SettingsRow
+          label={scopedLabel(_('TTS Text'), 'ttsReadAloudText', setTtsReadAloudText)}
+          data-setting-id='settings.language.ttsTextTranslation'
+        >
           <SettingsSelect
             value={ttsReadAloudText}
             onChange={handleSelectTTSText}
@@ -396,7 +401,11 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
       {(isCJKEnv() || view?.language.isCJK) && (
         <BoxedList title={_('Punctuation')} data-setting-id='settings.language.quotationMarks'>
           <SettingsSwitchRow
-            label={_('Replace Quotation Marks')}
+            label={scopedLabel(
+              _('Replace Quotation Marks'),
+              'replaceQuotationMarks',
+              setReplaceQuotationMarks,
+            )}
             description={_('Enabled only in vertical layout.')}
             checked={replaceQuotationMarks}
             onChange={() => setReplaceQuotationMarks(!replaceQuotationMarks)}
