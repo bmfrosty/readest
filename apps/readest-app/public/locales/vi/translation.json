@@ -2138,5 +2138,14 @@
   "This book: {{title}} — overrides only": "Sách này: {{title}} — chỉ ghi đè",
   "Settings Scope": "Phạm vi cài đặt",
   "All Books": "Tất cả sách",
-  "This Book": "Sách này"
+  "This Book": "Sách này",
+  "This book has its own value — reset it to your global setting": "Sách này có giá trị riêng — đặt lại về cài đặt chung của bạn",
+  "This book only": "Chỉ sách này",
+  "Whole app": "Toàn bộ ứng dụng",
+  "Changed from the default — reset it": "Đã đổi khác mặc định — đặt lại",
+  "Open a book to change this": "Mở một cuốn sách để thay đổi",
+  "Unapplied CSS": "CSS chưa áp dụng",
+  "Switching scope will discard the CSS you have not applied yet.": "Chuyển phạm vi sẽ bỏ CSS bạn chưa áp dụng.",
+  "Discard": "Bỏ",
+  "This book overrides it": "Sách này ghi đè giá trị này"
 }

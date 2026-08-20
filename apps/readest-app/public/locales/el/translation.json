@@ -2197,5 +2197,14 @@
   "This book: {{title}} — overrides only": "Αυτό το βιβλίο: {{title}} — μόνο παρακάμψεις",
   "Settings Scope": "Εμβέλεια ρυθμίσεων",
   "All Books": "Όλα τα βιβλία",
-  "This Book": "Αυτό το βιβλίο"
+  "This Book": "Αυτό το βιβλίο",
+  "This book has its own value — reset it to your global setting": "Αυτό το βιβλίο έχει δική του τιμή — επαναφορά στη γενική σας ρύθμιση",
+  "This book only": "Μόνο αυτό το βιβλίο",
+  "Whole app": "Όλη η εφαρμογή",
+  "Changed from the default — reset it": "Άλλαξε από την προεπιλογή — επαναφορά",
+  "Open a book to change this": "Ανοίξτε ένα βιβλίο για να το αλλάξετε",
+  "Unapplied CSS": "Μη εφαρμοσμένο CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Η αλλαγή εμβέλειας θα απορρίψει το CSS που δεν εφαρμόσατε.",
+  "Discard": "Απόρριψη",
+  "This book overrides it": "Αυτό το βιβλίο το παρακάμπτει"
 }

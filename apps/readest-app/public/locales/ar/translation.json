@@ -2433,5 +2433,14 @@
   "This book: {{title}} — overrides only": "هذا الكتاب: {{title}} — تجاوزات فقط",
   "Settings Scope": "نطاق الإعدادات",
   "All Books": "جميع الكتب",
-  "This Book": "هذا الكتاب"
+  "This Book": "هذا الكتاب",
+  "This book has its own value — reset it to your global setting": "لهذا الكتاب قيمته الخاصة — أعد تعيينها إلى إعدادك العام",
+  "This book only": "هذا الكتاب فقط",
+  "Whole app": "التطبيق بأكمله",
+  "Changed from the default — reset it": "تم التغيير عن الإعداد الافتراضي — أعد تعيينه",
+  "Open a book to change this": "افتح كتابًا لتغيير هذا",
+  "Unapplied CSS": "CSS غير مطبَّق",
+  "Switching scope will discard the CSS you have not applied yet.": "تبديل النطاق سيتجاهل CSS الذي لم تطبِّقه بعد.",
+  "Discard": "تجاهل",
+  "This book overrides it": "هذا الكتاب يتجاوز هذا"
 }

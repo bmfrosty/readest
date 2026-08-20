@@ -419,6 +419,137 @@ subtitle, and the badge + toggle + edit/delete buttons stack as suffixes.
 These names come from libadwaita and apply 1:1 to Readest's lists. Use the names in code
 comments and PR descriptions.
 
+#### Settings scope: edit what the banner names
+
+A reader settings panel writes one of two stores — the global defaults, or the open book's
+own values — and which one is a mode, not a control. A mode the reader can't see is a mode
+they'll set by accident.
+
+**The panel must show the scope it writes.** `useEditedViewSettings` returns `edited`, which
+follows the scope, and `book`, which is the open book regardless. Seed control state from
+`edited` and compare against it in the on-mount guards; use `book` only for structural reads
+(writing mode, vertical, grid insets, legacy margin fields). Panels seed once in `useState`,
+so `SettingsDialog` keys each on the scope and the flip remounts them.
+
+Getting this wrong is not cosmetic. Panels used to seed from the book in both scopes, and
+because most save effects fire unguarded on mount, merely *opening* a panel in global scope
+copied the book's values into the global defaults — which then replayed onto every other
+open book.
+
+**State the scope, always on screen.** `<SettingsScopeBanner>` sits in the dialog header,
+not the scrolling body, and names the scope in words, with the switch in the banner itself
+so reading the state and changing it are one gesture.
+
+**Measure each row against what its own scope inherits.** The badge then always answers one
+question — "have I moved this?" — and its ↺ always restores the thing directly beneath:
+
+| Scope  | `edited` shows      | Baseline             | ↺ restores           |
+| ------ | ------------------- | -------------------- | -------------------- |
+| Book   | The book's values   | The resolved global  | The global value     |
+| Global | The global defaults | The factory defaults | The shipped default  |
+
+The resolved global is `settings.globalViewSettings`, not the factory default — the two
+diverge the moment anything is changed globally, and only the resolved value is what a book
+inherits. Note the dialog holds two resets: the overflow menu's **Reset Settings** restores
+*factory* defaults, the badge's ↺ restores whatever the current scope inherits. Word them so
+they cannot be confused.
+
+**Never let colour be the signal.** The scope banner is tinted by reach — amber for one
+book, red for the whole library — but red against amber is the worst pair for deutan and
+protan vision, roughly 8% of men. So the tint only ever reinforces: the icon (globe vs
+book), the sentence, and the pressed segment each state the scope on their own, per WCAG
+1.4.1. Where two states must be told apart at a glance, separate them on more than hue —
+lightness and shape both survive colour-vision deficiency, and a small area of saturated
+colour reads better than a large pale wash. E-ink mode is the cheap test: flip it on, and
+if the two states are still distinguishable when every tint flattens to the same grey, the
+design does not depend on colour.
+
+**One vocabulary for the marks.** Every scope mark comes from `ScopeIndicators`: a dot with
+a reset, an outlined chip, or a note on its own line under the setting. Nothing is hand-rolled
+at a call site.
+
+| Shape | Question | Actionable |
+| -------- | ---------------------------------------------------- | ----------- |
+| dot + ↺  | have I moved this from what this scope inherits?      | yes, resets |
+| chip     | which store does this row write, if not the banner's? | no          |
+| note     | is the value on screen overridden elsewhere?          | no          |
+
+Readest has three levels — factory default, global, per book — and a mark today only ever
+compares against the one directly above. A third-context mark ("your global also differs from
+the factory default", while editing a book) is a live open question. Keeping the vocabulary in
+one store-free module is what makes that a change in one place instead of sixty. Any new shape
+must survive e-ink and colour-vision deficiency on shape and position alone, and must not
+import a store, or a leaf component can no longer mark a row.
+
+**One signal per question.** In global scope a book can still hold its own value for a row,
+masking the global value on display. That is not "you moved this", so it gets its own quiet
+chip rather than being folded into the badge.
+
+**Compare the way the store does.** Every comparison uses `isSameViewSettingValue`, the same
+value-compare `serializeConfig` uses to decide what to persist. Array and object settings are
+a fresh reference on every read and slip past a `!==`.
+
+**The replay must not outrank a per-book value.** `saveViewSettings`'s global branch pushes a
+new global onto the open books so they re-render at once. Two rules keep that from destroying
+data, because assigning the value makes the book match global and `serializeConfig` then drops
+the key:
+
+- *A write that changes nothing does nothing.* Panels re-assert their current values on every
+  mount, and a scope flip remounts them, so an unguarded pass wiped overrides for free. The
+  guard sits in `saveViewSettings`, not in the panels — guarding effects fixes one panel and
+  leaves every other caller exposed.
+- *A real change reaches only the books that were inheriting it*, whose value still equals the
+  previous global. A book holding its own value is skipped. `deserializeConfig` merges
+  `{ ...global, ...bookOverrides }`, so the book's value is meant to win; the replay has to
+  agree with the storage model rather than fight it.
+
+The second rule was recorded here as deliberate — "what any global write does in this app" —
+until a hand test showed the loss. A note like that is a claim to re-check, not a decision.
+
+**Don't badge a row whose scope is fixed.** `isGlobal` itself, and anything the panel saves
+with `skipGlobal` (`writingMode`, `referencePageCount`, `allowScript`, `translationEnabled`),
+are per-book whatever the banner says. Seed and guard those from `book`, never from `edited`,
+and tag them instead — see below.
+
+#### Tag the rows the banner does not govern
+
+A banner makes a blanket claim over a whole panel, so any row that disobeys it turns the
+indicator into a lie — worse than the silence it replaced. Inside the settings dialog three
+kinds of row exist:
+
+| Kind | Write path                              | Obeys the banner? | Marking                   |
+| ---- | --------------------------------------- | ----------------- | ------------------------- |
+| A    | `saveViewSettings`, scope decides       | Yes               | none — silence means true |
+| B    | `saveViewSettings` with `skipGlobal`    | No, always book   | `scopeTag.alwaysBook`     |
+| C    | `saveSysSettings`, `bookKey` never read | No, always app    | `scopeTag.appWide`        |
+
+A kind-B row has nothing to write to in the library: a `skipGlobal` write matches neither
+branch of `saveViewSettings` without a `bookKey`, so the control moves and saves nothing at
+all. Pass the panel's `bookKey` to `useScopeTags` there — the tag becomes *Open a book to
+change this* — and disable the control, rather than pointing at a book that does not exist.
+
+The dangerous case is C under a "This book" banner: the reader is told the change is
+confined to one book and it is not. Tag B and C; leave A silent, so silence carries meaning.
+
+Put the tag at the call site, beside the write it describes, not in a central list — scope
+is a property of the call site, so a central list would drift from it. Nothing in the type
+system can enforce this, so `settingsScopeExceptions.test.ts` is the tripwire: it enumerates
+every `skipGlobal` and `saveSysSettings` write under `components/settings/` and fails when a
+new one appears, forcing a deliberate choice about its row. Exemptions are recorded there
+with their reason — a modal that only *lives* in the folder, a tab with no banner, or a
+control that already shows its own scope switch.
+
+**Subscribe to primitives, never to `viewSettings`.** `applyViewSettings` mutates the
+settings object in place and hands the same reference back to `setViewSettings`, which
+rebuilds only the wrapper. The object keeps its identity for the life of the view, so a
+selector or dependency array on `viewSettings` never fires. `SettingsScopeProvider` reads
+the store without a selector for this reason. Any test for a live indicator must mutate in
+place and replace only the wrapper, or it will pass against code that is dead in the app.
+
+Keep this separate from `overrideFont` / `overrideColor` / `overrideLayout`. Those decide
+whether the reader's styling wins over the book's own — a different question from which
+store the setting lands in, and the UI must not blur the two.
+
 #### Spacing
 
 - Row vertical padding: `py-2` (8px) for compact lists, `py-3` (12px) for breathing room.

@@ -2256,5 +2256,14 @@
   "This book: {{title}} — overrides only": "ספר זה: {{title}} — עקיפות בלבד",
   "Settings Scope": "היקף ההגדרות",
   "All Books": "כל הספרים",
-  "This Book": "ספר זה"
+  "This Book": "ספר זה",
+  "This book has its own value — reset it to your global setting": "לספר זה יש ערך משלו — אפס להגדרה הגלובלית שלך",
+  "This book only": "ספר זה בלבד",
+  "Whole app": "כל האפליקציה",
+  "Changed from the default — reset it": "שונה מברירת המחדל — אפס",
+  "Open a book to change this": "פתח ספר כדי לשנות זאת",
+  "Unapplied CSS": "CSS שלא הוחל",
+  "Switching scope will discard the CSS you have not applied yet.": "החלפת ההיקף תמחק את ה-CSS שלא החלת.",
+  "Discard": "התעלם",
+  "This book overrides it": "ספר זה עוקף זאת"
 }

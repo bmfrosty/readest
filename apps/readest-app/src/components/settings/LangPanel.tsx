@@ -18,6 +18,7 @@ import { useKeyDownActions } from '@/hooks/useKeyDownActions';
 import { TRANSLATED_LANGS, TRANSLATOR_LANGS } from '@/services/constants';
 import { ConvertChineseVariant } from '@/types/book';
 import { SettingsPanelPanelProp } from './SettingsDialog';
+import { useScopeTags } from './ScopeIndicators';
 import { getDirFromLanguage } from '@/utils/rtl';
 import { isCJKEnv } from '@/utils/misc';
 import {
@@ -31,13 +32,17 @@ import CustomDictionaries from './CustomDictionaries';
 import WordLensPanel from './WordLensPanel';
 import { PiTranslate } from 'react-icons/pi';
 import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
+import { useScopedLabel } from './SettingsScopeContext';
 
 const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
+  const scopedLabel = useScopedLabel();
+  const scopeTag = useScopeTags(bookKey);
   const { token } = useAuth();
   const { envConfig } = useEnv();
   const { settings, applyUILanguage, activeSettingsItemId, setActiveSettingsItemId } =
     useSettingsStore();
+  const { settingsSubPage, setSettingsSubPage } = useSettingsStore();
   const { getView, getViewSettings, recreateViewer } = useReaderStore();
   const { getBookData } = useBookDataStore();
   const view = getView(bookKey);
@@ -52,8 +57,13 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const [ttsReadAloudText, setTtsReadAloudText] = useState(edited.ttsReadAloudText);
   const [replaceQuotationMarks, setReplaceQuotationMarks] = useState(edited.replaceQuotationMarks);
   const [convertChineseVariant, setConvertChineseVariant] = useState(edited.convertChineseVariant);
-  const [showCustomDictionaries, setShowCustomDictionaries] = useState(false);
-  const [showWordLens, setShowWordLens] = useState(false);
+  // Held in the store, not here: a scope switch remounts this panel and local
+  // state would not survive it. Where you are is not a scoped value.
+  const showCustomDictionaries = settingsSubPage === 'dictionaries';
+  const showWordLens = settingsSubPage === 'word-lens';
+  const setShowCustomDictionaries = (open: boolean) =>
+    setSettingsSubPage(open ? 'dictionaries' : null);
+  const setShowWordLens = (open: boolean) => setSettingsSubPage(open ? 'word-lens' : null);
 
   // Translation is unavailable for PDFs and for books already in the target
   // language (issue #5600). The reader toolbar's toggler has always refused
@@ -302,7 +312,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   return (
     <div className={clsx('my-4 w-full space-y-6')}>
       <BoxedList title={_('Language')} data-setting-id='settings.language.interfaceLanguage'>
-        <SettingsRow label={_('Language')}>
+        <SettingsRow label={scopedLabel(_('Language'), 'uiLanguage', setUILanguage)}>
           <SettingsSelect
             value={getCurrentUILangOption().value}
             onChange={handleSelectUILang}
@@ -339,7 +349,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
 
       <BoxedList title={_('Translation')} data-setting-id='settings.language.translationEnabled'>
         <SettingsSwitchRow
-          label={_('Enable Translation')}
+          label={scopeTag.alwaysBook(_('Enable Translation'))}
           description={
             bookKey && !translationAvailable ? _('Not available for this book.') : undefined
           }
@@ -348,11 +358,14 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
           disabled={!bookKey || (!translationAvailable && !translationEnabled)}
         />
         <SettingsSwitchRow
-          label={_('Show Source Text')}
+          label={scopedLabel(_('Show Source Text'), 'showTranslateSource', setShowTranslateSource)}
           checked={showTranslateSource}
           onChange={() => setShowTranslateSource(!showTranslateSource)}
         />
-        <SettingsRow label={_('TTS Text')} data-setting-id='settings.language.ttsTextTranslation'>
+        <SettingsRow
+          label={scopedLabel(_('TTS Text'), 'ttsReadAloudText', setTtsReadAloudText)}
+          data-setting-id='settings.language.ttsTextTranslation'
+        >
           <SettingsSelect
             value={ttsReadAloudText}
             onChange={handleSelectTTSText}
@@ -361,7 +374,11 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
           />
         </SettingsRow>
         <SettingsRow
-          label={_('Translation Service')}
+          label={scopedLabel(
+            _('Translation Service'),
+            'translationProvider',
+            setTranslationProvider,
+          )}
           data-setting-id='settings.language.translationProvider'
         >
           <SettingsSelect
@@ -371,7 +388,10 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
             options={getTranslationProviderOptions()}
           />
         </SettingsRow>
-        <SettingsRow label={_('Translate To')} data-setting-id='settings.language.targetLanguage'>
+        <SettingsRow
+          label={scopedLabel(_('Translate To'), 'translateTargetLang', setTranslateTargetLang)}
+          data-setting-id='settings.language.targetLanguage'
+        >
           <SettingsSelect
             value={getCurrentTargetLangOption().value}
             onChange={handleSelectTargetLang}
@@ -384,7 +404,11 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
       {(isCJKEnv() || view?.language.isCJK) && (
         <BoxedList title={_('Punctuation')} data-setting-id='settings.language.quotationMarks'>
           <SettingsSwitchRow
-            label={_('Replace Quotation Marks')}
+            label={scopedLabel(
+              _('Replace Quotation Marks'),
+              'replaceQuotationMarks',
+              setReplaceQuotationMarks,
+            )}
             description={_('Enabled only in vertical layout.')}
             checked={replaceQuotationMarks}
             onChange={() => setReplaceQuotationMarks(!replaceQuotationMarks)}
@@ -397,7 +421,13 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
           title={_('Convert Simplified and Traditional Chinese')}
           data-setting-id='settings.language.chineseConversion'
         >
-          <SettingsRow label={_('Convert Mode')}>
+          <SettingsRow
+            label={scopedLabel(
+              _('Convert Mode'),
+              'convertChineseVariant',
+              setConvertChineseVariant,
+            )}
+          >
             <SettingsSelect
               value={getConvertModeOption().value}
               onChange={handleSelectConvertMode}

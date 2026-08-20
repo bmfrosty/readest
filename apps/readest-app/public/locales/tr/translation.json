@@ -2197,5 +2197,14 @@
   "This book: {{title}} — overrides only": "Bu kitap: {{title}} — yalnızca geçersiz kılmalar",
   "Settings Scope": "Ayar Kapsamı",
   "All Books": "Tüm Kitaplar",
-  "This Book": "Bu Kitap"
+  "This Book": "Bu Kitap",
+  "This book has its own value — reset it to your global setting": "Bu kitabın kendi değeri var — genel ayarınıza sıfırlayın",
+  "This book only": "Yalnızca bu kitap",
+  "Whole app": "Tüm uygulama",
+  "Changed from the default — reset it": "Varsayılandan değiştirildi — sıfırla",
+  "Open a book to change this": "Bunu değiştirmek için bir kitap açın",
+  "Unapplied CSS": "Uygulanmamış CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Kapsamı değiştirmek uygulamadığınız CSS’i atar.",
+  "Discard": "At",
+  "This book overrides it": "Bu kitap bunu geçersiz kılıyor"
 }

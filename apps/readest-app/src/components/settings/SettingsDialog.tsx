@@ -28,6 +28,7 @@ import IntegrationsPanel from './IntegrationsPanel';
 import Dropdown from '@/components/Dropdown';
 import Dialog from '@/components/Dialog';
 import DialogMenu from './DialogMenu';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 import SettingsScopeBanner from './SettingsScopeBanner';
 import { SettingsScopeProvider } from './SettingsScopeContext';
 import ControlPanel from './ControlPanel';
@@ -76,6 +77,13 @@ type TabConfig = {
 
 const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
   const _ = useTranslation();
+  // Panels seed their control state once, in useState. Switching scope has to
+  // re-seed every control from the other store, so remount the panel on the
+  // flip rather than teach ~70 useState calls to re-run. Cheap: the dialog is
+  // already open and the panels hold no state worth preserving across a
+  // deliberate scope change.
+  const { isGlobal: isScopeGlobal } = useEditedViewSettings(bookKey);
+  const scopeKey = isScopeGlobal ? 'global' : 'book';
   const { appService } = useEnv();
   const closeIconSize = useResponsiveSize(16);
   const [isRtl] = useState(() => getDirFromUILanguage() === 'rtl');
@@ -85,6 +93,8 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
   const [canScrollTabsForward, setCanScrollTabsForward] = useState(false);
   const {
     setFontPanelView,
+    setSettingsSubPage,
+    setEditThemeName,
     setSettingsDialogOpen,
     activeSettingsItemId,
     setActiveSettingsItemId,
@@ -171,9 +181,15 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const resetSubPages = () => {
+    setFontPanelView('main-fonts');
+    setSettingsSubPage(null);
+    setEditThemeName(null);
+  };
+
   const handleSetActivePanel = (tab: SettingsPanelType) => {
     setActivePanel(tab);
-    setFontPanelView('main-fonts');
+    resetSubPages();
     localStorage.setItem('lastConfigPanel', tab);
   };
 
@@ -182,7 +198,7 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
   useEffect(() => {
     if (activePanelRef.current !== activePanel) {
       activePanelRef.current = activePanel;
-      setFontPanelView('main-fonts');
+      resetSubPages();
       localStorage.setItem('lastConfigPanel', activePanel);
     }
   }, [activePanel, setFontPanelView]);
@@ -259,7 +275,7 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
   }, [activeSettingsItemId, activePanel, setActiveSettingsItemId]);
 
   useEffect(() => {
-    setFontPanelView('main-fonts');
+    resetSubPages();
 
     const container = tabsRef.current;
     if (!container) return;
@@ -461,36 +477,42 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
         >
           {activePanel === 'Font' && (
             <FontPanel
+              key={scopeKey}
               bookKey={bookKey}
               onRegisterReset={(fn) => registerResetFunction('Font', fn)}
             />
           )}
           {activePanel === 'Layout' && (
             <LayoutPanel
+              key={scopeKey}
               bookKey={bookKey}
               onRegisterReset={(fn) => registerResetFunction('Layout', fn)}
             />
           )}
           {activePanel === 'Theme' && (
             <ThemePanel
+              key={scopeKey}
               bookKey={bookKey}
               onRegisterReset={(fn) => registerResetFunction('Theme', fn)}
             />
           )}
           {activePanel === 'Control' && (
             <ControlPanel
+              key={scopeKey}
               bookKey={bookKey}
               onRegisterReset={(fn) => registerResetFunction('Control', fn)}
             />
           )}
           {activePanel === 'TTS' && (
             <TTSPanel
+              key={scopeKey}
               bookKey={bookKey}
               onRegisterReset={(fn) => registerResetFunction('TTS', fn)}
             />
           )}
           {activePanel === 'Language' && (
             <LangPanel
+              key={scopeKey}
               bookKey={bookKey}
               onRegisterReset={(fn) => registerResetFunction('Language', fn)}
             />
@@ -499,6 +521,7 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
           {activePanel === 'Integrations' && <IntegrationsPanel />}
           {activePanel === 'Custom' && (
             <MiscPanel
+              key={scopeKey}
               bookKey={bookKey}
               onRegisterReset={(fn) => registerResetFunction('Custom', fn)}
             />

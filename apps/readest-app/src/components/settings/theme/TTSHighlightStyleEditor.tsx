@@ -4,6 +4,7 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { TTSHighlightGranularity } from '@/services/tts/types';
 import { BoxedList, SettingsRow, SettingsSelect } from '../primitives';
 import ColorInput from './ColorInput';
+import { useScopedLabel } from '../SettingsScopeContext';
 
 export type TTSHighlightStyle =
   | 'highlight'
@@ -34,6 +35,7 @@ const TTSHighlightStyleEditor: React.FC<TTSHighlightStyleEditorProps> = ({
   onCustomColorsChange,
 }) => {
   const _ = useTranslation();
+  const scopedLabel = useScopedLabel();
 
   const defaultQuickColors = [
     { color: '#FFD700', label: 'Gold' },
@@ -65,7 +67,9 @@ const TTSHighlightStyleEditor: React.FC<TTSHighlightStyleEditorProps> = ({
 
   return (
     <BoxedList title={_('TTS Highlighting')}>
-      <SettingsRow label={_('Granularity')}>
+      <SettingsRow
+        label={scopedLabel(_('Granularity'), 'ttsHighlightGranularity', onGranularityChange)}
+      >
         <SettingsSelect
           value={granularity}
           onChange={(e) => onGranularityChange(e.target.value as TTSHighlightGranularity)}
@@ -77,7 +81,9 @@ const TTSHighlightStyleEditor: React.FC<TTSHighlightStyleEditorProps> = ({
         />
       </SettingsRow>
 
-      <SettingsRow label={_('Style')}>
+      <SettingsRow
+        label={scopedLabel(_('Style'), 'ttsHighlightOptions', (v) => onStyleChange(v.style))}
+      >
         <SettingsSelect
           value={style}
           onChange={(e) => onStyleChange(e.target.value as TTSHighlightStyle)}

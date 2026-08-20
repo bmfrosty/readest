@@ -18,7 +18,9 @@ import {
 import { HardwarePageTurnerSettings, KeyBinding } from '@/types/settings';
 import { BoxedList, SettingsRow, SettingsSwitchRow } from './primitives';
 import { useReaderStore } from '@/store/readerStore';
+import { useScopeTags } from './ScopeIndicators';
 import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
+import { useScopedLabel } from './SettingsScopeContext';
 
 type Slot = PageTurnAction;
 const LEARN_TIMEOUT_MS = 8000;
@@ -30,6 +32,8 @@ interface PageTurnerSettingsProps {
 
 const PageTurnerSettings: React.FC<PageTurnerSettingsProps> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
+  const scopedLabel = useScopedLabel();
+  const scopeTag = useScopeTags();
   const { envConfig, appService } = useEnv();
   const { getViewSettings } = useReaderStore();
   const { setKeyLearnMode, acquireVolumeKeyInterception, releaseVolumeKeyInterception } =
@@ -185,7 +189,7 @@ const PageTurnerSettings: React.FC<PageTurnerSettingsProps> = ({ bookKey, onRegi
   return (
     <div className='space-y-2'>
       <BoxedList
-        title={_('Page Turner')}
+        title={scopeTag.appWide(_('Page Turner'))}
         data-setting-id='settings.control.pageTurner'
         description={
           appService?.isIOSApp
@@ -197,7 +201,7 @@ const PageTurnerSettings: React.FC<PageTurnerSettingsProps> = ({ bookKey, onRegi
       >
         {appService?.isMobileApp && (
           <SettingsSwitchRow
-            label={_('Use Volume Keys')}
+            label={scopedLabel(_('Use Volume Keys'), 'volumeKeysToFlip', setVolumeKeysToFlip)}
             checked={volumeKeysToFlip}
             onChange={() => setVolumeKeysToFlip(!volumeKeysToFlip)}
           />

@@ -25,6 +25,7 @@ import {
 import { useBackgroundTexture } from '@/hooks/useBackgroundTexture';
 import { manageSyntaxHighlighting } from '@/utils/highlightjs';
 import { SettingsPanelPanelProp } from './SettingsDialog';
+import { useScopedLabel } from './SettingsScopeContext';
 import { useFileSelector } from '@/hooks/useFileSelector';
 import { PREDEFINED_TEXTURES } from '@/styles/textures';
 import { useAtmosphereStore } from '@/store/atmosphereStore';
@@ -49,9 +50,12 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
     useThemeStore();
   const { envConfig, appService } = useEnv();
   const { settings, setSettings, saveSettings } = useSettingsStore();
+  const { settingsSubPage, setSettingsSubPage, editThemeName, setEditThemeName } =
+    useSettingsStore();
   const { getView, getViewSettings } = useReaderStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
   const { edited } = useEditedViewSettings(bookKey);
+  const scopedLabel = useScopedLabel();
 
   // The Background Image picker edits one of two scopes (issue #5306): the
   // library's own texture (#4743 fields, per-field fallback to reader/global)
@@ -71,9 +75,19 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
   const currentBackgroundSize = currentBackground.backgroundSize;
 
   const [invertImgColorInDark, setInvertImgColorInDark] = useState(edited.invertImgColorInDark);
-  const [editTheme, setEditTheme] = useState<CustomTheme | null>(null);
   const [customThemes, setCustomThemes] = useState<Theme[]>([]);
-  const [showCustomThemeEditor, setShowCustomThemeEditor] = useState(false);
+  // In the store, not here. A scope switch remounts this panel to re-seed its
+  // controls, and local state would take the open editor and its colours with
+  // it. Custom themes are app-wide, so a scope switch has no business closing
+  // the editor at all. The theme is held by NAME and re-derived, so the store
+  // keeps a key rather than a copy of the data.
+  const showCustomThemeEditor = settingsSubPage === 'theme-editor';
+  const editTheme =
+    settings.globalReadSettings.customThemes?.find((t) => t.name === editThemeName) ?? null;
+  const setShowCustomThemeEditor = (open: boolean) => {
+    setSettingsSubPage(open ? 'theme-editor' : null);
+    if (!open) setEditThemeName(null);
+  };
   const [overrideColor, setOverrideColor] = useState(edited.overrideColor);
   const [codeHighlighting, setcodeHighlighting] = useState(edited.codeHighlighting);
   const [codeLanguage, setCodeLanguage] = useState(edited.codeLanguage);
@@ -312,10 +326,9 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
   };
 
   const handleEditTheme = (name: string) => {
-    const customTheme = settings.globalReadSettings.customThemes.find((t) => t.name === name);
-    if (customTheme) {
-      setEditTheme(customTheme);
-      setShowCustomThemeEditor(true);
+    if (settings.globalReadSettings.customThemes.some((t) => t.name === name)) {
+      setEditThemeName(name);
+      setSettingsSubPage('theme-editor');
     }
   };
 
@@ -408,7 +421,13 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
               isDarkMode && 'cursor-pointer',
             )}
           >
-            <SettingLabel>{_('Invert Image In Dark Mode')}</SettingLabel>
+            <SettingLabel>
+              {scopedLabel(
+                _('Invert Image In Dark Mode'),
+                'invertImgColorInDark',
+                setInvertImgColorInDark,
+              )}
+            </SettingLabel>
             <Toggle
               checked={invertImgColorInDark}
               disabled={!isDarkMode}
@@ -420,7 +439,9 @@ const ThemePanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset
             data-setting-id='settings.color.overrideBookColor'
             className='flex cursor-pointer items-center justify-between px-4'
           >
-            <SettingLabel>{_('Override Book Color')}</SettingLabel>
+            <SettingLabel>
+              {scopedLabel(_('Override Book Color'), 'overrideColor', setOverrideColor)}
+            </SettingLabel>
             <Toggle checked={overrideColor} onChange={() => setOverrideColor(!overrideColor)} />
           </label>
 

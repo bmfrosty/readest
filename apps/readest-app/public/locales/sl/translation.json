@@ -2315,5 +2315,14 @@
   "This book: {{title}} — overrides only": "Ta knjiga: {{title}} — samo preglasitve",
   "Settings Scope": "Obseg nastavitev",
   "All Books": "Vse knjige",
-  "This Book": "Ta knjiga"
+  "This Book": "Ta knjiga",
+  "This book has its own value — reset it to your global setting": "Ta knjiga ima svojo vrednost — ponastavi na tvojo globalno nastavitev",
+  "This book only": "Samo ta knjiga",
+  "Whole app": "Celotna aplikacija",
+  "Changed from the default — reset it": "Spremenjeno glede na privzeto — ponastavi",
+  "Open a book to change this": "Odprite knjigo, da to spremenite",
+  "Unapplied CSS": "Neuporabljen CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Zamenjava obsega bo zavrgla neuporabljen CSS.",
+  "Discard": "Zavrzi",
+  "This book overrides it": "Ta knjiga to preglasi"
 }

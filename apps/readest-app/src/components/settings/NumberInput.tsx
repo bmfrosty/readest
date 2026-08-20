@@ -7,7 +7,7 @@ import { SettingLabel } from './primitives';
 interface NumberInputProps {
   className?: string;
   inputClassName?: string;
-  label: string;
+  label: React.ReactNode;
   iconSize?: number;
   value: number;
   min: number;

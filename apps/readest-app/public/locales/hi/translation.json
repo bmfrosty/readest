@@ -2197,5 +2197,14 @@
   "This book: {{title}} — overrides only": "यह पुस्तक: {{title}} — केवल ओवरराइड",
   "Settings Scope": "सेटिंग्स का दायरा",
   "All Books": "सभी पुस्तकें",
-  "This Book": "यह पुस्तक"
+  "This Book": "यह पुस्तक",
+  "This book has its own value — reset it to your global setting": "इस पुस्तक का अपना मान है — अपनी वैश्विक सेटिंग पर रीसेट करें",
+  "This book only": "केवल यह पुस्तक",
+  "Whole app": "पूरा ऐप",
+  "Changed from the default — reset it": "डिफ़ॉल्ट से बदला गया — रीसेट करें",
+  "Open a book to change this": "इसे बदलने के लिए एक पुस्तक खोलें",
+  "Unapplied CSS": "लागू न किया गया CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "दायरा बदलने पर आपका बिना लागू किया CSS हट जाएगा।",
+  "Discard": "छोड़ें",
+  "This book overrides it": "यह पुस्तक इसे ओवरराइड करती है"
 }
