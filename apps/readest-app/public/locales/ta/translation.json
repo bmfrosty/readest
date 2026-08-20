@@ -2101,5 +2101,19 @@
   "Auto-download from “{{name}}”?": "“{{name}}” இலிருந்து தானாகப் பதிவிறக்கவா?",
   "Stop auto-downloading from “{{name}}”?": "“{{name}}” இலிருந்து தானியங்கி பதிவிறக்கத்தை நிறுத்தவா?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "பயன்பாடு ஒத்திசைக்கப்படும்போது, இந்தப் பட்டியலின் ஒவ்வொரு புதிய வெளியீட்டையும் Readest தானாகப் பதிவிறக்கும். இதனால் ஏராளமான புத்தகங்கள் பதிவிறக்கப்படலாம்.",
-  "New publications from this catalog will no longer be downloaded automatically.": "இந்தப் பட்டியலின் புதிய வெளியீடுகள் இனி தானாகப் பதிவிறக்கப்படாது."
+  "New publications from this catalog will no longer be downloaded automatically.": "இந்தப் பட்டியலின் புதிய வெளியீடுகள் இனி தானாகப் பதிவிறக்கப்படாது.",
+  "Global defaults — applies to all books": "உலகளாவிய இயல்புநிலை — அனைத்து புத்தகங்களுக்கும் பொருந்தும்",
+  "This book: {{title}} — overrides only": "இந்தப் புத்தகம்: {{title}} — மேலெழுதல்கள் மட்டும்",
+  "Settings Scope": "அமைப்புகளின் நோக்கெல்லை",
+  "All Books": "அனைத்துப் புத்தகங்கள்",
+  "This Book": "இந்தப் புத்தகம்",
+  "This book has its own value — reset it to your global setting": "இந்தப் புத்தகத்திற்கு சொந்த மதிப்பு உள்ளது — உங்கள் உலகளாவிய அமைப்புக்கு மீட்டமைக்கவும்",
+  "This book only": "இந்தப் புத்தகம் மட்டும்",
+  "Whole app": "முழு செயலி",
+  "Changed from the default — reset it": "இயல்புநிலையிலிருந்து மாற்றப்பட்டது — மீட்டமைக்கவும்",
+  "Open a book to change this": "இதை மாற்ற ஒரு புத்தகத்தைத் திறக்கவும்",
+  "Unapplied CSS": "பயன்படுத்தப்படாத CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "நோக்கெல்லையை மாற்றினால் பயன்படுத்தாத CSS நீக்கப்படும்.",
+  "Discard": "நிராகரி",
+  "This book overrides it": "இந்தப் புத்தகம் இதை மேலெழுதுகிறது"
 }

@@ -2101,5 +2101,19 @@
   "Auto-download from “{{name}}”?": "“{{name}}” dan avtomatik yuklab olinsinmi?",
   "Stop auto-downloading from “{{name}}”?": "“{{name}}” dan avtomatik yuklab olish to‘xtatilsinmi?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Ilova sinxronlanganda Readest ushbu katalogdagi har bir yangi nashrni avtomatik yuklab oladi. Bu juda ko‘p kitob yuklab olinishiga olib kelishi mumkin.",
-  "New publications from this catalog will no longer be downloaded automatically.": "Ushbu katalogdagi yangi nashrlar endi avtomatik yuklab olinmaydi."
+  "New publications from this catalog will no longer be downloaded automatically.": "Ushbu katalogdagi yangi nashrlar endi avtomatik yuklab olinmaydi.",
+  "Global defaults — applies to all books": "Umumiy standart qiymatlar — barcha kitoblarga qoʻllanadi",
+  "This book: {{title}} — overrides only": "Ushbu kitob: {{title}} — faqat maxsus sozlamalar",
+  "Settings Scope": "Sozlamalar qamrovi",
+  "All Books": "Barcha kitoblar",
+  "This Book": "Ushbu kitob",
+  "This book has its own value — reset it to your global setting": "Ushbu kitobning oʻz qiymati bor — umumiy sozlamangizga qaytarish",
+  "This book only": "Faqat ushbu kitob",
+  "Whole app": "Butun ilova",
+  "Changed from the default — reset it": "Standart qiymatdan oʻzgartirilgan — qaytarish",
+  "Open a book to change this": "Buni oʻzgartirish uchun kitob oching",
+  "Unapplied CSS": "Qoʻllanmagan CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Qamrovni almashtirish qoʻllanmagan CSS ni bekor qiladi.",
+  "Discard": "Bekor qilish",
+  "This book overrides it": "Ushbu kitob buni oʻzgartiradi"
 }

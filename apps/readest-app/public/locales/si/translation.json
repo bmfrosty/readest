@@ -2101,5 +2101,19 @@
   "Auto-download from “{{name}}”?": "“{{name}}” වෙතින් ස්වයංක්‍රීයව බාගත කරන්නද?",
   "Stop auto-downloading from “{{name}}”?": "“{{name}}” වෙතින් ස්වයංක්‍රීය බාගැනීම නවත්වන්නද?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "යෙදුම සමමුහුර්ත වන විට Readest මෙම නාමාවලියේ සෑම නව ප්‍රකාශනයක්ම ස්වයංක්‍රීයව බාගත කරයි. මෙමගින් විශාල පොත් ගණනක් බාගත විය හැක.",
-  "New publications from this catalog will no longer be downloaded automatically.": "මෙම නාමාවලියේ නව ප්‍රකාශන තවදුරටත් ස්වයංක්‍රීයව බාගත නොවේ."
+  "New publications from this catalog will no longer be downloaded automatically.": "මෙම නාමාවලියේ නව ප්‍රකාශන තවදුරටත් ස්වයංක්‍රීයව බාගත නොවේ.",
+  "Global defaults — applies to all books": "ගෝලීය පෙරනිමි — සියලු පොත් වලට අදාළයි",
+  "This book: {{title}} — overrides only": "මෙම පොත: {{title}} — ඉක්මවීම් පමණි",
+  "Settings Scope": "සැකසුම් විෂය පථය",
+  "All Books": "සියලු පොත්",
+  "This Book": "මෙම පොත",
+  "This book has its own value — reset it to your global setting": "මෙම පොතට ආවේණික අගයක් ඇත — ඔබේ ගෝලීය සැකසුමට නැවත සකසන්න",
+  "This book only": "මෙම පොත පමණි",
+  "Whole app": "සම්පූර්ණ යෙදුම",
+  "Changed from the default — reset it": "පෙරනිමියෙන් වෙනස් කර ඇත — නැවත සකසන්න",
+  "Open a book to change this": "මෙය වෙනස් කිරීමට පොතක් විවෘත කරන්න",
+  "Unapplied CSS": "යොදා නොගත් CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "විෂය පථය මාරු කිරීමෙන් ඔබ යොදා නොගත් CSS ඉවත් වේ.",
+  "Discard": "ඉවත ලන්න",
+  "This book overrides it": "මෙම පොත මෙය ඉක්මවයි"
 }

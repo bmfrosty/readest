@@ -2157,5 +2157,19 @@
   "Auto-download from “{{name}}”?": "להוריד אוטומטית מ–“{{name}}”?",
   "Stop auto-downloading from “{{name}}”?": "להפסיק הורדה אוטומטית מ–“{{name}}”?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest יוריד אוטומטית כל פרסום חדש מהקטלוג הזה בכל סנכרון של האפליקציה. ייתכן שיורדו ספרים רבים מאוד.",
-  "New publications from this catalog will no longer be downloaded automatically.": "פרסומים חדשים מהקטלוג הזה לא יורדו עוד באופן אוטומטי."
+  "New publications from this catalog will no longer be downloaded automatically.": "פרסומים חדשים מהקטלוג הזה לא יורדו עוד באופן אוטומטי.",
+  "Global defaults — applies to all books": "ברירות מחדל גלובליות — חלות על כל הספרים",
+  "This book: {{title}} — overrides only": "ספר זה: {{title}} — עקיפות בלבד",
+  "Settings Scope": "היקף ההגדרות",
+  "All Books": "כל הספרים",
+  "This Book": "ספר זה",
+  "This book has its own value — reset it to your global setting": "לספר זה יש ערך משלו — אפס להגדרה הגלובלית שלך",
+  "This book only": "ספר זה בלבד",
+  "Whole app": "כל האפליקציה",
+  "Changed from the default — reset it": "שונה מברירת המחדל — אפס",
+  "Open a book to change this": "פתח ספר כדי לשנות זאת",
+  "Unapplied CSS": "CSS שלא הוחל",
+  "Switching scope will discard the CSS you have not applied yet.": "החלפת ההיקף תמחק את ה-CSS שלא החלת.",
+  "Discard": "התעלם",
+  "This book overrides it": "ספר זה עוקף זאת"
 }

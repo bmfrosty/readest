@@ -2101,5 +2101,19 @@
   "Auto-download from “{{name}}”?": "Automatisch downloaden van “{{name}}”?",
   "Stop auto-downloading from “{{name}}”?": "Automatisch downloaden van “{{name}}” stoppen?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest downloadt automatisch elke nieuwe publicatie uit deze catalogus wanneer de app synchroniseert. Hierbij kunnen zeer veel boeken worden gedownload.",
-  "New publications from this catalog will no longer be downloaded automatically.": "Nieuwe publicaties uit deze catalogus worden niet meer automatisch gedownload."
+  "New publications from this catalog will no longer be downloaded automatically.": "Nieuwe publicaties uit deze catalogus worden niet meer automatisch gedownload.",
+  "Global defaults — applies to all books": "Algemene standaardwaarden — geldt voor alle boeken",
+  "This book: {{title}} — overrides only": "Dit boek: {{title}} — alleen afwijkingen",
+  "Settings Scope": "Bereik van instellingen",
+  "All Books": "Alle boeken",
+  "This Book": "Dit boek",
+  "This book has its own value — reset it to your global setting": "Dit boek heeft een eigen waarde — terugzetten naar je algemene instelling",
+  "This book only": "Alleen dit boek",
+  "Whole app": "Hele app",
+  "Changed from the default — reset it": "Gewijzigd t.o.v. de standaard — terugzetten",
+  "Open a book to change this": "Open een boek om dit te wijzigen",
+  "Unapplied CSS": "Niet-toegepaste CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "Van bereik wisselen verwijdert de CSS die je niet hebt toegepast.",
+  "Discard": "Weggooien",
+  "This book overrides it": "Dit boek overschrijft dit"
 }

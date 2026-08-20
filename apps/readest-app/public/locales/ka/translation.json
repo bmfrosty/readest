@@ -2154,5 +2154,19 @@
   "Remove from queue": "რიგიდან მოშორება",
   "Cancel all ({{count}})_one": "ყველას გაუქმება ({{count}})",
   "Cancel all ({{count}})_other": "ყველას გაუქმება ({{count}})",
-  "Waiting…": "ელოდება…"
+  "Waiting…": "ელოდება…",
+  "Global defaults — applies to all books": "გლობალური ნაგულისხმევი პარამეტრები — ვრცელდება ყველა წიგნზე",
+  "This book: {{title}} — overrides only": "ეს წიგნი: {{title}} — მხოლოდ ინდივიდუალური პარამეტრები",
+  "Settings Scope": "პარამეტრების არეალი",
+  "All Books": "ყველა წიგნი",
+  "This Book": "ეს წიგნი",
+  "This book has its own value — reset it to your global setting": "ამ წიგნს აქვს საკუთარი მნიშვნელობა — დააბრუნეთ თქვენს გლობალურ პარამეტრზე",
+  "This book only": "მხოლოდ ეს წიგნი",
+  "Whole app": "მთელი აპლიკაცია",
+  "Changed from the default — reset it": "შეცვლილია ნაგულისხმევიდან — დააბრუნეთ",
+  "Open a book to change this": "გასახსნელად გახსენით წიგნი",
+  "Unapplied CSS": "გამოუყენებელი CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "არეალის შეცვლა გააუქმებს გამოუყენებელ CSS-ს.",
+  "Discard": "გაუქმება",
+  "This book overrides it": "ეს წიგნი გადაფარავს ამას"
 }

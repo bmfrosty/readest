@@ -2101,5 +2101,19 @@
   "Auto-download from “{{name}}”?": "“{{name}}” থেকে স্বয়ংক্রিয়ভাবে ডাউনলোড করবেন?",
   "Stop auto-downloading from “{{name}}”?": "“{{name}}” থেকে স্বয়ংক্রিয় ডাউনলোড বন্ধ করবেন?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "অ্যাপ সিঙ্ক হওয়ার সময় Readest এই ক্যাটালগের প্রতিটি নতুন প্রকাশনা স্বয়ংক্রিয়ভাবে ডাউনলোড করবে। এতে প্রচুর সংখ্যক বই ডাউনলোড হতে পারে।",
-  "New publications from this catalog will no longer be downloaded automatically.": "এই ক্যাটালগের নতুন প্রকাশনা আর স্বয়ংক্রিয়ভাবে ডাউনলোড করা হবে না।"
+  "New publications from this catalog will no longer be downloaded automatically.": "এই ক্যাটালগের নতুন প্রকাশনা আর স্বয়ংক্রিয়ভাবে ডাউনলোড করা হবে না।",
+  "Global defaults — applies to all books": "গ্লোবাল ডিফল্ট — সব বইয়ে প্রযোজ্য",
+  "This book: {{title}} — overrides only": "এই বই: {{title}} — শুধু ওভাররাইড",
+  "Settings Scope": "সেটিংসের পরিসর",
+  "All Books": "সব বই",
+  "This Book": "এই বই",
+  "This book has its own value — reset it to your global setting": "এই বইয়ের নিজস্ব মান রয়েছে — আপনার গ্লোবাল সেটিংসে রিসেট করুন",
+  "This book only": "শুধু এই বই",
+  "Whole app": "সম্পূর্ণ অ্যাপ",
+  "Changed from the default — reset it": "ডিফল্ট থেকে পরিবর্তিত — রিসেট করুন",
+  "Open a book to change this": "এটি পরিবর্তন করতে একটি বই খুলুন",
+  "Unapplied CSS": "প্রয়োগ না করা CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "পরিসর পরিবর্তন করলে আপনার অপ্রয়োগকৃত CSS বাতিল হবে।",
+  "Discard": "বাতিল করুন",
+  "This book overrides it": "এই বই এটি ওভাররাইড করে"
 }

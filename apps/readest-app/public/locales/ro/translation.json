@@ -2157,5 +2157,19 @@
   "Auto-download from “{{name}}”?": "Descărcați automat din „{{name}}”?",
   "Stop auto-downloading from “{{name}}”?": "Opriți descărcarea automată din „{{name}}”?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest va descărca automat fiecare publicație nouă din acest catalog atunci când aplicația se sincronizează. Astfel se poate descărca un număr mare de cărți.",
-  "New publications from this catalog will no longer be downloaded automatically.": "Publicațiile noi din acest catalog nu vor mai fi descărcate automat."
+  "New publications from this catalog will no longer be downloaded automatically.": "Publicațiile noi din acest catalog nu vor mai fi descărcate automat.",
+  "Global defaults — applies to all books": "Valori implicite globale — se aplică tuturor cărților",
+  "This book: {{title}} — overrides only": "Această carte: {{title}} — doar suprascrieri",
+  "Settings Scope": "Domeniul setărilor",
+  "All Books": "Toate cărțile",
+  "This Book": "Această carte",
+  "This book has its own value — reset it to your global setting": "Această carte are propria valoare — resetează la setarea ta globală",
+  "This book only": "Doar această carte",
+  "Whole app": "Toată aplicația",
+  "Changed from the default — reset it": "Modificat față de valoarea implicită — resetează",
+  "Open a book to change this": "Deschide o carte pentru a modifica",
+  "Unapplied CSS": "CSS neaplicat",
+  "Switching scope will discard the CSS you have not applied yet.": "Schimbarea domeniului va renunța la CSS-ul neaplicat.",
+  "Discard": "Renunță",
+  "This book overrides it": "Această carte suprascrie asta"
 }

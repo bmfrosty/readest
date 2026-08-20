@@ -2045,5 +2045,19 @@
   "Auto-download from “{{name}}”?": "Muat turun automatik daripada “{{name}}”?",
   "Stop auto-downloading from “{{name}}”?": "Hentikan muat turun automatik daripada “{{name}}”?",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest akan memuat turun setiap penerbitan baharu daripada katalog ini secara automatik apabila apl disegerakkan. Ini boleh memuat turun sejumlah besar buku.",
-  "New publications from this catalog will no longer be downloaded automatically.": "Penerbitan baharu daripada katalog ini tidak akan dimuat turun secara automatik lagi."
+  "New publications from this catalog will no longer be downloaded automatically.": "Penerbitan baharu daripada katalog ini tidak akan dimuat turun secara automatik lagi.",
+  "Global defaults — applies to all books": "Lalai global — digunakan pada semua buku",
+  "This book: {{title}} — overrides only": "Buku ini: {{title}} — tetapan khusus sahaja",
+  "Settings Scope": "Skop Tetapan",
+  "All Books": "Semua Buku",
+  "This Book": "Buku Ini",
+  "This book has its own value — reset it to your global setting": "Buku ini mempunyai nilainya sendiri — tetapkan semula kepada tetapan global anda",
+  "This book only": "Buku ini sahaja",
+  "Whole app": "Seluruh apl",
+  "Changed from the default — reset it": "Diubah daripada lalai — tetapkan semula",
+  "Open a book to change this": "Buka buku untuk mengubahnya",
+  "Unapplied CSS": "CSS belum digunakan",
+  "Switching scope will discard the CSS you have not applied yet.": "Menukar skop akan membuang CSS yang belum anda gunakan.",
+  "Discard": "Buang",
+  "This book overrides it": "Buku ini menindih ini"
 }

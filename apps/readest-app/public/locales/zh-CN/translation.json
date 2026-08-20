@@ -2045,5 +2045,19 @@
   "Auto-download from “{{name}}”?": "从“{{name}}”自动下载？",
   "Stop auto-downloading from “{{name}}”?": "停止从“{{name}}”自动下载？",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "应用同步时，Readest 将自动下载此目录中的每一本新出版物。这可能会下载大量图书。",
-  "New publications from this catalog will no longer be downloaded automatically.": "此目录中的新出版物将不再自动下载。"
+  "New publications from this catalog will no longer be downloaded automatically.": "此目录中的新出版物将不再自动下载。",
+  "Global defaults — applies to all books": "全局默认设置 — 应用于所有书籍",
+  "This book: {{title}} — overrides only": "此书籍：{{title}} — 仅本书设置",
+  "Settings Scope": "设置范围",
+  "All Books": "所有书籍",
+  "This Book": "此书籍",
+  "This book has its own value — reset it to your global setting": "此书籍有自己的值 — 重置为您的全局设置",
+  "This book only": "仅此书籍",
+  "Whole app": "整个应用",
+  "Changed from the default — reset it": "已从默认值更改 — 重置",
+  "Open a book to change this": "打开一本书以更改此项",
+  "Unapplied CSS": "未应用的 CSS",
+  "Switching scope will discard the CSS you have not applied yet.": "切换范围将丢弃你尚未应用的 CSS。",
+  "Discard": "丢弃",
+  "This book overrides it": "此书籍覆盖了此项"
 }

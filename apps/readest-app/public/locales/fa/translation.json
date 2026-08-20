@@ -2101,5 +2101,19 @@
   "Auto-download from “{{name}}”?": "دانلود خودکار از «{{name}}»؟",
   "Stop auto-downloading from “{{name}}”?": "توقف دانلود خودکار از «{{name}}»؟",
   "Readest will automatically download every new publication from this catalog when the app syncs. This may download a large number of books.": "Readest هنگام همگام‌سازی برنامه، هر انتشار جدید این کاتالوگ را به‌طور خودکار دانلود می‌کند. ممکن است تعداد زیادی کتاب دانلود شود.",
-  "New publications from this catalog will no longer be downloaded automatically.": "انتشارات جدید این کاتالوگ دیگر به‌طور خودکار دانلود نمی‌شوند."
+  "New publications from this catalog will no longer be downloaded automatically.": "انتشارات جدید این کاتالوگ دیگر به‌طور خودکار دانلود نمی‌شوند.",
+  "Global defaults — applies to all books": "پیش‌فرض‌های سراسری — برای همه‌ی کتاب‌ها اعمال می‌شود",
+  "This book: {{title}} — overrides only": "این کتاب: {{title}} — فقط بازنویسی‌ها",
+  "Settings Scope": "دامنه‌ی تنظیمات",
+  "All Books": "همه‌ی کتاب‌ها",
+  "This Book": "این کتاب",
+  "This book has its own value — reset it to your global setting": "این کتاب مقدار مخصوص خود را دارد — بازنشانی به تنظیم سراسری شما",
+  "This book only": "فقط این کتاب",
+  "Whole app": "کل برنامه",
+  "Changed from the default — reset it": "نسبت به پیش‌فرض تغییر کرده — بازنشانی",
+  "Open a book to change this": "برای تغییر این، کتابی را باز کنید",
+  "Unapplied CSS": "CSS اعمال‌نشده",
+  "Switching scope will discard the CSS you have not applied yet.": "تغییر دامنه، CSS اعمال‌نشده‌ی شما را دور می‌ریزد.",
+  "Discard": "دور انداختن",
+  "This book overrides it": "این کتاب این را بازنویسی می‌کند"
 }

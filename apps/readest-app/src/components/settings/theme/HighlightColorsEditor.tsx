@@ -8,6 +8,7 @@ import {
   UserHighlightColor,
 } from '@/types/book';
 import { useTranslation } from '@/hooks/useTranslation';
+import { useScopedLabel } from '../SettingsScopeContext';
 import { BoxedList, SettingLabel } from '../primitives';
 import NumberInput from '../NumberInput';
 import ColorInput from './ColorInput';
@@ -127,6 +128,7 @@ const HighlightColorsEditor: React.FC<HighlightColorsEditorProps> = ({
   onOpacityChange,
 }) => {
   const _ = useTranslation();
+  const scopedLabel = useScopedLabel();
   const [newColor, setNewColor] = useState('#808080');
 
   // Localized fallback names for the built-in highlight colors. Shown as
@@ -268,7 +270,7 @@ const HighlightColorsEditor: React.FC<HighlightColorsEditorProps> = ({
       </div>
 
       <NumberInput
-        label={_('Opacity')}
+        label={scopedLabel(_('Opacity'), 'highlightOpacity', onOpacityChange)}
         value={highlightOpacity}
         onChange={onOpacityChange}
         min={0.1}
