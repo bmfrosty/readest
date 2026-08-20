@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useEnv } from '@/context/EnvContext';
-import { useReaderStore } from '@/store/readerStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useResetViewSettings } from '@/hooks/useResetSettings';
 import { useTranslation } from '@/hooks/useTranslation';
@@ -14,29 +13,25 @@ import {
 import { getTTSCacheConfig, setTTSCacheConfig } from '@/services/tts/providers/bookCacheStore';
 import { BoxedList, SettingsRow, SettingsSelect, SettingsSwitchRow } from './primitives';
 import TTSHighlightStyleEditor, { TTSHighlightStyle } from './theme/TTSHighlightStyleEditor';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 const TTSPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
   const { envConfig } = useEnv();
-  const { getViewSettings } = useReaderStore();
   const { settings, setSettings, saveSettings } = useSettingsStore();
-  const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const { edited } = useEditedViewSettings(bookKey);
 
   const [ttsMediaMetadata, setTtsMediaMetadata] = useState<TTSMediaMetadataMode>(
-    viewSettings.ttsMediaMetadata ?? 'sentence',
+    edited.ttsMediaMetadata ?? 'sentence',
   );
   const [ttsPlayerStyle, setTtsPlayerStyle] = useState<TTSPlayerStyle>(
-    viewSettings.ttsPlayerStyle ?? 'full',
+    edited.ttsPlayerStyle ?? 'full',
   );
   const [ttsHighlightGranularity, setTtsHighlightGranularity] = useState<TTSHighlightGranularity>(
-    viewSettings.ttsHighlightGranularity ?? 'word',
+    edited.ttsHighlightGranularity ?? 'word',
   );
-  const [ttsHighlightStyle, setTtsHighlightStyle] = useState(
-    viewSettings.ttsHighlightOptions.style,
-  );
-  const [ttsHighlightColor, setTtsHighlightColor] = useState(
-    viewSettings.ttsHighlightOptions.color,
-  );
+  const [ttsHighlightStyle, setTtsHighlightStyle] = useState(edited.ttsHighlightOptions.style);
+  const [ttsHighlightColor, setTtsHighlightColor] = useState(edited.ttsHighlightOptions.color);
   const [customTtsHighlightColors, setCustomTtsHighlightColors] = useState(
     settings.globalReadSettings.customTtsHighlightColors || [],
   );
@@ -66,19 +61,19 @@ const TTSPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }
   }, []);
 
   useEffect(() => {
-    if (ttsMediaMetadata === viewSettings.ttsMediaMetadata) return;
+    if (ttsMediaMetadata === edited.ttsMediaMetadata) return;
     saveViewSettings(envConfig, bookKey, 'ttsMediaMetadata', ttsMediaMetadata, false, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ttsMediaMetadata]);
 
   useEffect(() => {
-    if (ttsPlayerStyle === viewSettings.ttsPlayerStyle) return;
+    if (ttsPlayerStyle === edited.ttsPlayerStyle) return;
     saveViewSettings(envConfig, bookKey, 'ttsPlayerStyle', ttsPlayerStyle, false, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ttsPlayerStyle]);
 
   useEffect(() => {
-    if (ttsHighlightGranularity === viewSettings.ttsHighlightGranularity) return;
+    if (ttsHighlightGranularity === edited.ttsHighlightGranularity) return;
     saveViewSettings(
       envConfig,
       bookKey,

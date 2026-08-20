@@ -5,9 +5,11 @@ import SectionTitle from './SectionTitle';
 interface BoxedListProps {
   /**
    * Optional small-uppercase label above the boxed list (Adwaita
-   * AdwPreferencesGroup style). Style is fixed: caller passes the string.
+   * AdwPreferencesGroup style). Style is fixed: caller passes the content.
+   * ReactNode so a group can carry a `useScopedLabel` tag when every row in
+   * it shares one scope.
    */
-  title?: string;
+  title?: React.ReactNode;
   /**
    * Optional one-line description rendered between the title and the list.
    * Use sparingly — most groups need just the label.

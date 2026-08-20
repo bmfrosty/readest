@@ -44,6 +44,7 @@ export type SettingsPanelType =
   | 'AI'
   | 'Integrations'
   | 'Custom';
+
 export type SettingsPanelPanelProp = {
   bookKey: string;
   onRegisterReset: (resetFn: () => void) => void;
