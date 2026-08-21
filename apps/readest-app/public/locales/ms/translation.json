@@ -2133,5 +2133,10 @@
   "Playback interrupted, tap play to retry": "Main balik terganggu, ketik main untuk cuba semula",
   "Unable to connect to {{server}}": "Tidak dapat menyambung ke {{server}}",
   "Audiobookshelf server not found": "Pelayan Audiobookshelf tidak ditemui",
-  "Episode not found": "Episod tidak ditemui"
+  "Episode not found": "Episod tidak ditemui",
+  "Global defaults — applies to all books": "Lalai global — digunakan pada semua buku",
+  "This book: {{title}} — overrides only": "Buku ini: {{title}} — tetapan khusus sahaja",
+  "Settings Scope": "Skop Tetapan",
+  "All Books": "Semua Buku",
+  "This Book": "Buku Ini"
 }

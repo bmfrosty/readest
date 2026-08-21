@@ -2133,5 +2133,10 @@
   "Playback interrupted, tap play to retry": "播放已中斷，點一下播放即可重試",
   "Unable to connect to {{server}}": "無法連線至 {{server}}",
   "Audiobookshelf server not found": "找不到 Audiobookshelf 伺服器",
-  "Episode not found": "找不到該集"
+  "Episode not found": "找不到該集",
+  "Global defaults — applies to all books": "全局預設設定 — 應用於所有書籍",
+  "This book: {{title}} — overrides only": "此書籍：{{title}} — 僅本書設定",
+  "Settings Scope": "設定範圍",
+  "All Books": "所有書籍",
+  "This Book": "此書籍"
 }

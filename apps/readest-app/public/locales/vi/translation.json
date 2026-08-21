@@ -2133,5 +2133,10 @@
   "Playback interrupted, tap play to retry": "Phát bị gián đoạn, nhấn phát để thử lại",
   "Unable to connect to {{server}}": "Không thể kết nối với {{server}}",
   "Audiobookshelf server not found": "Không tìm thấy máy chủ Audiobookshelf",
-  "Episode not found": "Không tìm thấy tập"
+  "Episode not found": "Không tìm thấy tập",
+  "Global defaults — applies to all books": "Mặc định chung — áp dụng cho tất cả sách",
+  "This book: {{title}} — overrides only": "Sách này: {{title}} — chỉ ghi đè",
+  "Settings Scope": "Phạm vi cài đặt",
+  "All Books": "Tất cả sách",
+  "This Book": "Sách này"
 }

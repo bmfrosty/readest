@@ -2192,5 +2192,10 @@
   "Playback interrupted, tap play to retry": "پخش قطع شد، برای تلاش دوباره روی پخش ضربه بزنید",
   "Unable to connect to {{server}}": "اتصال به {{server}} ممکن نیست",
   "Audiobookshelf server not found": "سرور Audiobookshelf یافت نشد",
-  "Episode not found": "قسمت یافت نشد"
+  "Episode not found": "قسمت یافت نشد",
+  "Global defaults — applies to all books": "پیش‌فرض‌های سراسری — برای همه‌ی کتاب‌ها اعمال می‌شود",
+  "This book: {{title}} — overrides only": "این کتاب: {{title}} — فقط بازنویسی‌ها",
+  "Settings Scope": "دامنه‌ی تنظیمات",
+  "All Books": "همه‌ی کتاب‌ها",
+  "This Book": "این کتاب"
 }

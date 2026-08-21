@@ -2310,5 +2310,10 @@
   "Playback interrupted, tap play to retry": "Predvajanje je bilo prekinjeno, za ponovni poskus se dotaknite predvajanja",
   "Unable to connect to {{server}}": "Povezava s strežnikom {{server}} ni uspela",
   "Audiobookshelf server not found": "Strežnika Audiobookshelf ni bilo mogoče najti",
-  "Episode not found": "Epizode ni mogoče najti"
+  "Episode not found": "Epizode ni mogoče najti",
+  "Global defaults — applies to all books": "Globalne privzete vrednosti — veljajo za vse knjige",
+  "This book: {{title}} — overrides only": "Ta knjiga: {{title}} — samo preglasitve",
+  "Settings Scope": "Obseg nastavitev",
+  "All Books": "Vse knjige",
+  "This Book": "Ta knjiga"
 }

@@ -2192,5 +2192,10 @@
   "Playback interrupted, tap play to retry": "A lejátszás megszakadt, koppintson a lejátszásra az újrapróbálkozáshoz",
   "Unable to connect to {{server}}": "Nem sikerült csatlakozni ehhez: {{server}}",
   "Audiobookshelf server not found": "Az Audiobookshelf szerver nem található",
-  "Episode not found": "Az epizód nem található"
+  "Episode not found": "Az epizód nem található",
+  "Global defaults — applies to all books": "Globális alapértelmezések — minden könyvre érvényes",
+  "This book: {{title}} — overrides only": "Ez a könyv: {{title}} — csak felülírások",
+  "Settings Scope": "Beállítások hatóköre",
+  "All Books": "Minden könyv",
+  "This Book": "Ez a könyv"
 }
