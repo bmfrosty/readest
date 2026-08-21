@@ -2224,5 +2224,10 @@
   "Not secure": "ناامن",
   "Importing": "در حال وارد کردن",
   "Added to library": "به کتابخانه افزوده شد",
-  "Not a supported book format": "قالب کتاب پشتیبانی نمی‌شود"
+  "Not a supported book format": "قالب کتاب پشتیبانی نمی‌شود",
+  "This Book — Overrides Global Settings": "این کتاب — تنظیمات سراسری را لغو می‌کند",
+  "Always Global Settings": "همیشه تنظیمات سراسری",
+  "Edit the Current Book's Settings by Default": "ویرایش تنظیمات کتاب فعلی به‌صورت پیش‌فرض",
+  "Applies after you close Settings": "پس از بستن تنظیمات اعمال می‌شود",
+  "Applies to all books": "برای همهٔ کتاب‌ها اعمال می‌شود"
 }

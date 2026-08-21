@@ -2,6 +2,7 @@ import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import { useEnv } from '@/context/EnvContext';
 import { useSettingsStore } from '@/store/settingsStore';
+import { saveSysSettings } from '@/helpers/settings';
 import { useResponsiveSize } from '@/hooks/useResponsiveSize';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useCommandPalette } from '@/components/command-palette';
@@ -28,6 +29,7 @@ import IntegrationsPanel from './IntegrationsPanel';
 import Dropdown from '@/components/Dropdown';
 import Dialog from '@/components/Dialog';
 import DialogMenu from './DialogMenu';
+import SettingsScopeBanner from './SettingsScopeBanner';
 import ControlPanel from './ControlPanel';
 import LangPanel from './LangPanel';
 import MiscPanel from './MiscPanel';
@@ -44,6 +46,32 @@ export type SettingsPanelType =
   | 'AI'
   | 'Integrations'
   | 'Custom';
+
+/**
+ * Whether each panel is governed by the global/per-book scope.
+ *
+ * A `Record` keyed by `SettingsPanelType`, not an array, because the compiler
+ * checks it for exhaustiveness. An allowlist would default a NEW panel to
+ * "always global" and silently mislabel it — the exact fault the banner exists
+ * to remove — and no test could catch that, since TypeScript cannot check an
+ * array for completeness. Adding a panel type now fails the build until this
+ * says which kind it is.
+ *
+ * 'always-global' panels have no per-book form, so the banner states that
+ * rather than reporting a flag that does not govern them.
+ */
+const PANEL_SCOPE: Record<SettingsPanelType, 'scoped' | 'always-global'> = {
+  Font: 'scoped',
+  Layout: 'scoped',
+  Theme: 'scoped',
+  Control: 'scoped',
+  TTS: 'scoped',
+  Language: 'scoped',
+  Custom: 'scoped',
+  AI: 'always-global',
+  Integrations: 'always-global',
+};
+
 export type SettingsPanelPanelProp = {
   bookKey: string;
   onRegisterReset: (resetFn: () => void) => void;
@@ -58,7 +86,7 @@ type TabConfig = {
 
 const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
   const _ = useTranslation();
-  const { appService } = useEnv();
+  const { appService, envConfig } = useEnv();
   const closeIconSize = useResponsiveSize(16);
   const [isRtl] = useState(() => getDirFromUILanguage() === 'rtl');
   const tabsRef = useRef<HTMLDivElement | null>(null);
@@ -66,6 +94,7 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
   const [showAllTabLabels, setShowAllTabLabels] = useState(false);
   const [canScrollTabsForward, setCanScrollTabsForward] = useState(false);
   const {
+    settings,
     setFontPanelView,
     setSettingsDialogOpen,
     activeSettingsItemId,
@@ -128,6 +157,58 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
       label: _('Custom'),
     },
   ] as TabConfig[];
+
+  // Captured when the dialog opens, and written back only when it closes.
+  //
+  // Deferring the WRITE is what makes the row's promise true. A panel seeds its
+  // controls once, on mount, and does not re-seed. If this preference took
+  // effect at once, the scope would move under an open dialog while the panels
+  // still showed values fetched from the other store — and the next control the
+  // reader touched would write one book's values into the global defaults, or
+  // the reverse. That is the same hazard the banner refuses to allow from a
+  // switch of its own.
+  //
+  // While the dialog is open the stored value is unchanged, so the banner, the
+  // Settings Menu and every save path agree without any of them being handed a
+  // frozen copy.
+  // `?? false` only so the switch is controlled on the first renders; the store
+  // starts as `{} as SystemSettings`. It is NOT a guard against committing over
+  // a real value — it turns "commit undefined" into "commit false", which would
+  // silently switch the preference off. `touched` is the guard: nothing is
+  // written unless the reader moved this switch.
+  const [pendingBookScope, setPendingBookScope] = useState(
+    settings.openSettingsInBookScope ?? false,
+  );
+  const touchedRef = useRef(false);
+  const setBookScope = (next: boolean) => {
+    touchedRef.current = true;
+    setPendingBookScope(next);
+  };
+  const pendingBookScopeRef = useRef(pendingBookScope);
+  // In an effect, not the render body: a discarded concurrent render must not
+  // write the ref.
+  useEffect(() => {
+    pendingBookScopeRef.current = pendingBookScope;
+  }, [pendingBookScope]);
+  useEffect(() => {
+    const commit = () => {
+      if (!touchedRef.current) return;
+      const { settings: latest } = useSettingsStore.getState();
+      if (pendingBookScopeRef.current !== latest.openSettingsInBookScope) {
+        saveSysSettings(envConfig, 'openSettingsInBookScope', pendingBookScopeRef.current);
+      }
+    };
+    // React does not run cleanups when the webview is torn down, so quitting or
+    // closing the window with this dialog open would drop the toggle silently.
+    // Every other row here persists on click; this one must not be the
+    // exception. The guard above makes the double call harmless.
+    window.addEventListener('pagehide', commit);
+    return () => {
+      window.removeEventListener('pagehide', commit);
+      commit();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const [activePanel, setActivePanel] = useState<SettingsPanelType>(() => {
     // Deep-link: if a caller asked for a specific panel before opening the
@@ -431,6 +512,14 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
             )}
             <div className='hidden sm:flex'>{windowControls}</div>
           </div>
+          {/* Shown on every panel. On one with no per-book form the banner
+              reads "Always Global Settings", which is true there — and an
+              absent banner is ambiguous, since it could equally mean the
+              banner failed to render. */}
+          <SettingsScopeBanner
+            bookKey={bookKey}
+            alwaysGlobal={PANEL_SCOPE[activePanel] === 'always-global'}
+          />
         </div>
       }
     >
@@ -461,6 +550,8 @@ const SettingsDialog: React.FC<{ bookKey: string }> = ({ bookKey }) => {
           <ControlPanel
             bookKey={bookKey}
             onRegisterReset={(fn) => registerResetFunction('Control', fn)}
+            openSettingsInBookScope={pendingBookScope}
+            onOpenSettingsInBookScopeChange={setBookScope}
           />
         )}
         {activePanel === 'TTS' && (

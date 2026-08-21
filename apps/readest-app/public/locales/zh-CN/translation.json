@@ -2164,5 +2164,10 @@
   "Not secure": "不安全",
   "Importing": "正在导入",
   "Added to library": "已加入书库",
-  "Not a supported book format": "不支持的图书格式"
+  "Not a supported book format": "不支持的图书格式",
+  "This Book — Overrides Global Settings": "本书 — 覆盖全局设置",
+  "Always Global Settings": "始终全局设置",
+  "Edit the Current Book's Settings by Default": "默认编辑当前书籍的设置",
+  "Applies after you close Settings": "将在您关闭设置后生效",
+  "Applies to all books": "适用于所有书籍"
 }

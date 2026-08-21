@@ -2224,5 +2224,10 @@
   "Not secure": "பாதுகாப்பற்றது",
   "Importing": "இறக்குமதி செய்கிறது",
   "Added to library": "நூலகத்தில் சேர்க்கப்பட்டது",
-  "Not a supported book format": "ஆதரிக்கப்படாத புத்தக வடிவம்"
+  "Not a supported book format": "ஆதரிக்கப்படாத புத்தக வடிவம்",
+  "This Book — Overrides Global Settings": "இந்தப் புத்தகம் — உலகளாவிய அமைப்புகளை மேலெழுதுகிறது",
+  "Always Global Settings": "எப்போதும் உலகளாவிய அமைப்புகள்",
+  "Edit the Current Book's Settings by Default": "இயல்பாக தற்போதைய புத்தகத்தின் அமைப்புகளைத் திருத்து",
+  "Applies after you close Settings": "அமைப்புகளை மூடிய பிறகு பொருந்தும்",
+  "Applies to all books": "எல்லாப் புத்தகங்களுக்கும் பொருந்தும்"
 }

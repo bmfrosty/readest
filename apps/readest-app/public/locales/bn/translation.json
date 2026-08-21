@@ -2224,5 +2224,10 @@
   "Not secure": "নিরাপদ নয়",
   "Importing": "ইমপোর্ট হচ্ছে",
   "Added to library": "লাইব্রেরিতে যোগ করা হয়েছে",
-  "Not a supported book format": "অসমর্থিত বইয়ের ফরম্যাট"
+  "Not a supported book format": "অসমর্থিত বইয়ের ফরম্যাট",
+  "This Book — Overrides Global Settings": "এই বই — গ্লোবাল সেটিংস অগ্রাহ্য করে",
+  "Always Global Settings": "সর্বদা গ্লোবাল সেটিংস",
+  "Edit the Current Book's Settings by Default": "ডিফল্টরূপে বর্তমান বইয়ের সেটিংস সম্পাদনা করুন",
+  "Applies after you close Settings": "সেটিংস বন্ধ করার পরে প্রযোজ্য হবে",
+  "Applies to all books": "সব বইয়ে প্রযোজ্য"
 }

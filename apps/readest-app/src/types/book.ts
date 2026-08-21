@@ -460,7 +460,18 @@ export interface ProofreadRulesConfig {
 }
 
 export interface ViewSettingsConfig {
-  isGlobal: boolean;
+  /**
+   * Which store the Settings dialog edits for this book: the global defaults,
+   * or the book's own values.
+   *
+   * Per-book only — deliberately absent from `globalViewSettings`. While it had
+   * a global value of `true`, `serializeConfig` dropped it from any book that
+   * matched, so "the reader chose global" and "the reader never chose" were
+   * byte-identical on disk. Leaving it unset keeps those two apart, which is
+   * what lets an unscoped book follow the reader's preference without
+   * disturbing a book that made a choice.
+   */
+  isGlobal?: boolean;
 }
 
 export interface ViewSettings

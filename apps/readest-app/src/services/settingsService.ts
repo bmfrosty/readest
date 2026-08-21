@@ -22,7 +22,6 @@ import {
   DEFAULT_ANNOTATOR_CONFIG,
   DEFAULT_WORD_LENS_CONFIG,
   DEFAULT_EINK_VIEW_SETTINGS,
-  DEFAULT_VIEW_SETTINGS_CONFIG,
 } from './constants';
 import { DEFAULT_AI_SETTINGS } from './ai/constants';
 import { getTargetLang, isCJKEnv } from '@/utils/misc';
@@ -46,7 +45,6 @@ export function getDefaultViewSettings(ctx: Context): ViewSettings {
     ...DEFAULT_SCREEN_CONFIG,
     ...DEFAULT_ANNOTATOR_CONFIG,
     ...DEFAULT_WORD_LENS_CONFIG,
-    ...DEFAULT_VIEW_SETTINGS_CONFIG,
     ...(ctx.isMobile ? DEFAULT_MOBILE_VIEW_SETTINGS : {}),
     ...(ctx.isEink ? DEFAULT_EINK_VIEW_SETTINGS : {}),
     ...(isCJKEnv() ? DEFAULT_CJK_VIEW_SETTINGS : {}),
@@ -117,6 +115,22 @@ export function migrateLibraryThenSort(settings: SystemSettings): void {
   delete legacy.librarySortBy2;
 }
 
+/**
+ * `isGlobal` is a per-book flag and no longer belongs in `globalViewSettings`.
+ * Installs that predate that change still have it saved there, and the load
+ * merge above puts saved values last, so it would come straight back.
+ *
+ * Deleting it here touches no book config. A book that stored `false` keeps
+ * `false`; a book that stored nothing becomes genuinely unset and follows
+ * `openSettingsInBookScope`, which defaults to off — so behaviour is unchanged
+ * until the reader asks for something else.
+ */
+export function migrateScopeFlagOutOfGlobals(settings: SystemSettings): void {
+  if (settings.globalViewSettings && 'isGlobal' in settings.globalViewSettings) {
+    delete (settings.globalViewSettings as { isGlobal?: boolean }).isGlobal;
+  }
+}
+
 export async function loadSettings(ctx: Context): Promise<SystemSettings> {
   const defaultSettings: SystemSettings = {
     ...DEFAULT_SYSTEM_SETTINGS,
@@ -157,6 +171,7 @@ export async function loadSettings(ctx: Context): Promise<SystemSettings> {
     ...getDefaultViewSettings(ctx),
     ...settings.globalViewSettings,
   };
+  migrateScopeFlagOutOfGlobals(settings);
   settings.aiSettings = {
     ...DEFAULT_AI_SETTINGS,
     ...settings.aiSettings,

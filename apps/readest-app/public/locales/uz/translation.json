@@ -2224,5 +2224,10 @@
   "Not secure": "Xavfsiz emas",
   "Importing": "Import qilinmoqda",
   "Added to library": "Kutubxonaga qo‘shildi",
-  "Not a supported book format": "Qo‘llab-quvvatlanmaydigan kitob formati"
+  "Not a supported book format": "Qo‘llab-quvvatlanmaydigan kitob formati",
+  "This Book — Overrides Global Settings": "Bu kitob — Umumiy sozlamalarni bekor qiladi",
+  "Always Global Settings": "Har doim Umumiy sozlamalar",
+  "Edit the Current Book's Settings by Default": "Sukut boʻyicha joriy kitob sozlamalarini tahrirlash",
+  "Applies after you close Settings": "Sozlamalarni yopganingizdan keyin qoʻllanadi",
+  "Applies to all books": "Barcha kitoblarga qoʻllanadi"
 }

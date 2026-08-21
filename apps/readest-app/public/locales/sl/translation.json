@@ -2344,5 +2344,10 @@
   "Not secure": "Ni varno",
   "Importing": "Uvažanje",
   "Added to library": "Dodano v knjižnico",
-  "Not a supported book format": "Nepodprta oblika knjige"
+  "Not a supported book format": "Nepodprta oblika knjige",
+  "This Book — Overrides Global Settings": "Ta knjiga — preglasi Globalne nastavitve",
+  "Always Global Settings": "Vedno Globalne nastavitve",
+  "Edit the Current Book's Settings by Default": "Privzeto urejaj nastavitve trenutne knjige",
+  "Applies after you close Settings": "Uporabi se po zaprtju nastavitev",
+  "Applies to all books": "Velja za vse knjige"
 }

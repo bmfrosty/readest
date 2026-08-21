@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import React, { useEffect, useRef, useState } from 'react';
 import { useEnv } from '@/context/EnvContext';
 import { useReaderStore } from '@/store/readerStore';
@@ -5,6 +6,8 @@ import { useTranslation } from '@/hooks/useTranslation';
 import { useBookDataStore } from '@/store/bookDataStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useResetViewSettings } from '@/hooks/useResetSettings';
+import { MdOutlinePublic } from 'react-icons/md';
+import { useSettingsScope } from '@/hooks/useSettingsScope';
 import { useEinkMode } from '@/hooks/useEinkMode';
 import { getStyles } from '@/utils/style';
 import { getMaxInlineSize } from '@/utils/config';
@@ -28,7 +31,22 @@ import { DEFAULT_ANNOTATION_TOOLBAR_ITEMS } from '@/utils/annotationToolbar';
 import { canShareText } from '@/utils/share';
 import { optInTelemetry, optOutTelemetry } from '@/utils/telemetry';
 
-const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
+interface ControlPanelProps extends SettingsPanelPanelProp {
+  /**
+   * Controlled by SettingsDialog, which owns it because this panel unmounts on
+   * every tab switch. It is written back only when the dialog closes, so the
+   * scope cannot move under panels that have already seeded their controls.
+   */
+  openSettingsInBookScope: boolean;
+  onOpenSettingsInBookScopeChange: (next: boolean) => void;
+}
+
+const ControlPanel: React.FC<ControlPanelProps> = ({
+  bookKey,
+  onRegisterReset,
+  openSettingsInBookScope,
+  onOpenSettingsInBookScopeChange,
+}) => {
   const _ = useTranslation();
   const { envConfig, appService } = useEnv();
   const { getView, getViews, getViewSettings, recreateViewer } = useReaderStore();
@@ -74,6 +92,23 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
   const [isTelemetryEnabled, setIsTelemetryEnabled] = useState(settings.telemetryEnabled);
 
   const resetToDefaults = useResetViewSettings();
+  // This row is app-wide: it decides where the dialog opens, which is a habit
+  // rather than a property of a book. In book scope the banner promises the
+  // opposite, so the row says so itself — a globe, reddened.
+  //
+  // Red here and blue on the banner are not inconsistent. The banner's blue
+  // names the ordinary global state. This red does not name a scope at all: it
+  // marks a row that CONTRADICTS the banner above it, which is a warning and
+  // the one thing red is for.
+  //
+  // The colour goes on the icon, not on a row border. `BoxedList` puts
+  // `divide-base-200` on the row container, and Tailwind compiles that to a
+  // descendant selector — two classes deep, so more specific than a plain
+  // `border-error` — which repaints any row border with the divider grey. A
+  // border marker showed as nothing in the light theme and grey in the dark
+  // one. The exact selector differs between Tailwind 3 and 4; the specificity
+  // relationship is what matters.
+  const contradictsBanner = !useSettingsScope(bookKey);
   const pageTurnerResetRef = useRef<() => void>(() => {});
   const canShare = canShareText(appService);
 
@@ -481,6 +516,34 @@ const ControlPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterRes
             disabled={!animated}
           />
         </SettingsRow>
+      </BoxedList>
+
+      <BoxedList title={_('General')} data-setting-id='settings.control.general'>
+        <SettingsSwitchRow
+          label={
+            <>
+              {/* Inline-block, not a flex child. `SettingLabel` clamps with
+                  `-webkit-box`, and no other caller in this directory puts a
+                  flex container inside that clamp — it can stop the clamp
+                  working, and it centres the icon against the whole block
+                  instead of leading the first line. An inline-block icon flows
+                  like a character, which is what the clamp expects. */}
+              <MdOutlinePublic
+                aria-hidden='true'
+                className={clsx(
+                  'me-1.5 inline-block h-4 w-4 align-[-0.15em]',
+                  contradictsBanner && 'text-error',
+                )}
+              />
+              <span className='sr-only'>{_('Applies to all books')} </span>
+              {_("Edit the Current Book's Settings by Default")}
+            </>
+          }
+          description={_('Applies after you close Settings')}
+          checked={openSettingsInBookScope}
+          onChange={() => onOpenSettingsInBookScopeChange(!openSettingsInBookScope)}
+          data-setting-id='settings.control.openSettingsInBookScope'
+        />
       </BoxedList>
 
       <BoxedList title={_('Device')} data-setting-id='settings.control.device'>

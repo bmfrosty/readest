@@ -2164,5 +2164,10 @@
   "Not secure": "Tidak aman",
   "Importing": "Mengimpor",
   "Added to library": "Ditambahkan ke perpustakaan",
-  "Not a supported book format": "Format buku tidak didukung"
+  "Not a supported book format": "Format buku tidak didukung",
+  "This Book — Overrides Global Settings": "Buku ini — menimpa Pengaturan Global",
+  "Always Global Settings": "Selalu Pengaturan Global",
+  "Edit the Current Book's Settings by Default": "Edit pengaturan buku saat ini secara bawaan",
+  "Applies after you close Settings": "Berlaku setelah Anda menutup Pengaturan",
+  "Applies to all books": "Berlaku untuk semua buku"
 }

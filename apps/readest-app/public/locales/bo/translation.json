@@ -2164,5 +2164,10 @@
   "Not secure": "བདེ་འཇགས་མེད།",
   "Importing": "ནང་འདྲེན་བྱེད་བཞིན་པ།",
   "Added to library": "དཔེ་མཛོད་ནང་སྣོན་འཇུག་བྱས།",
-  "Not a supported book format": "རྒྱབ་སྐྱོར་མེད་པའི་དཔེ་དེབ་རྣམ་གཞག"
+  "Not a supported book format": "རྒྱབ་སྐྱོར་མེད་པའི་དཔེ་དེབ་རྣམ་གཞག",
+  "This Book — Overrides Global Settings": "དེབ་འདི — ཁྱོན་ཡོངས་སྒྲིག་བཀོད། ལས་བརྒལ།",
+  "Always Global Settings": "རྟག་ཏུ་ ཁྱོན་ཡོངས་སྒྲིག་བཀོད།",
+  "Edit the Current Book's Settings by Default": "སྔོན་སྒྲིག་ལྟར་ད་ལྟའི་དེབ་ཀྱི་སྒྲིག་འགོད་བཅོས་པ།",
+  "Applies after you close Settings": "སྒྲིག་འགོད་བསྡམས་རྗེས་འཇུག་པ།",
+  "Applies to all books": "དེབ་ཚང་མར་འཇུག་པ།"
 }

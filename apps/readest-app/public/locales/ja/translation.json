@@ -2164,5 +2164,10 @@
   "Not secure": "保護されていない通信",
   "Importing": "インポート中",
   "Added to library": "ライブラリに追加しました",
-  "Not a supported book format": "対応していない書籍形式です"
+  "Not a supported book format": "対応していない書籍形式です",
+  "This Book — Overrides Global Settings": "この書籍 — 全体設定を上書き",
+  "Always Global Settings": "常に全体設定",
+  "Edit the Current Book's Settings by Default": "既定で現在の書籍の設定を編集",
+  "Applies after you close Settings": "設定を閉じた後に適用されます",
+  "Applies to all books": "すべての書籍に適用されます"
 }

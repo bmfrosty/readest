@@ -14,7 +14,6 @@ import {
   TTSConfig,
   ViewConfig,
   ViewSettings,
-  ViewSettingsConfig,
   WordLensConfig,
 } from '@/types/book';
 import {
@@ -195,6 +194,7 @@ export const DEFAULT_SYSTEM_SETTINGS: Partial<SystemSettings> = {
   openLastBooks: false,
   lastOpenBooks: [],
   autoImportBooksOnOpen: false,
+  openSettingsInBookScope: false,
   telemetryEnabled: true,
   discordRichPresenceEnabled: false,
   libraryViewMode: 'grid',
@@ -525,10 +525,6 @@ export const DEFAULT_BOOK_SEARCH_CONFIG: BookSearchConfig = {
   nearbyWords: 10,
   // kept for sync wire back-compat with pre-v3 clients (mirrors mode === 'whole-words')
   matchWholeWords: false,
-};
-
-export const DEFAULT_VIEW_SETTINGS_CONFIG: ViewSettingsConfig = {
-  isGlobal: true,
 };
 
 export const SYSTEM_SETTINGS_VERSION = 1;

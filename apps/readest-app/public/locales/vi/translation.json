@@ -2164,5 +2164,10 @@
   "Not secure": "Không an toàn",
   "Importing": "Đang nhập",
   "Added to library": "Đã thêm vào thư viện",
-  "Not a supported book format": "Định dạng sách không được hỗ trợ"
+  "Not a supported book format": "Định dạng sách không được hỗ trợ",
+  "This Book — Overrides Global Settings": "Sách này — ghi đè Cài đặt chung",
+  "Always Global Settings": "Luôn Cài đặt chung",
+  "Edit the Current Book's Settings by Default": "Mặc định chỉnh sửa cài đặt của sách hiện tại",
+  "Applies after you close Settings": "Áp dụng sau khi bạn đóng Cài đặt",
+  "Applies to all books": "Áp dụng cho mọi sách"
 }

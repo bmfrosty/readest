@@ -2284,5 +2284,10 @@
   "Not secure": "לא מאובטח",
   "Importing": "מייבא",
   "Added to library": "נוסף לספרייה",
-  "Not a supported book format": "פורמט ספר לא נתמך"
+  "Not a supported book format": "פורמט ספר לא נתמך",
+  "This Book — Overrides Global Settings": "ספר זה — עוקף הגדרות גלובליות",
+  "Always Global Settings": "תמיד הגדרות גלובליות",
+  "Edit the Current Book's Settings by Default": "עריכת ההגדרות של הספר הנוכחי כברירת מחדל",
+  "Applies after you close Settings": "יחול לאחר סגירת ההגדרות",
+  "Applies to all books": "חל על כל הספרים"
 }

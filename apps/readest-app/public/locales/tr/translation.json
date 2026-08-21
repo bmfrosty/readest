@@ -2224,5 +2224,10 @@
   "Not secure": "Güvenli değil",
   "Importing": "İçe aktarılıyor",
   "Added to library": "Kitaplığa eklendi",
-  "Not a supported book format": "Desteklenmeyen kitap biçimi"
+  "Not a supported book format": "Desteklenmeyen kitap biçimi",
+  "This Book — Overrides Global Settings": "Bu kitap — Genel Ayarlar'ı geçersiz kılar",
+  "Always Global Settings": "Her zaman Genel Ayarlar",
+  "Edit the Current Book's Settings by Default": "Varsayılan olarak geçerli kitabın ayarlarını düzenle",
+  "Applies after you close Settings": "Ayarları kapattıktan sonra uygulanır",
+  "Applies to all books": "Tüm kitaplar için geçerlidir"
 }

@@ -421,6 +421,20 @@ export interface SystemSettings {
   autoImportBooksOnOpen: boolean;
   savedBookCoverForLockScreen: string;
   savedBookCoverForLockScreenPath: string;
+  /**
+   * Which store a book's view-setting writes go to, when that book has never
+   * been given a scope of its own. False — the default, and the long-standing
+   * behaviour — sends them to the global defaults. True sends them to the book.
+   * An explicit per-book choice always wins over this.
+   *
+   * The name says "open Settings", and that is where a reader meets it, but the
+   * reach is wider: `isSettingsScopeGlobal` consults this on EVERY
+   * `saveViewSettings` call, including writes made with the dialog closed — the
+   * footer font panel, the View menu, auto-scroll speed, the reading ruler and
+   * the header-bar quick action. That is what `isGlobal` has always meant; this
+   * preference only supplies its default.
+   */
+  openSettingsInBookScope: boolean;
   telemetryEnabled: boolean;
   discordRichPresenceEnabled: boolean;
   libraryViewMode: LibraryViewModeType;

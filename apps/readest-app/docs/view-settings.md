@@ -12,7 +12,7 @@ This doc covers how to plumb a new config through the three layers:
 
 **Pattern A — add a field to an existing sub-interface.** Use when the new option belongs to an existing bundle (`BookLayout`, `BookStyle`, `BookFont`, `ViewConfig`, `TTSConfig`, etc.).
 
-**Pattern B — introduce a new sub-interface.** Use when several related fields cluster together, or when a single field is semantically its own concept (e.g. `ParagraphModeConfig`, `ViewSettingsConfig`). Then extend `ViewSettings` with it.
+**Pattern B — introduce a new sub-interface.** Use when several related fields cluster together, or when a single field is semantically its own concept (e.g. `WordLensConfig`). Then extend `ViewSettings` with it.
 
 Both patterns follow the same three-layer flow. The only difference is whether you reuse an existing `DEFAULT_*` constant or add a new one.
 
@@ -32,8 +32,11 @@ export interface ViewConfig {
 
 ```ts
 // src/types/book.ts
-export interface ViewSettingsConfig {
-  isGlobal: boolean;
+export interface WordLensConfig {
+  wordLensEnabled: boolean;
+  /** Difficulty slider, 1 (fewest hints) .. 5 (most hints). */
+  wordLensLevel: number;
+  // ...and the rest of the cluster
 }
 
 export interface ViewSettings
@@ -64,8 +67,10 @@ export const DEFAULT_VIEW_CONFIG: ViewConfig = {
 
 ```ts
 // src/services/constants.ts
-export const DEFAULT_VIEW_SETTINGS_CONFIG: ViewSettingsConfig = {
-  isGlobal: true,
+export const DEFAULT_WORD_LENS_CONFIG: WordLensConfig = {
+  wordLensEnabled: false,
+  wordLensLevel: 3,
+  // ...one entry per field
 };
 ```
 
@@ -76,7 +81,7 @@ export function getDefaultViewSettings(ctx: Context): ViewSettings {
     ...DEFAULT_BOOK_LAYOUT,
     ...DEFAULT_BOOK_STYLE,
     // ...other bundles
-    ...DEFAULT_VIEW_SETTINGS_CONFIG,
+    ...DEFAULT_WORD_LENS_CONFIG,
     // platform overrides go last so they win
     ...(ctx.isMobile ? DEFAULT_MOBILE_VIEW_SETTINGS : {}),
     ...(ctx.isEink ? DEFAULT_EINK_VIEW_SETTINGS : {}),
@@ -140,12 +145,17 @@ saveViewSettings<K extends keyof ViewSettings>(
 )
 ```
 
-**Global vs. per-book routing.** `saveViewSettings` inspects `viewSettings.isGlobal` on the target book. When `true` (the default), it writes to `globalViewSettings`, loops through every open book, and saves to disk. When `false`, it writes only to the one book's config.
+**Global vs. per-book routing.** `saveViewSettings` calls `isSettingsScopeGlobal(bookKey, viewSettings, settings)`. When it returns `true`, the write goes to `globalViewSettings`, loops through every open book, and saves to disk. When `false`, it writes only to the one book's config.
+
+`isGlobal` is per-book ONLY — deliberately absent from `globalViewSettings` — so three states stay apart: stored `false` (the reader chose this book), stored `true` (chose global), and absent (never chose, so follow the `openSettingsInBookScope` preference). It is the one field in this file exempt from the "required, not optional" rule below, because no default value can express a genuine absence.
 
 **Skip global.** Pass `skipGlobal=true` when the setting is meta — i.e. it describes the settings system itself, not book content. The canonical case is toggling `isGlobal` from `DialogMenu`: you want the scope flag to live on the specific book without propagating it to every other book.
 
+Note that `DialogMenu` does not write the flag directly. It passes the value through `scopeFlagToStore`, which returns `undefined` — clearing the flag — when the reader's choice matches their preference. Writing an explicit flag every time made "never chose" unreachable once left.
+
 ```tsx
-saveViewSettings(envConfig, bookKey, 'isGlobal', !isSettingsGlobal, true, false);
+const next = scopeFlagToStore(!isSettingsGlobal, !settings.openSettingsInBookScope);
+saveViewSettings(envConfig, bookKey, 'isGlobal', next, true, false);
 ```
 
 **Skip styles.** Pass `applyStyles=false` for options that don't affect CSS rendering (toggles, flags, metadata). This avoids an unnecessary `renderer.setStyles` call.
@@ -193,7 +203,7 @@ Skip this step only for settings that don't surface as a user-visible row (hidde
 
 ### Don'ts
 
-- **Don't make the field optional** just to skip providing a default. Add a default in Step 2 instead.
+- **Don't make the field optional** just to skip providing a default. The sole exception is `isGlobal`, where an absent value is a meaningful third state. Add a default in Step 2 instead.
 - **Don't mutate `settings.globalViewSettings` directly** in a component — `saveViewSettings` already handles global propagation when `isGlobal` is true.
 - **Don't bump `SYSTEM_SETTINGS_VERSION`** for a plain additive field. The load-time merge handles it.
 

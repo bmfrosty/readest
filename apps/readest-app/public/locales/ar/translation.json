@@ -2464,5 +2464,10 @@
   "Not secure": "غير آمن",
   "Importing": "جارٍ الاستيراد",
   "Added to library": "تمت الإضافة إلى المكتبة",
-  "Not a supported book format": "تنسيق كتاب غير مدعوم"
+  "Not a supported book format": "تنسيق كتاب غير مدعوم",
+  "This Book — Overrides Global Settings": "هذا الكتاب — يتجاوز الإعدادات العامة",
+  "Always Global Settings": "دائمًا الإعدادات العامة",
+  "Edit the Current Book's Settings by Default": "تحرير إعدادات الكتاب الحالي افتراضيًا",
+  "Applies after you close Settings": "يُطبَّق بعد إغلاق الإعدادات",
+  "Applies to all books": "يُطبَّق على كل الكتب"
 }

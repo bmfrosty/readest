@@ -2224,5 +2224,10 @@
   "Not secure": "Niet beveiligd",
   "Importing": "Importeren",
   "Added to library": "Toegevoegd aan bibliotheek",
-  "Not a supported book format": "Boekformaat wordt niet ondersteund"
+  "Not a supported book format": "Boekformaat wordt niet ondersteund",
+  "This Book — Overrides Global Settings": "Dit boek — overschrijft Algemene instellingen",
+  "Always Global Settings": "Altijd Algemene instellingen",
+  "Edit the Current Book's Settings by Default": "Standaard de instellingen van het huidige boek bewerken",
+  "Applies after you close Settings": "Wordt toegepast nadat u Instellingen sluit",
+  "Applies to all books": "Geldt voor alle boeken"
 }

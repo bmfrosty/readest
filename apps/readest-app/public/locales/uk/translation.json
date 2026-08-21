@@ -2344,5 +2344,10 @@
   "Not secure": "Не захищено",
   "Importing": "Імпортування",
   "Added to library": "Додано до бібліотеки",
-  "Not a supported book format": "Непідтримуваний формат книги"
+  "Not a supported book format": "Непідтримуваний формат книги",
+  "This Book — Overrides Global Settings": "Ця книга — перевизначає Ґлобальні налаштування",
+  "Always Global Settings": "Завжди Ґлобальні налаштування",
+  "Edit the Current Book's Settings by Default": "Типово редагувати налаштування поточної книги",
+  "Applies after you close Settings": "Застосується після закриття налаштувань",
+  "Applies to all books": "Застосовується до всіх книг"
 }

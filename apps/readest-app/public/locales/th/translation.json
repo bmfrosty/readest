@@ -2164,5 +2164,10 @@
   "Not secure": "ไม่ปลอดภัย",
   "Importing": "กำลังนำเข้า",
   "Added to library": "เพิ่มลงในคลังหนังสือแล้ว",
-  "Not a supported book format": "รูปแบบหนังสือไม่รองรับ"
+  "Not a supported book format": "รูปแบบหนังสือไม่รองรับ",
+  "This Book — Overrides Global Settings": "หนังสือเล่มนี้ — แทนที่การตั้งค่าทั่วไป",
+  "Always Global Settings": "การตั้งค่าทั่วไปเสมอ",
+  "Edit the Current Book's Settings by Default": "แก้ไขการตั้งค่าของหนังสือปัจจุบันเป็นค่าเริ่มต้น",
+  "Applies after you close Settings": "จะมีผลหลังจากคุณปิดการตั้งค่า",
+  "Applies to all books": "มีผลกับหนังสือทุกเล่ม"
 }

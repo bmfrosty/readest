@@ -2224,5 +2224,10 @@
   "Not secure": "Nem biztonságos",
   "Importing": "Importálás",
   "Added to library": "Hozzáadva a könyvtárhoz",
-  "Not a supported book format": "Nem támogatott könyvformátum"
+  "Not a supported book format": "Nem támogatott könyvformátum",
+  "This Book — Overrides Global Settings": "Ez a könyv — felülírja: Globális beállítások",
+  "Always Global Settings": "Mindig Globális beállítások",
+  "Edit the Current Book's Settings by Default": "Alapértelmezés szerint az aktuális könyv beállításait szerkessze",
+  "Applies after you close Settings": "A beállítások bezárása után lép érvénybe",
+  "Applies to all books": "Minden könyvre érvényes"
 }

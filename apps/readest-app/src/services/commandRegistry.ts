@@ -491,6 +491,12 @@ const controlPanelItems = [
     section: 'Device',
   },
   {
+    id: 'settings.control.openSettingsInBookScope',
+    labelKey: _("Edit the Current Book's Settings by Default"),
+    keywords: ['scope', 'book', 'global', 'settings', 'default', 'per-book'],
+    section: 'General',
+  },
+  {
     id: 'settings.control.screenWakeLock',
     labelKey: _('Keep Screen Awake'),
     keywords: ['screen', 'wake', 'lock', 'awake', 'sleep', 'display'],

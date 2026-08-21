@@ -2224,5 +2224,10 @@
   "Not secure": "დაუცველი",
   "Importing": "იმპორტირდება",
   "Added to library": "ბიბლიოთეკაში დაემატა",
-  "Not a supported book format": "წიგნის ფორმატი მხარდაუჭერელია"
+  "Not a supported book format": "წიგნის ფორმატი მხარდაუჭერელია",
+  "This Book — Overrides Global Settings": "ეს წიგნი — გადაფარავს გლობალურ პარამეტრებს",
+  "Always Global Settings": "ყოველთვის გლობალური პარამეტრები",
+  "Edit the Current Book's Settings by Default": "ნაგულისხმევად მიმდინარე წიგნის პარამეტრების რედაქტირება",
+  "Applies after you close Settings": "ამოქმედდება პარამეტრების დახურვის შემდეგ",
+  "Applies to all books": "ვრცელდება ყველა წიგნზე"
 }

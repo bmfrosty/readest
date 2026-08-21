@@ -63,6 +63,8 @@ beforeEach(() => {
   getViewSettingsMock.mockReset();
   getViewSettingsMock.mockReturnValue(undefined);
   setViewSettingsMock.mockReset();
+  getViewStateMock.mockReset();
+  getViewStateMock.mockImplementation(() => undefined);
   useSettingsStore.setState({
     settings: makeSettings(),
     setSettings: (s: SystemSettings) => useSettingsStore.setState({ settings: s }),
@@ -224,5 +226,32 @@ describe('saveViewSettings', () => {
     // into the cross-device globals.
     expect(referenceChanges).toHaveLength(0);
     expect(useSettingsStore.getState().settings).toBe(initial);
+  });
+});
+
+describe('the scope flag never reaches the global object', () => {
+  /**
+   * If `isGlobal` were written to `globalViewSettings`, `serializeConfig` would
+   * drop every book's matching stored flag on its next save, and the three
+   * states would collapse. `saveViewSettings` forces `skipGlobal` for this one
+   * key so a dropped argument at a call site cannot cause that.
+   */
+  test('a global-branch write of isGlobal is refused', async () => {
+    const settings = useSettingsStore.getState().settings;
+    settings.globalViewSettings = { ...settings.globalViewSettings } as ViewSettings;
+    const setSettingsSpy = vi.fn();
+    useSettingsStore.setState({ setSettings: setSettingsSpy, saveSettings: vi.fn() });
+
+    const bookViewSettings = { isGlobal: true } as unknown as ViewSettings;
+    getViewSettingsMock.mockImplementation(() => bookViewSettings);
+    getViewStateMock.mockImplementation(() => ({ isPrimary: true }) as never);
+
+    // skipGlobal deliberately NOT passed, as a careless call site would.
+    await saveViewSettings(envConfig, 'book-1', 'isGlobal', false);
+
+    // The global object is untouched, and the book took the value.
+    expect(setSettingsSpy).not.toHaveBeenCalled();
+    expect('isGlobal' in (settings.globalViewSettings as object)).toBe(false);
+    expect(bookViewSettings.isGlobal).toBe(false);
   });
 });

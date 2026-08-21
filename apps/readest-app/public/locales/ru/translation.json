@@ -2344,5 +2344,10 @@
   "Not secure": "Не защищено",
   "Importing": "Импорт",
   "Added to library": "Добавлено в библиотеку",
-  "Not a supported book format": "Неподдерживаемый формат книги"
+  "Not a supported book format": "Неподдерживаемый формат книги",
+  "This Book — Overrides Global Settings": "Эта книга — переопределяет Общие настройки",
+  "Always Global Settings": "Всегда Общие настройки",
+  "Edit the Current Book's Settings by Default": "По умолчанию изменять настройки текущей книги",
+  "Applies after you close Settings": "Применится после закрытия настроек",
+  "Applies to all books": "Применяется ко всем книгам"
 }

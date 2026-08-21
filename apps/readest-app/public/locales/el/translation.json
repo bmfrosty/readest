@@ -2224,5 +2224,10 @@
   "Not secure": "Μη ασφαλής",
   "Importing": "Γίνεται εισαγωγή",
   "Added to library": "Προστέθηκε στη βιβλιοθήκη",
-  "Not a supported book format": "Μη υποστηριζόμενη μορφή βιβλίου"
+  "Not a supported book format": "Μη υποστηριζόμενη μορφή βιβλίου",
+  "This Book — Overrides Global Settings": "Αυτό το βιβλίο — παρακάμπτει Γενικές ρυθμίσεις",
+  "Always Global Settings": "Πάντα Γενικές ρυθμίσεις",
+  "Edit the Current Book's Settings by Default": "Επεξεργασία των ρυθμίσεων του τρέχοντος βιβλίου από προεπιλογή",
+  "Applies after you close Settings": "Ισχύει αφού κλείσετε τις Ρυθμίσεις",
+  "Applies to all books": "Ισχύει για όλα τα βιβλία"
 }

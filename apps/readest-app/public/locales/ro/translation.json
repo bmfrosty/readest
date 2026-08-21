@@ -2284,5 +2284,10 @@
   "Not secure": "Nesecurizat",
   "Importing": "Se importă",
   "Added to library": "Adăugat în bibliotecă",
-  "Not a supported book format": "Format de carte neacceptat"
+  "Not a supported book format": "Format de carte neacceptat",
+  "This Book — Overrides Global Settings": "Această carte — înlocuiește Setări globale",
+  "Always Global Settings": "Întotdeauna Setări globale",
+  "Edit the Current Book's Settings by Default": "Editează implicit setările cărții curente",
+  "Applies after you close Settings": "Se aplică după închiderea setărilor",
+  "Applies to all books": "Se aplică tuturor cărților"
 }

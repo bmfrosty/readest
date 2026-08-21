@@ -2164,5 +2164,10 @@
   "Not secure": "안전하지 않음",
   "Importing": "가져오는 중",
   "Added to library": "라이브러리에 추가됨",
-  "Not a supported book format": "지원되지 않는 책 형식입니다"
+  "Not a supported book format": "지원되지 않는 책 형식입니다",
+  "This Book — Overrides Global Settings": "이 책 — 전역 설정 재정의",
+  "Always Global Settings": "항상 전역 설정",
+  "Edit the Current Book's Settings by Default": "기본적으로 현재 책의 설정 편집",
+  "Applies after you close Settings": "설정을 닫은 후에 적용됩니다",
+  "Applies to all books": "모든 책에 적용됩니다"
 }

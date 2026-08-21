@@ -6,7 +6,12 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { useTranslation } from '@/hooks/useTranslation';
 import { useReaderStore } from '@/store/readerStore';
 import { useCustomFontStore } from '@/store/customFontStore';
-import { saveViewSettings } from '@/helpers/settings';
+import {
+  isSettingsScopeGlobal,
+  preferredScopeGlobal,
+  saveViewSettings,
+  scopeFlagToStore,
+} from '@/helpers/settings';
 import { SettingsPanelType } from './SettingsDialog';
 import Menu from '@/components/Menu';
 import MenuItem from '@/components/MenuItem';
@@ -28,14 +33,27 @@ const DialogMenu: React.FC<DialogMenuProps> = ({
 }) => {
   const _ = useTranslation();
   const { envConfig, appService } = useEnv();
-  const { setFontPanelView } = useSettingsStore();
+  const { settings, setFontPanelView } = useSettingsStore();
   const { getViewSettings } = useReaderStore();
   const { getAllFonts, removeFont, saveCustomFonts } = useCustomFontStore();
   const viewSettings = getViewSettings(bookKey);
-  const isSettingsGlobal = viewSettings?.isGlobal ?? true;
+  const isSettingsGlobal = isSettingsScopeGlobal(bookKey, viewSettings, settings);
 
   const handleToggleGlobal = () => {
-    saveViewSettings(envConfig, bookKey, 'isGlobal', !isSettingsGlobal, true, false);
+    // Both of these read the STORED preference, and they must. Resolving from
+    // the stored value while clearing against the pending one makes the two
+    // cancel exactly whenever they differ: the menu then writes `undefined` for
+    // a key that is already absent, `saveViewSettings` finds nothing to do, and
+    // the item becomes a control that does nothing — the very failure this
+    // change exists to remove.
+    //
+    // The cost is that toggling scope in the same session as the preference can
+    // leave a book holding a flag equal to the new default. That is a redundant
+    // flag, not a wrong one, but clearing it takes two more clicks and the
+    // first of them moves the scope: from flag F equal to default D, one click
+    // stores !D and flips the book, and only the next one clears.
+    const next = scopeFlagToStore(!isSettingsGlobal, preferredScopeGlobal(settings));
+    saveViewSettings(envConfig, bookKey, 'isGlobal', next, true, false);
     setIsDropdownOpen?.(false);
   };
 

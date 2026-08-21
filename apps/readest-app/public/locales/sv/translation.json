@@ -2224,5 +2224,10 @@
   "Not secure": "Inte säker",
   "Importing": "Importerar",
   "Added to library": "Tillagd i biblioteket",
-  "Not a supported book format": "Bokformatet stöds inte"
+  "Not a supported book format": "Bokformatet stöds inte",
+  "This Book — Overrides Global Settings": "Den här boken — åsidosätter Globala inställningar",
+  "Always Global Settings": "Alltid Globala inställningar",
+  "Edit the Current Book's Settings by Default": "Redigera den aktuella bokens inställningar som standard",
+  "Applies after you close Settings": "Tillämpas efter att du stängt inställningarna",
+  "Applies to all books": "Gäller alla böcker"
 }

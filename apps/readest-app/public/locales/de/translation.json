@@ -2224,5 +2224,10 @@
   "Not secure": "Nicht sicher",
   "Importing": "Wird importiert",
   "Added to library": "Zur Bibliothek hinzugefügt",
-  "Not a supported book format": "Kein unterstütztes Buchformat"
+  "Not a supported book format": "Kein unterstütztes Buchformat",
+  "This Book — Overrides Global Settings": "Dieses Buch — überschreibt Globale Einstellungen",
+  "Always Global Settings": "Immer Globale Einstellungen",
+  "Edit the Current Book's Settings by Default": "Standardmäßig die Einstellungen des aktuellen Buchs bearbeiten",
+  "Applies after you close Settings": "Wird nach dem Schließen der Einstellungen wirksam",
+  "Applies to all books": "Gilt für alle Bücher"
 }
