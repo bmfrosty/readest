@@ -2192,5 +2192,10 @@
   "Playback interrupted, tap play to retry": "Oynatma kesintiye uğradı, tekrar denemek için oynat'a dokunun",
   "Unable to connect to {{server}}": "{{server}} sunucusuna bağlanılamıyor",
   "Audiobookshelf server not found": "Audiobookshelf sunucusu bulunamadı",
-  "Episode not found": "Bölüm bulunamadı"
+  "Episode not found": "Bölüm bulunamadı",
+  "Global defaults — applies to all books": "Genel varsayılanlar — tüm kitaplara uygulanır",
+  "This book: {{title}} — overrides only": "Bu kitap: {{title}} — yalnızca geçersiz kılmalar",
+  "Settings Scope": "Ayar Kapsamı",
+  "All Books": "Tüm Kitaplar",
+  "This Book": "Bu Kitap"
 }

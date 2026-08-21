@@ -2251,5 +2251,10 @@
   "Playback interrupted, tap play to retry": "Redare întreruptă, atinge redarea pentru a relua",
   "Unable to connect to {{server}}": "Conectarea la {{server}} nu a reușit",
   "Audiobookshelf server not found": "Serverul Audiobookshelf nu a fost găsit",
-  "Episode not found": "Episodul nu a fost găsit"
+  "Episode not found": "Episodul nu a fost găsit",
+  "Global defaults — applies to all books": "Valori implicite globale — se aplică tuturor cărților",
+  "This book: {{title}} — overrides only": "Această carte: {{title}} — doar suprascrieri",
+  "Settings Scope": "Domeniul setărilor",
+  "All Books": "Toate cărțile",
+  "This Book": "Această carte"
 }

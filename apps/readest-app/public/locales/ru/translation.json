@@ -2310,5 +2310,10 @@
   "Playback interrupted, tap play to retry": "Воспроизведение прервано, нажмите «Воспроизвести», чтобы повторить",
   "Unable to connect to {{server}}": "Не удалось подключиться к {{server}}",
   "Audiobookshelf server not found": "Сервер Audiobookshelf не найден",
-  "Episode not found": "Эпизод не найден"
+  "Episode not found": "Эпизод не найден",
+  "Global defaults — applies to all books": "Общие настройки по умолчанию — применяются ко всем книгам",
+  "This book: {{title}} — overrides only": "Эта книга: {{title}} — только переопределения",
+  "Settings Scope": "Область настроек",
+  "All Books": "Все книги",
+  "This Book": "Эта книга"
 }

@@ -2133,5 +2133,10 @@
   "Playback interrupted, tap play to retry": "གཏོང་བ་བར་ཆད་བྱུང་། ཡང་བསྐྱར་ཚོད་ལྟ་ཆེད་གཏོང་བ་ལ་མནན་རོགས།",
   "Unable to connect to {{server}}": "{{server}} ལ་མཐུད་ཐུབ་མ་སོང་།",
   "Audiobookshelf server not found": "Audiobookshelf ཞབས་ཞུ་བ་མ་རྙེད།",
-  "Episode not found": "འདོན་ཐེངས་མ་རྙེད།"
+  "Episode not found": "འདོན་ཐེངས་མ་རྙེད།",
+  "Global defaults — applies to all books": "ཁྱོན་ཡོངས་སྔོན་སྒྲིག — དཔེ་དེབ་ཡོད་རྒུར་འཇུག",
+  "This book: {{title}} — overrides only": "དཔེ་དེབ་འདི། {{title}} — བརྗེ་བཅོས་ཁོ་ན།",
+  "Settings Scope": "སྒྲིག་བཀོད་ཀྱི་ཁྱབ་ཁོངས།",
+  "All Books": "དཔེ་དེབ་ཡོད་རྒུ།",
+  "This Book": "དཔེ་དེབ་འདི།"
 }

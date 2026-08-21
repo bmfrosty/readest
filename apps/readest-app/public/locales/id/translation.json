@@ -2133,5 +2133,10 @@
   "Playback interrupted, tap play to retry": "Pemutaran terhenti, ketuk putar untuk mencoba lagi",
   "Unable to connect to {{server}}": "Tidak dapat terhubung ke {{server}}",
   "Audiobookshelf server not found": "Server Audiobookshelf tidak ditemukan",
-  "Episode not found": "Episode tidak ditemukan"
+  "Episode not found": "Episode tidak ditemukan",
+  "Global defaults — applies to all books": "Default global — berlaku untuk semua buku",
+  "This book: {{title}} — overrides only": "Buku ini: {{title}} — hanya penimpaan",
+  "Settings Scope": "Cakupan Pengaturan",
+  "All Books": "Semua Buku",
+  "This Book": "Buku Ini"
 }

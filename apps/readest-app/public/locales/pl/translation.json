@@ -2310,5 +2310,10 @@
   "Playback interrupted, tap play to retry": "Odtwarzanie przerwane, dotknij odtwarzania, aby spróbować ponownie",
   "Unable to connect to {{server}}": "Nie można połączyć się z {{server}}",
   "Audiobookshelf server not found": "Nie znaleziono serwera Audiobookshelf",
-  "Episode not found": "Nie znaleziono odcinka"
+  "Episode not found": "Nie znaleziono odcinka",
+  "Global defaults — applies to all books": "Domyślne ustawienia globalne — dotyczą wszystkich książek",
+  "This book: {{title}} — overrides only": "Ta książka: {{title}} — tylko nadpisania",
+  "Settings Scope": "Zakres ustawień",
+  "All Books": "Wszystkie książki",
+  "This Book": "Ta książka"
 }

@@ -2251,5 +2251,10 @@
   "Playback interrupted, tap play to retry": "הניגון נקטע, הקש על ניגון כדי לנסות שוב",
   "Unable to connect to {{server}}": "לא ניתן להתחבר אל {{server}}",
   "Audiobookshelf server not found": "שרת Audiobookshelf לא נמצא",
-  "Episode not found": "הפרק לא נמצא"
+  "Episode not found": "הפרק לא נמצא",
+  "Global defaults — applies to all books": "ברירות מחדל גלובליות — חלות על כל הספרים",
+  "This book: {{title}} — overrides only": "ספר זה: {{title}} — עקיפות בלבד",
+  "Settings Scope": "היקף ההגדרות",
+  "All Books": "כל הספרים",
+  "This Book": "ספר זה"
 }

@@ -2133,5 +2133,10 @@
   "Playback interrupted, tap play to retry": "再生が中断されました。タップして再試行してください",
   "Unable to connect to {{server}}": "{{server}}に接続できません",
   "Audiobookshelf server not found": "Audiobookshelfサーバーが見つかりません",
-  "Episode not found": "エピソードが見つかりません"
+  "Episode not found": "エピソードが見つかりません",
+  "Global defaults — applies to all books": "全体設定のデフォルト — すべての書籍に適用",
+  "This book: {{title}} — overrides only": "この書籍: {{title}} — 個別設定のみ",
+  "Settings Scope": "設定の適用範囲",
+  "All Books": "すべての書籍",
+  "This Book": "この書籍"
 }

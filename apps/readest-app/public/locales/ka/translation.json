@@ -2192,5 +2192,10 @@
   "Playback interrupted, tap play to retry": "დაკვრა შეწყდა, გასამეორებლად შეეხეთ დაკვრას",
   "Unable to connect to {{server}}": "{{server}}-თან დაკავშირება ვერ მოხერხდა",
   "Audiobookshelf server not found": "Audiobookshelf სერვერი ვერ მოიძებნა",
-  "Episode not found": "ეპიზოდი ვერ მოიძებნა"
+  "Episode not found": "ეპიზოდი ვერ მოიძებნა",
+  "Global defaults — applies to all books": "გლობალური ნაგულისხმევი პარამეტრები — ვრცელდება ყველა წიგნზე",
+  "This book: {{title}} — overrides only": "ეს წიგნი: {{title}} — მხოლოდ ინდივიდუალური პარამეტრები",
+  "Settings Scope": "პარამეტრების არეალი",
+  "All Books": "ყველა წიგნი",
+  "This Book": "ეს წიგნი"
 }
