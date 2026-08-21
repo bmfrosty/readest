@@ -18,7 +18,7 @@ const MiscPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const _ = useTranslation();
   const { appService, envConfig } = useEnv();
   const { settings } = useSettingsStore();
-  const { getView, getViewSettings, setViewSettings } = useReaderStore();
+  const { getView, getViewSettings } = useReaderStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
 
   const [draftContentStylesheet, setDraftContentStylesheet] = useState(viewSettings.userStylesheet);
@@ -87,26 +87,22 @@ const MiscPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
     const cssInput = type === 'book' ? draftContentStylesheet : draftUIStylesheet;
     const formattedCSS = formatCSS(clear ? '' : cssInput);
 
+    const key = type === 'book' ? 'userStylesheet' : 'userUIStylesheet';
     if (type === 'book') {
       setDraftContentStylesheet(formattedCSS);
       setDraftContentStylesheetSaved(true);
-      viewSettings.userStylesheet = formattedCSS;
     } else {
       setDraftUIStylesheet(formattedCSS);
       setDraftUIStylesheetSaved(true);
-      viewSettings.userUIStylesheet = formattedCSS;
     }
 
-    setViewSettings(bookKey, { ...viewSettings });
-    getView(bookKey)?.renderer.setStyles?.(getStyles(viewSettings));
-    saveViewSettings(
-      envConfig,
-      bookKey,
-      type === 'book' ? 'userStylesheet' : 'userUIStylesheet',
-      formattedCSS,
-      false,
-      false,
-    );
+    // Save BEFORE storing the value anywhere. This used to write the CSS onto
+    // the book's live view-settings object first, so `saveViewSettings`'s own
+    // `viewSettings[key] !== value` test found nothing to do and skipped
+    // `saveConfig`. The panel had already applied the styles itself, so the
+    // change looked saved until the next open of the book.
+    saveViewSettings(envConfig, bookKey, key, formattedCSS, false, false);
+    getView(bookKey)?.renderer.setStyles?.(getStyles(getViewSettings(bookKey) ?? viewSettings));
   };
 
   const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
