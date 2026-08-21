@@ -18,6 +18,7 @@ import {
 import { HardwarePageTurnerSettings, KeyBinding } from '@/types/settings';
 import { BoxedList, SettingsRow, SettingsSwitchRow } from './primitives';
 import { useReaderStore } from '@/store/readerStore';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 type Slot = PageTurnAction;
 const LEARN_TIMEOUT_MS = 8000;
@@ -35,9 +36,10 @@ const PageTurnerSettings: React.FC<PageTurnerSettingsProps> = ({ bookKey, onRegi
     useDeviceControlStore();
   const { settings } = useSettingsStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const { edited } = useEditedViewSettings(bookKey);
   const resetToDefaults = useResetViewSettings();
 
-  const [volumeKeysToFlip, setVolumeKeysToFlip] = useState(viewSettings.volumeKeysToFlip);
+  const [volumeKeysToFlip, setVolumeKeysToFlip] = useState(edited.volumeKeysToFlip);
   const [config, setConfig] = useState<HardwarePageTurnerSettings>(settings.hardwarePageTurner);
   const configRef = useRef(config);
   configRef.current = config;

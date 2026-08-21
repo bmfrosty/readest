@@ -11,6 +11,7 @@ import { saveViewSettings } from '@/helpers/settings';
 import { validateCSS, formatCSS } from '@/utils/css';
 import { getStyles } from '@/utils/style';
 import { BoxedList } from './primitives';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 type CSSType = 'book' | 'reader';
 
@@ -20,11 +21,12 @@ const MiscPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const { settings } = useSettingsStore();
   const { getView, getViewSettings, setViewSettings } = useReaderStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const { edited } = useEditedViewSettings(bookKey);
 
-  const [draftContentStylesheet, setDraftContentStylesheet] = useState(viewSettings.userStylesheet);
+  const [draftContentStylesheet, setDraftContentStylesheet] = useState(edited.userStylesheet);
   const [draftContentStylesheetSaved, setDraftContentStylesheetSaved] = useState(true);
   const [contentError, setContentError] = useState<string | null>(null);
-  const [draftUIStylesheet, setDraftUIStylesheet] = useState(viewSettings.userUIStylesheet);
+  const [draftUIStylesheet, setDraftUIStylesheet] = useState(edited.userUIStylesheet);
   const [draftUIStylesheetSaved, setDraftUIStylesheetSaved] = useState(true);
   const [uiError, setUIError] = useState<string | null>(null);
 
