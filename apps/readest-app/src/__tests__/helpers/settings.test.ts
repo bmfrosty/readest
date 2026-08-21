@@ -1,5 +1,6 @@
 import { describe, test, expect, beforeEach, vi } from 'vitest';
 
+const useReaderStoreBookKeys: string[] = [];
 const getViewSettingsMock = vi.fn<(bookKey: string) => { isGlobal?: boolean } | undefined>(
   () => undefined,
 );
@@ -10,7 +11,7 @@ const getViewStateMock = vi.fn(() => undefined);
 vi.mock('@/store/readerStore', () => ({
   useReaderStore: {
     getState: () => ({
-      bookKeys: [],
+      bookKeys: useReaderStoreBookKeys,
       getView: getViewMock,
       getViewState: getViewStateMock,
       getViewSettings: getViewSettingsMock,
@@ -19,11 +20,12 @@ vi.mock('@/store/readerStore', () => ({
   },
 }));
 
+const saveConfigSpy = vi.fn();
 vi.mock('@/store/bookDataStore', () => ({
   useBookDataStore: {
     getState: () => ({
-      getConfig: vi.fn(() => null),
-      saveConfig: vi.fn(),
+      getConfig: vi.fn(() => ({}) as never),
+      saveConfig: saveConfigSpy,
     }),
   },
 }));
@@ -63,6 +65,8 @@ beforeEach(() => {
   getViewSettingsMock.mockReset();
   getViewSettingsMock.mockReturnValue(undefined);
   setViewSettingsMock.mockReset();
+  useReaderStoreBookKeys.length = 0;
+  saveConfigSpy.mockReset();
   useSettingsStore.setState({
     settings: makeSettings(),
     setSettings: (s: SystemSettings) => useSettingsStore.setState({ settings: s }),
@@ -224,5 +228,38 @@ describe('saveViewSettings', () => {
     // into the cross-device globals.
     expect(referenceChanges).toHaveLength(0);
     expect(useSettingsStore.getState().settings).toBe(initial);
+  });
+});
+
+describe('a real global change', () => {
+  /**
+   * `applyViewSettings` used to serialize each open book against the settings
+   * snapshot taken on ENTRY, before the global was replaced. serializeConfig
+   * keeps every key that differs from the global it is handed, so the new value
+   * was written into each open book's config as that book's OWN value.
+   *
+   * Close the book, change the global again, reopen: the book stays on the old
+   * value. Every book open during a global change was pinned that way.
+   */
+  test('is not stamped onto open books as their own value', async () => {
+    const settings = useSettingsStore.getState().settings;
+    settings.globalViewSettings = {
+      ...settings.globalViewSettings,
+      lineHeight: 1.5,
+    } as ViewSettings;
+
+    getViewSettingsMock.mockImplementation(
+      () => ({ isGlobal: true, lineHeight: 1.5 }) as unknown as ViewSettings,
+    );
+    getViewStateMock.mockImplementation(() => ({ isPrimary: true }) as never);
+    useReaderStoreBookKeys.push('book-1');
+
+    await saveViewSettings(envConfig, 'book-1', 'lineHeight', 1.8, false, false);
+
+    expect(saveConfigSpy).toHaveBeenCalledTimes(1);
+    // The book must be diffed against the global it is about to inherit, so
+    // serializeConfig drops the key instead of keeping it as an override.
+    const passed = saveConfigSpy.mock.calls[0]![3] as SystemSettings;
+    expect(passed.globalViewSettings.lineHeight).toBe(1.8);
   });
 });
