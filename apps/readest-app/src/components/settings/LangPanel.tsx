@@ -30,6 +30,7 @@ import {
 import CustomDictionaries from './CustomDictionaries';
 import WordLensPanel from './WordLensPanel';
 import { PiTranslate } from 'react-icons/pi';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
@@ -37,23 +38,20 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const { envConfig } = useEnv();
   const { settings, applyUILanguage, activeSettingsItemId, setActiveSettingsItemId } =
     useSettingsStore();
-  const { getView, getViewSettings, setViewSettings, recreateViewer } = useReaderStore();
+  const { getView, getViewSettings, recreateViewer } = useReaderStore();
   const { getBookData } = useBookDataStore();
   const view = getView(bookKey);
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const { edited, book } = useEditedViewSettings(bookKey);
 
-  const [uiLanguage, setUILanguage] = useState(viewSettings.uiLanguage);
-  const [translationEnabled, setTranslationEnabled] = useState(viewSettings.translationEnabled);
-  const [translationProvider, setTranslationProvider] = useState(viewSettings.translationProvider);
-  const [translateTargetLang, setTranslateTargetLang] = useState(viewSettings.translateTargetLang);
-  const [showTranslateSource, setShowTranslateSource] = useState(viewSettings.showTranslateSource);
-  const [ttsReadAloudText, setTtsReadAloudText] = useState(viewSettings.ttsReadAloudText);
-  const [replaceQuotationMarks, setReplaceQuotationMarks] = useState(
-    viewSettings.replaceQuotationMarks,
-  );
-  const [convertChineseVariant, setConvertChineseVariant] = useState(
-    viewSettings.convertChineseVariant,
-  );
+  const [uiLanguage, setUILanguage] = useState(edited.uiLanguage);
+  const [translationEnabled, setTranslationEnabled] = useState(book.translationEnabled);
+  const [translationProvider, setTranslationProvider] = useState(edited.translationProvider);
+  const [translateTargetLang, setTranslateTargetLang] = useState(edited.translateTargetLang);
+  const [showTranslateSource, setShowTranslateSource] = useState(edited.showTranslateSource);
+  const [ttsReadAloudText, setTtsReadAloudText] = useState(edited.ttsReadAloudText);
+  const [replaceQuotationMarks, setReplaceQuotationMarks] = useState(edited.replaceQuotationMarks);
+  const [convertChineseVariant, setConvertChineseVariant] = useState(edited.convertChineseVariant);
   const [showCustomDictionaries, setShowCustomDictionaries] = useState(false);
   const [showWordLens, setShowWordLens] = useState(false);
 
@@ -158,8 +156,6 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
     const option = event.target.value;
     setTranslationProvider(option);
     saveViewSettings(envConfig, bookKey, 'translationProvider', option, false, false);
-    viewSettings.translationProvider = option;
-    setViewSettings(bookKey, { ...viewSettings });
   };
 
   const getCurrentTargetLangOption = () => {
@@ -172,8 +168,6 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
     const option = event.target.value;
     setTranslateTargetLang(option);
     saveViewSettings(envConfig, bookKey, 'translateTargetLang', option, false, false);
-    viewSettings.translateTargetLang = option;
-    setViewSettings(bookKey, { ...viewSettings });
   };
 
   const handleSelectTTSText = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -191,7 +185,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   };
 
   useEffect(() => {
-    if (uiLanguage === viewSettings.uiLanguage) return;
+    if (uiLanguage === edited.uiLanguage) return;
     const sameDir = getDirFromLanguage(uiLanguage) === getDirFromLanguage(viewSettings.uiLanguage);
     applyUILanguage(uiLanguage);
     saveViewSettings(envConfig, bookKey, 'uiLanguage', uiLanguage, false, false).then(() => {
@@ -201,7 +195,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   }, [uiLanguage]);
 
   useEffect(() => {
-    if (translationEnabled === viewSettings.translationEnabled) return;
+    if (translationEnabled === book.translationEnabled) return;
     saveViewSettings(
       envConfig,
       bookKey,
@@ -218,7 +212,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   }, [translationEnabled]);
 
   useEffect(() => {
-    if (showTranslateSource === viewSettings.showTranslateSource) return;
+    if (showTranslateSource === edited.showTranslateSource) return;
     saveViewSettings(
       envConfig,
       bookKey,
@@ -233,13 +227,13 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   }, [showTranslateSource]);
 
   useEffect(() => {
-    if (ttsReadAloudText === viewSettings.ttsReadAloudText) return;
+    if (ttsReadAloudText === edited.ttsReadAloudText) return;
     saveViewSettings(envConfig, bookKey, 'ttsReadAloudText', ttsReadAloudText, false, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ttsReadAloudText]);
 
   useEffect(() => {
-    if (replaceQuotationMarks === viewSettings.replaceQuotationMarks) return;
+    if (replaceQuotationMarks === edited.replaceQuotationMarks) return;
     saveViewSettings(
       envConfig,
       bookKey,
@@ -279,7 +273,7 @@ const LangPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   };
 
   useEffect(() => {
-    if (convertChineseVariant === viewSettings.convertChineseVariant) return;
+    if (convertChineseVariant === edited.convertChineseVariant) return;
     saveViewSettings(
       envConfig,
       bookKey,

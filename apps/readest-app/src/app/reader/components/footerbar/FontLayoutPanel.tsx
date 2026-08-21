@@ -9,6 +9,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { useTranslation } from '@/hooks/useTranslation';
 import { saveViewSettings } from '@/helpers/settings';
 import Slider from '@/components/Slider';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 const FONT_SIZE_LIMITS = {
   MIN: 8,
@@ -49,6 +50,7 @@ export const FontLayoutPanel: React.FC<FontLayoutPanelProps> = ({
   const { getView, getViewSettings, setHoveredBookKey } = useReaderStore();
   const { setSettingsDialogBookKey, setSettingsDialogOpen, setRequestedPanel } = useSettingsStore();
   const viewSettings = getViewSettings(bookKey);
+  const { edited } = useEditedViewSettings(bookKey);
   const view = getView(bookKey);
 
   const handleFontSizeChange = useCallback(
@@ -132,8 +134,8 @@ export const FontLayoutPanel: React.FC<FontLayoutPanelProps> = ({
     >
       <Slider
         label={_('Font Size')}
-        initialValue={viewSettings?.defaultFontSize ?? FONT_SIZE_LIMITS.DEFAULT}
-        bubbleLabel={`${viewSettings?.defaultFontSize ?? FONT_SIZE_LIMITS.DEFAULT}`}
+        initialValue={edited?.defaultFontSize ?? FONT_SIZE_LIMITS.DEFAULT}
+        bubbleLabel={`${edited?.defaultFontSize ?? FONT_SIZE_LIMITS.DEFAULT}`}
         minLabel='A'
         maxLabel='A'
         minClassName='text-xs'
@@ -147,7 +149,7 @@ export const FontLayoutPanel: React.FC<FontLayoutPanelProps> = ({
           label={_('Page Margin')}
           initialValue={getMarginProgressValue(
             viewSettings?.marginTopPx ?? 44,
-            viewSettings?.gapPercent ?? 5,
+            edited?.gapPercent ?? 5,
           )}
           bubbleElement={<TbBoxMargin size={marginIconSize} />}
           minLabel={_('Small')}
@@ -157,7 +159,7 @@ export const FontLayoutPanel: React.FC<FontLayoutPanelProps> = ({
         />
         <Slider
           label={_('Line Spacing')}
-          initialValue={(viewSettings?.lineHeight ?? 1.6) * LINE_HEIGHT_LIMITS.MULTIPLIER}
+          initialValue={(edited?.lineHeight ?? 1.6) * LINE_HEIGHT_LIMITS.MULTIPLIER}
           bubbleElement={<RxLineHeight size={marginIconSize} />}
           minLabel={_('Small')}
           maxLabel={_('Large')}

@@ -1,5 +1,6 @@
 import { describe, test, expect, beforeEach, vi } from 'vitest';
 
+const useReaderStoreBookKeys: string[] = [];
 const getViewSettingsMock = vi.fn<(bookKey: string) => { isGlobal?: boolean } | undefined>(
   () => undefined,
 );
@@ -10,7 +11,7 @@ const getViewStateMock = vi.fn(() => undefined);
 vi.mock('@/store/readerStore', () => ({
   useReaderStore: {
     getState: () => ({
-      bookKeys: [],
+      bookKeys: useReaderStoreBookKeys,
       getView: getViewMock,
       getViewState: getViewStateMock,
       getViewSettings: getViewSettingsMock,
@@ -19,11 +20,12 @@ vi.mock('@/store/readerStore', () => ({
   },
 }));
 
+const useBookDataStoreConfigSpy = vi.fn();
 vi.mock('@/store/bookDataStore', () => ({
   useBookDataStore: {
     getState: () => ({
-      getConfig: vi.fn(() => null),
-      saveConfig: vi.fn(),
+      getConfig: vi.fn(() => ({}) as never),
+      saveConfig: useBookDataStoreConfigSpy,
     }),
   },
 }));
@@ -63,6 +65,8 @@ beforeEach(() => {
   getViewSettingsMock.mockReset();
   getViewSettingsMock.mockReturnValue(undefined);
   setViewSettingsMock.mockReset();
+  useReaderStoreBookKeys.length = 0;
+  useBookDataStoreConfigSpy.mockReset();
   useSettingsStore.setState({
     settings: makeSettings(),
     setSettings: (s: SystemSettings) => useSettingsStore.setState({ settings: s }),
@@ -224,5 +228,89 @@ describe('saveViewSettings', () => {
     // into the cross-device globals.
     expect(referenceChanges).toHaveLength(0);
     expect(useSettingsStore.getState().settings).toBe(initial);
+  });
+});
+
+describe('a global write that changes nothing', () => {
+  /**
+   * Settings panels remount whenever the scope switch is flipped, and many of
+   * their save effects fire on mount with the value they were just seeded with.
+   * That re-asserts the value the global already holds.
+   *
+   * Such a write has nothing to do: it must not build a new settings object,
+   * must not save settings.json, and must not wake the replica push that the
+   * settingsStore subscriber gates on `state.settings !== prev.settings`.
+   */
+  test('does not write settings at all', async () => {
+    const settings = useSettingsStore.getState().settings;
+    settings.globalViewSettings = {
+      ...settings.globalViewSettings,
+      progressStyle: 'percentage',
+    } as ViewSettings;
+
+    const saveSettingsSpy = vi.fn();
+    const setSettingsSpy = vi.fn();
+    useSettingsStore.setState({ saveSettings: saveSettingsSpy, setSettings: setSettingsSpy });
+
+    const bookViewSettings = {
+      isGlobal: true,
+      progressStyle: 'fraction',
+    } as unknown as ViewSettings;
+    getViewSettingsMock.mockImplementation(() => bookViewSettings);
+    getViewStateMock.mockImplementation(() => ({ isPrimary: true }) as never);
+    useReaderStoreBookKeys.push('book-1');
+
+    // The panel remounts and re-asserts the value global already holds.
+    await saveViewSettings(envConfig, 'book-1', 'progressStyle', 'percentage', false, false);
+
+    expect(setSettingsSpy).not.toHaveBeenCalled();
+    expect(saveSettingsSpy).not.toHaveBeenCalled();
+    // And the book that holds its own value still holds it.
+    expect(bookViewSettings.progressStyle).toBe('fraction');
+    expect(setViewSettingsMock).not.toHaveBeenCalled();
+  });
+});
+
+describe('changing a global value', () => {
+  const setup = (globalValue: string, bookValue: string) => {
+    const settings = useSettingsStore.getState().settings;
+    settings.globalViewSettings = {
+      ...settings.globalViewSettings,
+      serifFont: globalValue,
+    } as ViewSettings;
+    const bookViewSettings = { isGlobal: true, serifFont: bookValue } as unknown as ViewSettings;
+    getViewSettingsMock.mockImplementation(() => bookViewSettings);
+    getViewStateMock.mockImplementation(() => ({ isPrimary: true }) as never);
+    useReaderStoreBookKeys.push('book-1');
+    return bookViewSettings;
+  };
+
+  /**
+   * A per-book value exists precisely so it survives changes to the global.
+   * `deserializeConfig` merges `{ ...global, ...bookOverrides }`, so the book's
+   * value is meant to win.
+   *
+   * The replay onto open books did not respect that: it assigned the new global
+   * to EVERY open book, so the book's value was overwritten in memory and then
+   * dropped from its config by serializeConfig, which keeps only keys that
+   * differ from global. Reported by hand — global Bookerly, book Literata, reset
+   * the global, and the book's Literata was gone.
+   */
+  test('leaves a book that has its own value alone', async () => {
+    const book = setup('Bookerly', 'Literata');
+
+    await saveViewSettings(envConfig, 'book-1', 'serifFont', 'Georgia', false, false);
+
+    expect(book.serifFont).toBe('Literata');
+    expect(useSettingsStore.getState().settings.globalViewSettings.serifFont).toBe('Georgia');
+  });
+
+  test('carries a book that was inheriting', async () => {
+    // Same value as global means the book had no opinion, so it must follow.
+    const book = setup('Bookerly', 'Bookerly');
+
+    await saveViewSettings(envConfig, 'book-1', 'serifFont', 'Georgia', false, false);
+
+    expect(book.serifFont).toBe('Georgia');
   });
 });

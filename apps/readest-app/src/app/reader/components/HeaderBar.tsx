@@ -33,6 +33,7 @@ import NotebookToggler from './NotebookToggler';
 import TranslationToggler from './TranslationToggler';
 import ViewMenu from './ViewMenu';
 import SyncInfoDialog from './SyncInfoDialog';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 interface HeaderBarProps {
   bookKey: string;
@@ -69,6 +70,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   const { getView, getViewSettings, setHoveredBookKey } = useReaderStore();
   const { getBookData, getConfig } = useBookDataStore();
   const viewSettings = getViewSettings(bookKey);
+  const { edited } = useEditedViewSettings(bookKey);
   const bookData = getBookData(bookKey);
   const bookConfig = getConfig(bookKey);
   const lastSyncedAt =
@@ -85,10 +87,9 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
 
   const enableAnnotationQuickActions = viewSettings?.enableAnnotationQuickActions;
   const annotationQuickActionButton =
-    annotationToolQuickActions.find(
-      (button) => button.type === viewSettings?.annotationQuickAction,
-    ) || annotationToolQuickActions[0]!;
-  const annotationQuickAction = viewSettings?.annotationQuickAction;
+    annotationToolQuickActions.find((button) => button.type === edited?.annotationQuickAction) ||
+    annotationToolQuickActions[0]!;
+  const annotationQuickAction = edited?.annotationQuickAction;
   const AnnotationToolQuickActionIcon = annotationQuickActionButton.Icon;
   const highlightStyle = settings.globalReadSettings.highlightStyle;
   const highlightColor = settings.globalReadSettings.highlightStyles[highlightStyle];
@@ -101,7 +102,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
   };
 
   const handleAnnotationQuickActionSelect = (action: AnnotationToolType | null) => {
-    if (viewSettings?.annotationQuickAction === action) action = null;
+    if (edited?.annotationQuickAction === action) action = null;
     saveViewSettings(envConfig, bookKey, 'annotationQuickAction', action, false, true);
   };
 
@@ -264,7 +265,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
               menuClassName='!relative'
               buttonClassName={clsx(
                 'btn btn-ghost h-8 min-h-8 w-8 p-0',
-                viewSettings?.annotationQuickAction && 'bg-base-300/50',
+                edited?.annotationQuickAction && 'bg-base-300/50',
               )}
               toggleButton={
                 annotationQuickAction === 'highlight' || annotationQuickAction === null ? (
@@ -283,7 +284,7 @@ const HeaderBar: React.FC<HeaderBarProps> = ({
               onToggle={handleToggleDropdown}
             >
               <QuickActionMenu
-                selectedAction={viewSettings.annotationQuickAction}
+                selectedAction={edited?.annotationQuickAction}
                 onActionSelect={handleAnnotationQuickActionSelect}
               />
             </Dropdown>
