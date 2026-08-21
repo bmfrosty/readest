@@ -42,6 +42,7 @@ import { saveViewSettings } from '@/helpers/settings';
 import { tauriHandleToggleFullScreen } from '@/utils/window';
 import MenuItem from '@/components/MenuItem';
 import Menu from '@/components/Menu';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 interface ViewMenuProps {
   bookKey: string;
@@ -65,6 +66,7 @@ const ViewMenu: React.FC<ViewMenuProps> = ({
   const config = getConfig(bookKey)!;
   const bookData = getBookData(bookKey)!;
   const viewSettings = getViewSettings(bookKey)!;
+  const { edited } = useEditedViewSettings(bookKey);
   const viewState = getViewState(bookKey);
 
   const { themeMode, isDarkMode, setThemeMode } = useThemeStore();
@@ -72,7 +74,7 @@ const ViewMenu: React.FC<ViewMenuProps> = ({
   const [scrolledDirection, setScrolledDirection] = useState(
     viewSettings!.scrolledDirection ?? 'vertical',
   );
-  const [webtoonMode, setWebtoonMode] = useState(viewSettings!.webtoonMode ?? false);
+  const [webtoonMode, setWebtoonMode] = useState(edited?.webtoonMode ?? false);
   const [isParagraphMode, setParagraphMode] = useState(
     viewSettings?.paragraphMode?.enabled ?? false,
   );
@@ -178,8 +180,7 @@ const ViewMenu: React.FC<ViewMenuProps> = ({
   }, [isScrolledMode]);
 
   useEffect(() => {
-    if (webtoonMode === viewSettings.webtoonMode) return;
-    viewSettings.webtoonMode = webtoonMode;
+    if (webtoonMode === edited?.webtoonMode) return;
     getView(bookKey)?.renderer.setAttribute('scroll-gap', getScrollGapAttr(webtoonMode));
     if (webtoonMode) {
       // Webtoon Mode implies scrolled flow + fit-width (scale-factor 100) so pages
@@ -190,7 +191,9 @@ const ViewMenu: React.FC<ViewMenuProps> = ({
       if (scrolledDirection !== 'vertical') setScrolledDirection('vertical');
       saveViewSettings(envConfig, bookKey, 'scrolled', true, false, false);
     }
-    setViewSettings(bookKey, viewSettings);
+    // No pre-write. saveViewSettings stores the value on the books that should
+    // receive it; setting it first made the save think there was nothing to do,
+    // so the mode applied on screen and never reached the book config.
     saveViewSettings(envConfig, bookKey, 'webtoonMode', webtoonMode, false, false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [webtoonMode]);

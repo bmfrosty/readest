@@ -12,6 +12,7 @@ import {
   MIN_AUTO_SCROLL_SPEED,
 } from '@/services/constants';
 import { PacedScroller } from '../utils/autoscroller';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 // A stalled forward tick must persist this long before the session reacts
 // (section hop, or stop at the end of the book) — brief stalls can happen
@@ -47,9 +48,10 @@ export const useAutoScroll = (
   const { getViewSettings, getViewState, setAutoScrollEnabled } = useReaderStore();
   const inited = useReaderStore((state) => state.viewStates[bookKey]?.inited);
   const viewSettings = getViewSettings(bookKey);
+  const { edited } = useEditedViewSettings(bookKey);
   const [active, setActive] = useState(false);
   const [paused, setPaused] = useState(false);
-  const [speed, setSpeedState] = useState(viewSettings?.autoScrollSpeed ?? 100);
+  const [speed, setSpeedState] = useState(edited?.autoScrollSpeed ?? 100);
 
   // Undoes the per-session window listeners; set on start.
   const sessionCleanupRef = useRef<(() => void) | null>(null);
@@ -136,7 +138,7 @@ export const useAutoScroll = (
   };
 
   const adjustSpeed = (dir: 1 | -1) => {
-    const current = getViewSettings(bookKey)?.autoScrollSpeed ?? speed;
+    const current = edited?.autoScrollSpeed ?? speed;
     setSpeed(current + dir * AUTO_SCROLL_SPEED_STEP);
   };
 
@@ -144,7 +146,7 @@ export const useAutoScroll = (
     const scroller = scrollerRef.current!;
     const renderer = viewRef.current?.renderer;
     if (!renderer?.scrolled) return;
-    const speedNow = getViewSettings(bookKey)?.autoScrollSpeed ?? 100;
+    const speedNow = edited?.autoScrollSpeed ?? 100;
     setSpeedState(speedNow);
     stallStartRef.current = null;
     scroller.start((AUTO_SCROLL_BASE_PX_PER_SEC * speedNow) / 100);

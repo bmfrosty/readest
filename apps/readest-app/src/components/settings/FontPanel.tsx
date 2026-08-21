@@ -33,6 +33,7 @@ import NumberInput from './NumberInput';
 import FontDropdown from './FontDropDown';
 import CustomFonts from './CustomFonts';
 import { Toggle } from '../primitives/toggle';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 const genCJKFontsList = (sysFonts: string[]) => {
   return Array.from(new Set([...sysFonts, ...CJK_SERIF_FONTS, ...CJK_SANS_SERIF_FONTS]))
@@ -95,10 +96,10 @@ const FontFace = ({
 const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset }) => {
   const _ = useTranslation();
   const { envConfig, appService } = useEnv();
-  const { getView, getViewSettings } = useReaderStore();
-  const { settings, fontPanelView, setFontPanelView } = useSettingsStore();
+  const { getView } = useReaderStore();
+  const { fontPanelView, setFontPanelView } = useSettingsStore();
   const { fonts: allCustomFonts, getFontFamilies } = useCustomFontStore();
-  const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const { edited } = useEditedViewSettings(bookKey);
   const view = getView(bookKey);
 
   const fontFamilyOptions = [
@@ -134,15 +135,15 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
       break;
   }
   const [sysFonts, setSysFonts] = useState<string[]>(defaultSysFonts);
-  const [defaultFont, setDefaultFont] = useState(viewSettings.defaultFont);
-  const [defaultFontSize, setDefaultFontSize] = useState(viewSettings.defaultFontSize);
-  const [minFontSize, setMinFontSize] = useState(viewSettings.minimumFontSize);
-  const [overrideFont, setOverrideFont] = useState(viewSettings.overrideFont);
-  const [defaultCJKFont, setDefaultCJKFont] = useState(viewSettings.defaultCJKFont);
-  const [serifFont, setSerifFont] = useState(viewSettings.serifFont);
-  const [sansSerifFont, setSansSerifFont] = useState(viewSettings.sansSerifFont);
-  const [monospaceFont, setMonospaceFont] = useState(viewSettings.monospaceFont);
-  const [fontWeight, setFontWeight] = useState(viewSettings.fontWeight);
+  const [defaultFont, setDefaultFont] = useState(edited.defaultFont);
+  const [defaultFontSize, setDefaultFontSize] = useState(edited.defaultFontSize);
+  const [minFontSize, setMinFontSize] = useState(edited.minimumFontSize);
+  const [overrideFont, setOverrideFont] = useState(edited.overrideFont);
+  const [defaultCJKFont, setDefaultCJKFont] = useState(edited.defaultCJKFont);
+  const [serifFont, setSerifFont] = useState(edited.serifFont);
+  const [sansSerifFont, setSansSerifFont] = useState(edited.sansSerifFont);
+  const [monospaceFont, setMonospaceFont] = useState(edited.monospaceFont);
+  const [fontWeight, setFontWeight] = useState(edited.fontWeight);
 
   const [customFonts, setCustomFonts] = useState<string[]>(getFontFamilies());
   const [CJKFonts, setCJKFonts] = useState<string[]>(() => {
@@ -203,10 +204,12 @@ const FontPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   }, [allCustomFonts, getFontFamilies]);
 
   useEffect(() => {
-    setSerifFont(viewSettings.serifFont);
-    setSansSerifFont(viewSettings.sansSerifFont);
-    setMonospaceFont(viewSettings.monospaceFont);
-  }, [viewSettings.serifFont, viewSettings.sansSerifFont, viewSettings.monospaceFont]);
+    setSerifFont(edited.serifFont);
+    setSansSerifFont(edited.sansSerifFont);
+    setMonospaceFont(edited.monospaceFont);
+    // Tracks the scope being edited, not the book. Seeding from `edited` and
+    // then re-syncing from the book put the book's faces into the global.
+  }, [edited.serifFont, edited.sansSerifFont, edited.monospaceFont]);
 
   useEffect(() => {
     if (isTauriAppPlatform() && appService && !appService.isAndroidApp) {

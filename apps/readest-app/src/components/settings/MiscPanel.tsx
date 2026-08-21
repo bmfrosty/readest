@@ -11,6 +11,7 @@ import { saveViewSettings } from '@/helpers/settings';
 import { validateCSS, formatCSS } from '@/utils/css';
 import { getStyles } from '@/utils/style';
 import { BoxedList } from './primitives';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 type CSSType = 'book' | 'reader';
 
@@ -18,13 +19,14 @@ const MiscPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
   const _ = useTranslation();
   const { appService, envConfig } = useEnv();
   const { settings } = useSettingsStore();
-  const { getView, getViewSettings, setViewSettings } = useReaderStore();
+  const { getView, getViewSettings } = useReaderStore();
   const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const { edited } = useEditedViewSettings(bookKey);
 
-  const [draftContentStylesheet, setDraftContentStylesheet] = useState(viewSettings.userStylesheet);
+  const [draftContentStylesheet, setDraftContentStylesheet] = useState(edited.userStylesheet);
   const [draftContentStylesheetSaved, setDraftContentStylesheetSaved] = useState(true);
   const [contentError, setContentError] = useState<string | null>(null);
-  const [draftUIStylesheet, setDraftUIStylesheet] = useState(viewSettings.userUIStylesheet);
+  const [draftUIStylesheet, setDraftUIStylesheet] = useState(edited.userUIStylesheet);
   const [draftUIStylesheetSaved, setDraftUIStylesheetSaved] = useState(true);
   const [uiError, setUIError] = useState<string | null>(null);
 
@@ -87,26 +89,26 @@ const MiscPanel: React.FC<SettingsPanelPanelProp> = ({ bookKey, onRegisterReset 
     const cssInput = type === 'book' ? draftContentStylesheet : draftUIStylesheet;
     const formattedCSS = formatCSS(clear ? '' : cssInput);
 
+    const key = type === 'book' ? 'userStylesheet' : 'userUIStylesheet';
     if (type === 'book') {
       setDraftContentStylesheet(formattedCSS);
       setDraftContentStylesheetSaved(true);
-      viewSettings.userStylesheet = formattedCSS;
     } else {
       setDraftUIStylesheet(formattedCSS);
       setDraftUIStylesheetSaved(true);
-      viewSettings.userUIStylesheet = formattedCSS;
     }
 
-    setViewSettings(bookKey, { ...viewSettings });
-    getView(bookKey)?.renderer.setStyles?.(getStyles(viewSettings));
-    saveViewSettings(
-      envConfig,
-      bookKey,
-      type === 'book' ? 'userStylesheet' : 'userUIStylesheet',
-      formattedCSS,
-      false,
-      false,
-    );
+    // Save BEFORE storing the value anywhere. This used to call
+    // `setViewSettings` first, which put the new CSS into the book's live
+    // object — so `applyViewSettings`'s own `viewSettings[key] !== value` test
+    // found nothing to do and skipped `saveConfig`. The panel had already
+    // applied the styles itself, so the change looked saved until the next open.
+    saveViewSettings(envConfig, bookKey, key, formattedCSS, false, false);
+
+    // Do NOT write the value onto the book here. saveViewSettings already
+    // applies it to the books that should receive it, and skips a book holding
+    // its own value — writing it back defeats that skip and deletes the override.
+    getView(bookKey)?.renderer.setStyles?.(getStyles(getViewSettings(bookKey) ?? viewSettings));
   };
 
   const handleInput = (e: React.FormEvent<HTMLTextAreaElement>) => {

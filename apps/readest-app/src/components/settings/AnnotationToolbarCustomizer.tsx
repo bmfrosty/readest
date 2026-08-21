@@ -20,8 +20,6 @@ import { CSS } from '@dnd-kit/utilities';
 
 import { useEnv } from '@/context/EnvContext';
 import { useTranslation } from '@/hooks/useTranslation';
-import { useReaderStore } from '@/store/readerStore';
-import { useSettingsStore } from '@/store/settingsStore';
 import { saveViewSettings } from '@/helpers/settings';
 import { AnnotationToolType } from '@/types/annotator';
 import { annotationToolButtons } from '@/app/reader/components/annotator/AnnotationTools';
@@ -35,6 +33,7 @@ import {
 } from '@/utils/annotationToolbar';
 import { canShareText } from '@/utils/share';
 import SubPageHeader from './SubPageHeader';
+import { useEditedViewSettings } from '@/hooks/useEditedViewSettings';
 
 type ZoneId = 'toolbar' | 'available';
 
@@ -151,9 +150,7 @@ const AnnotationToolbarCustomizer: React.FC<AnnotationToolbarCustomizerProps> = 
 }) => {
   const _ = useTranslation();
   const { envConfig, appService } = useEnv();
-  const { getViewSettings } = useReaderStore();
-  const { settings } = useSettingsStore();
-  const viewSettings = getViewSettings(bookKey) || settings.globalViewSettings;
+  const { edited } = useEditedViewSettings(bookKey);
 
   const canShare = canShareText(appService);
 
@@ -161,14 +158,12 @@ const AnnotationToolbarCustomizer: React.FC<AnnotationToolbarCustomizerProps> = 
   // If the user enabled it on a share-capable device (e.g. their phone) and it
   // synced here, we must not drop it just because the user edits the toolbar on
   // this device — preserve it across persists so the capable device keeps it.
-  const savedHasShare = getToolbarToolTypes(viewSettings.annotationToolbarItems, true).includes(
-    'share',
-  );
+  const savedHasShare = getToolbarToolTypes(edited.annotationToolbarItems, true).includes('share');
   const preserveHiddenShare = !canShare && savedHasShare;
 
   const [items, setItems] = useState<Record<ZoneId, AnnotationToolType[]>>(() => ({
-    toolbar: getToolbarToolTypes(viewSettings.annotationToolbarItems, canShare),
-    available: getAvailableToolTypes(viewSettings.annotationToolbarItems, canShare),
+    toolbar: getToolbarToolTypes(edited.annotationToolbarItems, canShare),
+    available: getAvailableToolTypes(edited.annotationToolbarItems, canShare),
   }));
   // dnd-kit invokes onDragEnd with the handler captured at drag start, so the
   // closed-over `items` is stale by the time a cross-zone drag finishes. Read
